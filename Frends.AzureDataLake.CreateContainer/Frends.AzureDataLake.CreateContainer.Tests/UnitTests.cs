@@ -1,9 +1,11 @@
 using System;
 using System.Globalization;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Azure.Storage.Blobs;
 using Azure.Storage.Files.DataLake;
+using dotenv.net;
 using Frends.AzureDataLake.CreateContainer.Definitions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -13,12 +15,20 @@ namespace Frends.AzureDataLake.CreateContainer.Tests;
 public class UnitTests
 {
     Input input;
-    private readonly string _connectionString = Environment.GetEnvironmentVariable("Frends_AzureBlobStorage_ConnString");
-    private readonly string _appID = Environment.GetEnvironmentVariable("Frends_AzureBlobStorage_AppID");
-    private readonly string _tenantID = Environment.GetEnvironmentVariable("Frends_AzureBlobStorage_TenantID");
-    private readonly string _clientSecret = Environment.GetEnvironmentVariable("Frends_AzureBlobStorage_ClientSecret");
-    private readonly string _storageAccount = "frendstaskstestcontainer";
+    private readonly string _connectionString = Environment.GetEnvironmentVariable("Frends_AzureDataLake_ConnString");
+    private readonly string _appID = Environment.GetEnvironmentVariable("Frends_AzureDataLake_AppID");
+    private readonly string _tenantID = Environment.GetEnvironmentVariable("Frends_AzureDataLake_TenantID");
+    private readonly string _clientSecret = Environment.GetEnvironmentVariable("Frends_AzureDataLake_ClientSecret");
+    private readonly string _storageAccount = Environment.GetEnvironmentVariable("Frends_AzureDataLake_StorageAccount");
     private string _containerName;
+
+    [AssemblyInitialize]
+    public static void AssemblyInit(TestContext context)
+    {
+        var root = Directory.GetCurrentDirectory();
+        string projDir = Directory.GetParent(root).Parent.Parent.FullName;
+        DotEnv.Load(options: new DotEnvOptions(ignoreExceptions: false, envFilePaths: new[] { $"{projDir}/.env" }));
+    }
 
     [TestInitialize]
     public void TestSetup()
