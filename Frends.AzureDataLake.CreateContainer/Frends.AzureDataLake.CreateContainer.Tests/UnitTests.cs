@@ -3,7 +3,6 @@ using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using Azure.Storage.Blobs;
 using Azure.Storage.Files.DataLake;
 using dotenv.net;
 using Frends.AzureDataLake.CreateContainer.Definitions;
@@ -14,7 +13,6 @@ namespace Frends.AzureDataLake.CreateContainer.Tests;
 [TestClass]
 public class UnitTests
 {
-    Input input;
     private readonly string _connectionString = Environment.GetEnvironmentVariable("Frends_AzureDataLake_ConnString");
     private readonly string _appID = Environment.GetEnvironmentVariable("Frends_AzureDataLake_AppID");
     private readonly string _tenantID = Environment.GetEnvironmentVariable("Frends_AzureDataLake_TenantID");
@@ -55,11 +53,8 @@ public class UnitTests
             new CancellationToken()
         );
 
-        Assert.IsNotNull(result);
-        Assert.AreEqual(
-            new BlobClient(_connectionString, _containerName, "").Uri.ToString(),
-            result.Uri
-        );
+        Assert.IsTrue(result.Success);
+        Assert.That.ContainerExists(_connectionString, _containerName);
     }
 
     [TestMethod]
@@ -90,19 +85,16 @@ public class UnitTests
     [TestMethod]
     public async Task AccessTokenAuthenticationTest()
     {
-        var containerName = $"test{Guid.NewGuid()}";
-
-        input = new Input
+        var result = await AzureDataLake.CreateContainer(new Input
         {
             ConnectionMethod = ConnectionMethod.OAuth2,
-            ContainerName = containerName,
+            ContainerName = _containerName,
             StorageAccountName = _storageAccount,
             ApplicationID = _appID,
             TenantID = _tenantID,
             ClientSecret = _clientSecret
-        };
-
-        var result = await AzureDataLake.CreateContainer(input, default);
+        }, default);
         Assert.IsTrue(result.Success);
+        Assert.That.ContainerExists(_connectionString, _containerName);
     }
 }
