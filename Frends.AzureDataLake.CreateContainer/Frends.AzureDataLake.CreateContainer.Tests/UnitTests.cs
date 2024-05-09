@@ -25,7 +25,7 @@ public class UnitTests
     {
         var root = Directory.GetCurrentDirectory();
         string projDir = Directory.GetParent(root).Parent.Parent.FullName;
-        DotEnv.Load(options: new DotEnvOptions(ignoreExceptions: false, envFilePaths: new[] { $"{projDir}/.env" }));
+        DotEnv.Load(options: new DotEnvOptions(ignoreExceptions: false, envFilePaths: new[] { $"{projDir}/.env",  $"{projDir}/.env.local" }));
     }
 
     [TestInitialize]
