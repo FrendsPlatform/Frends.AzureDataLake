@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Version>1.0.0</Version>
+    <Authors>Frends</Authors>
+    <Copyright>Frends</Copyright>
+    <Company>Frends</Company>
+    <Product>Frends</Product>
+    <PackageTags>Frends</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Description>Frends Task for deleting a container from Azure Data Lake.</Description>
+    <PackageProjectUrl>https://frends.com/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/FrendsPlatform/Frends.AzureDataLake/tree/main/Frends.AzureDataLake.CreateContainer</RepositoryUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Azure.Identity" Version="1.11.3" />
+    <PackageReference Include="Azure.Storage.Files.DataLake" Version="12.17.1" />
+  </ItemGroup>
+
+</Project>
