@@ -34,14 +34,17 @@ public class UnitTests
     [AssemblyInitialize]
     public static void AssemblyInit(TestContext context)
     {
-        var root = Directory.GetCurrentDirectory();
-        string projDir = Directory.GetParent(root).Parent.Parent.FullName;
-        DotEnv.Load(
-            options: new DotEnvOptions(
-                ignoreExceptions: false,
-                envFilePaths: new[] { $"{projDir}/.env", $"{projDir}/.env.local" }
-            )
-        );
+        if (Environment.GetEnvironmentVariable("env") == "local")
+        {
+            var root = Directory.GetCurrentDirectory();
+            string projDir = Directory.GetParent(root).Parent.Parent.FullName;
+            DotEnv.Load(
+                options: new DotEnvOptions(
+                    ignoreExceptions: false,
+                    envFilePaths: new[] { $"{projDir}/.env", $"{projDir}/.env.local" }
+                )
+            );
+        }
     }
 
     [TestInitialize]
