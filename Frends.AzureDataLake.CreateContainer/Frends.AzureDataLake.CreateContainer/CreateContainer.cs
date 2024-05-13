@@ -25,7 +25,7 @@ public static class AzureDataLake
         try
         {
             DataLakeFileSystemClient container = GetDataLakeContainer(input);
-            await container.CreateIfNotExistsAsync(null,  cancellationToken);
+            await container.CreateIfNotExistsAsync(null, cancellationToken);
             return new Result(true, container.Uri.ToString());
         }
         catch (Exception ex)
