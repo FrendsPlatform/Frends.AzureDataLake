@@ -3,6 +3,8 @@ using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using Azure;
+using Azure.Identity;
 using Azure.Storage.Files.DataLake;
 using dotenv.net;
 using Frends.AzureDataLake.CreateContainer.Definitions;
@@ -14,36 +16,28 @@ namespace Frends.AzureDataLake.CreateContainer.Tests;
 public class UnitTests
 {
     private readonly string _connectionString = Environment.GetEnvironmentVariable(
-        "Frends_AzureDataLake_ConnString"
+        "FRENDS_AZUREDATALAKE_CONNSTRING"
     );
     private readonly string _appID = Environment.GetEnvironmentVariable(
-        "Frends_AzureDataLake_AppID"
+        "FRENDS_AZUREDATALAKE_APPID"
     );
     private readonly string _tenantID = Environment.GetEnvironmentVariable(
-        "Frends_AzureDataLake_TenantID"
+        "FRENDS_AZUREDATALAKE_TENANTID"
     );
     private readonly string _clientSecret = Environment.GetEnvironmentVariable(
-        "Frends_AzureDataLake_ClientSecret"
+        "FRENDS_AZUREDATALAKE_CLIENTSECRET"
     );
     private readonly string _storageAccount = Environment.GetEnvironmentVariable(
-        "Frends_AzureDataLake_StorageAccount"
+        "FRENDS_AZUREDATALAKE_STORAGEACCOUNT"
     );
     private string _containerName;
 
     [AssemblyInitialize]
     public static void AssemblyInit(TestContext context)
     {
-        if (Environment.GetEnvironmentVariable("env") == "local")
-        {
-            var root = Directory.GetCurrentDirectory();
-            string projDir = Directory.GetParent(root).Parent.Parent.FullName;
-            DotEnv.Load(
-                options: new DotEnvOptions(
-                    ignoreExceptions: false,
-                    envFilePaths: new[] { $"{projDir}/.env", $"{projDir}/.env.local" }
-                )
-            );
-        }
+        var root = Directory.GetCurrentDirectory();
+        string projDir = Directory.GetParent(root).Parent.Parent.FullName;
+        DotEnv.Load(options: new DotEnvOptions(envFilePaths: new[] { $"{projDir}/.env.local" }));
     }
 
     [TestInitialize]
@@ -76,7 +70,7 @@ public class UnitTests
     }
 
     [TestMethod]
-    [ExpectedException(typeof(Exception))]
+    [ExpectedException(typeof(FormatException))]
     public async Task TestCreateContainer_throws_ParameterNotValid()
     {
         await AzureDataLake.CreateContainer(
@@ -86,15 +80,30 @@ public class UnitTests
     }
 
     [TestMethod]
-    [ExpectedException(typeof(Exception))]
+    [ExpectedException(typeof(RequestFailedException))]
     public async Task TestCreateContainer_throws_ClientNotFound()
+    {
+        var wrongConnString =
+            "DefaultEndpointsProtocol=https;AccountName=frendstemplates;AccountKey=000000000wrongKey00000000000000000000000000000000000000000000000000000000000000000000000;EndpointSuffix=core.windows.net";
+        await AzureDataLake.CreateContainer(
+            new Input { ConnectionString = wrongConnString, ContainerName = _containerName },
+            new CancellationToken()
+        );
+    }
+
+    [TestMethod]
+    [ExpectedException(typeof(AuthenticationFailedException))]
+    public async Task CreateContainerThrowsAuthenticationFailedException()
     {
         await AzureDataLake.CreateContainer(
             new Input
             {
-                ConnectionString =
-                    "DefaultEndpointsProtocol=https;AccountName=unitTestStorage;AccountKey=abcdefghijklmnopqrstuyxz123456789;EndpointSuffix=core.windows.net",
-                ContainerName = _containerName
+                ConnectionMethod = ConnectionMethod.OAuth2,
+                ContainerName = _containerName,
+                StorageAccountName = _storageAccount,
+                ApplicationID = _appID,
+                TenantID = _tenantID,
+                ClientSecret = "wrongSecret"
             },
             new CancellationToken()
         );
