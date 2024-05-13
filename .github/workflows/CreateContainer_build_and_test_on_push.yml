@@ -16,6 +16,7 @@ jobs:
       env_var_name_1: Frends_AzureDataLake_ConnString
       env_var_name_2: Frends_AzureDataLake_AppID
       env_var_name_3: Frends_AzureDataLake_TenantID
+      env_var_name_4: Frends_AzureDataLake_ClientSecret
       env_var_name_5: Frends_AzureDataLake_StorageAccount
     secrets:
       badge_service_api_key: ${{ secrets.BADGE_SERVICE_API_KEY }}
