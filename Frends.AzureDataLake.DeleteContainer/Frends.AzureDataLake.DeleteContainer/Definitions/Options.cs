@@ -12,5 +12,5 @@ public class Options
     /// </summary>
     /// <example>false</example>
     [DefaultValue(false)]
-    public bool ThrowErrorIfContainerDoesNotExists { get; set; }
+    public bool ThrowErrorIfContainerDoesNotExist { get; set; }
 }

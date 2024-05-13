@@ -51,53 +51,39 @@ public static class AzureDataLake
             throw new InvalidInputException("ContainerName parameter can't be empty.");
 
         var container = GetDataLakeContainer(input);
-        try
-        {
-            var result = await container.DeleteIfExistsAsync(null, cancellationToken);
-            //can throw if wrong secrets etc
 
-            if (!result)
-            {
-                if (options.ThrowErrorIfContainerDoesNotExists)
-                    throw new ContainerNotFoundException();
-                else
-                    return new Result(false, "Container not found.");
-            }
-            return new Result(result, "Container deleted successfully.");
-        }
-        catch (AuthenticationFailedException)
+        var result = await container.DeleteIfExistsAsync(null, cancellationToken);
+
+        if (!result)
         {
-            throw;
+            if (options.ThrowErrorIfContainerDoesNotExist)
+                throw new ContainerNotFoundException();
+            else
+                return new Result(false, "Container not found.");
         }
+        return new Result(result, "Container deleted successfully.");
     }
 
     private static DataLakeFileSystemClient GetDataLakeContainer(Input input)
     {
-        try
-        {
-            DataLakeServiceClient client;
+        DataLakeServiceClient client;
 
-            if (input.ConnectionMethod is ConnectionMethod.ConnectionString)
-                client = new DataLakeServiceClient(input.ConnectionString);
-            else
-            {
-                var credentials = new ClientSecretCredential(
-                    input.TenantID,
-                    input.ApplicationID,
-                    input.ClientSecret,
-                    new ClientSecretCredentialOptions()
-                );
-                client = new DataLakeServiceClient(
-                    new Uri($"https://{input.StorageAccountName}.dfs.core.windows.net"),
-                    credentials
-                );
-            }
-
-            return client.GetFileSystemClient(input.ContainerName);
-        }
-        catch (FormatException ex)
+        if (input.ConnectionMethod is ConnectionMethod.ConnectionString)
+            client = new DataLakeServiceClient(input.ConnectionString);
+        else
         {
-            throw new FormatException($"GetDataLakeContainer error {ex}");
+            var credentials = new ClientSecretCredential(
+                input.TenantID,
+                input.ApplicationID,
+                input.ClientSecret,
+                new ClientSecretCredentialOptions()
+            );
+            client = new DataLakeServiceClient(
+                new Uri($"https://{input.StorageAccountName}.dfs.core.windows.net"),
+                credentials
+            );
         }
+
+        return client.GetFileSystemClient(input.ContainerName);
     }
 }

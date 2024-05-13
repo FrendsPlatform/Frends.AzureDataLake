@@ -84,7 +84,7 @@ public class UnitTests
         Assert.That.ContainerDoesNotExist(_connectionString, _containerName);
         await AzureDataLake.DeleteContainer(
             new Input { ConnectionString = _connectionString, ContainerName = _containerName },
-            new Options { ThrowErrorIfContainerDoesNotExists = true },
+            new Options { ThrowErrorIfContainerDoesNotExist = true },
             new CancellationToken()
         );
     }
@@ -95,7 +95,7 @@ public class UnitTests
         Assert.That.ContainerDoesNotExist(_connectionString, _containerName);
         var result = await AzureDataLake.DeleteContainer(
             new Input { ConnectionString = _connectionString, ContainerName = _containerName },
-            new Options { ThrowErrorIfContainerDoesNotExists = false },
+            new Options { ThrowErrorIfContainerDoesNotExist = false },
             new CancellationToken()
         );
         Assert.IsFalse(result.ContainerWasDeleted);

@@ -8,7 +8,7 @@ namespace Frends.AzureDataLake.DeleteContainer.Exceptions;
 public class ContainerNotFoundException : Exception
 {
     /// <summary>
-    /// Expeptions constructor
+    /// Exceptions constructor
     /// </summary>
     public ContainerNotFoundException()
         : base("DeleteContainer error: Container not found.") { }
