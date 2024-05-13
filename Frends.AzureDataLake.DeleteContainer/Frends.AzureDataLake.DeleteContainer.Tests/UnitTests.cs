@@ -15,19 +15,19 @@ namespace Frends.AzureDataLake.DeleteContainer.Tests;
 public class UnitTests
 {
     private readonly string _connectionString = Environment.GetEnvironmentVariable(
-        "Frends_AzureDataLake_ConnString"
+        "FRENDS_AZUREDATALAKE_CONNSTRING"
     );
     private readonly string _appID = Environment.GetEnvironmentVariable(
-        "Frends_AzureDataLake_AppID"
+        "FRENDS_AZUREDATALAKE_APPID"
     );
     private readonly string _tenantID = Environment.GetEnvironmentVariable(
-        "Frends_AzureDataLake_TenantID"
+        "FRENDS_AZUREDATALAKE_TENANTID"
     );
     private readonly string _clientSecret = Environment.GetEnvironmentVariable(
-        "Frends_AzureDataLake_ClientSecret"
+        "FRENDS_AZUREDATALAKE_CLIENTSECRET"
     );
     private readonly string _storageAccount = Environment.GetEnvironmentVariable(
-        "Frends_AzureDataLake_StorageAccount"
+        "FRENDS_AZUREDATALAKE_STORAGEACCOUNT"
     );
     private string _containerName;
 
