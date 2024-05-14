@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    uses: FrendsPlatform/FrendsTasks/.github/workflows/linux_build_main.yml@main
+    uses: FrendsPlatform/FrendsTasks/.github/workflows/build_main.yml@main
     with:
       workdir: Frends.AzureDataLake.CreateDirectory
       env_var_name_1: Frends_AzureDataLake_ConnString
