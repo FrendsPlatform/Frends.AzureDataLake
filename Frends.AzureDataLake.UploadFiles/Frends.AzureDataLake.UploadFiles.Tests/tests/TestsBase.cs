@@ -2,27 +2,27 @@ using System;
 using System.IO;
 using dotenv.net;
 
-namespace Frends.AzureDataLake.UploadFiles.Tests;
+namespace Frends.AzureDataLake.UploadFiles.Tests.tests;
 
 [TestClass]
-public class UnitTests
+public class TestsBase
 {
-    private readonly string _connectionString = Environment.GetEnvironmentVariable(
+    protected readonly string _connectionString = Environment.GetEnvironmentVariable(
         "FRENDS_AZUREDATALAKE_CONNSTRING"
     );
-    private readonly string _appID = Environment.GetEnvironmentVariable(
+    protected readonly string _appID = Environment.GetEnvironmentVariable(
         "FRENDS_AZUREDATALAKE_APPID"
     );
-    private readonly string _tenantID = Environment.GetEnvironmentVariable(
+    protected readonly string _tenantID = Environment.GetEnvironmentVariable(
         "FRENDS_AZUREDATALAKE_TENANTID"
     );
-    private readonly string _clientSecret = Environment.GetEnvironmentVariable(
+    protected readonly string _clientSecret = Environment.GetEnvironmentVariable(
         "FRENDS_AZUREDATALAKE_CLIENTSECRET"
     );
-    private readonly string _storageAccount = Environment.GetEnvironmentVariable(
+    protected readonly string _storageAccount = Environment.GetEnvironmentVariable(
         "FRENDS_AZUREDATALAKE_STORAGEACCOUNT"
     );
-    private string _containerName;
+    protected string _containerName;
 
     [AssemblyInitialize]
     public static void AssemblyInit(TestContext context)
@@ -31,7 +31,4 @@ public class UnitTests
         string projDir = Directory.GetParent(root).Parent.Parent.FullName;
         DotEnv.Load(options: new DotEnvOptions(envFilePaths: new[] { $"{projDir}/.env.local" }));
     }
-
-    [TestMethod]
-    public void Test1() { }
 }
