@@ -110,11 +110,14 @@ public class UnitTests
             TenantID = _tenantID,
             ClientSecret = _clientSecret
         };
+        DataLakeFileSystemClient container = new DataLakeServiceClient(_connectionString).GetFileSystemClient(input.ContainerName);
+        await container.CreateIfNotExistsAsync(null, new CancellationToken());
 
         var result = await AzureDataLake.CreateDirectory(input, default);
+        var directoryClient = AzureDataLake.GetDataLakeDirectory(input);
+
         Assert.IsTrue(result.Success);
 
-        var directoryClient = AzureDataLake.GetDataLakeDirectory(input);
         Assert.IsTrue(await directoryClient.ExistsAsync());
     }
 }
