@@ -1,0 +1,18 @@
+name: Frends.AzureDataLake.DeleteDirectory_build_main
+
+on:
+  push:
+    branches:    
+      - main
+    paths:
+      - 'Frends.AzureDataLake.DeleteDirectory/**'
+  workflow_dispatch:
+
+jobs:
+  build:
+    uses: FrendsPlatform/FrendsTasks/.github/workflows/linux_build_main.yml@main
+    with:
+      workdir: Frends.AzureDataLake.DeleteDirectory
+    secrets:
+      badge_service_api_key: ${{ secrets.BADGE_SERVICE_API_KEY }}
+      
