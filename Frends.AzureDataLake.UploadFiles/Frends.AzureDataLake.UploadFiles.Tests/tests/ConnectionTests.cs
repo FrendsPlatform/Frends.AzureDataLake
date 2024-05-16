@@ -15,7 +15,7 @@ public class ConnectionTests : TestsBase
     [ExpectedException(typeof(ContainerNotFoundException))]
     public async Task ThrowIfContainerDoesNotExist()
     {
-        var result = await AzureDataLake.UploadFiles(
+        await AzureDataLake.UploadFiles(
             new Input
             {
                 Source = new Source(),
