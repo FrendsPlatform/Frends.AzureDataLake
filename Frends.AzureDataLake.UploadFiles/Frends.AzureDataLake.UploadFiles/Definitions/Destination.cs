@@ -60,4 +60,11 @@ public class Destination
     [UIHint(nameof(ConnectionMethod), "", ConnectionMethod.OAuth2)]
     [PasswordPropertyText]
     public string ClientSecret { get; set; }
+
+    /// <summary>
+    /// Name of the blob folder. If left empty, file will be uploaded directly to container.
+    /// </summary>
+    /// <example>ExampleDir</example>
+    [DisplayFormat(DataFormatString = "Text")]
+    public string DestinationFolderName { get; set; }
 }
