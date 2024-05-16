@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frends.AzureDataLake.CreateContainer", "Frends.AzureDataLake.CreateContainer\Frends.AzureDataLake.CreateContainer.csproj", "{188D5D2C-BB6F-4073-86FC-60883FD3D26C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frends.AzureDataLake.CreateContainer.Tests", "Frends.AzureDataLake.CreateContainer.Tests\Frends.AzureDataLake.CreateContainer.Tests.csproj", "{0ADDC54A-F858-434B-9099-3C254932DF14}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{188D5D2C-BB6F-4073-86FC-60883FD3D26C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{188D5D2C-BB6F-4073-86FC-60883FD3D26C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{188D5D2C-BB6F-4073-86FC-60883FD3D26C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{188D5D2C-BB6F-4073-86FC-60883FD3D26C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0ADDC54A-F858-434B-9099-3C254932DF14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0ADDC54A-F858-434B-9099-3C254932DF14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0ADDC54A-F858-434B-9099-3C254932DF14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0ADDC54A-F858-434B-9099-3C254932DF14}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
