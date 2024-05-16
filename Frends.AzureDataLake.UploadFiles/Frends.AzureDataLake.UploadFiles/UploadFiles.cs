@@ -29,7 +29,6 @@ public static class AzureDataLake
         CancellationToken cancellationToken
     )
     {
-        var resultData = new Dictionary<string, string>();
         try
         {
             ValidateDestinationParameters(input.Destination);
