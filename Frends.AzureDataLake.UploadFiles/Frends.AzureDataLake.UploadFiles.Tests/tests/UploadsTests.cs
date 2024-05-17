@@ -73,14 +73,13 @@ public class UploadsTests : TestsBase
             new Input
             {
                 Source = new Source { SourceDirectory = testDirectory, SourceFilePattern = "*" },
-
                 Destination = new Destination
                 {
                     ConnectionString = connectionString,
                     ContainerName = containerName
                 },
-
-                Options = new Options { UploadFilesRecursively = true },
+                Options = new Options(),
+                UploadFilesRecursively = true
             },
             new CancellationToken()
         );
@@ -98,14 +97,13 @@ public class UploadsTests : TestsBase
             new Input
             {
                 Source = new Source { SourceDirectory = testDirectory, SourceFilePattern = "*" },
-
                 Destination = new Destination
                 {
                     ConnectionString = connectionString,
                     ContainerName = containerName
                 },
-
-                Options = new Options { UploadFilesRecursively = false },
+                Options = new Options(),
+                UploadFilesRecursively = false
             },
             new CancellationToken()
         );

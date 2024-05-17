@@ -20,7 +20,6 @@ public class Destination
     /// Task will convert all letters to lowercase.
     /// </summary>
     /// <example>examplecontainer</example>
-    [DisplayFormat(DataFormatString = "Text")]
     public string ContainerName { get; set; }
 
     /// <summary>
@@ -29,13 +28,12 @@ public class Destination
     /// <example>DefaultEndpointsProtocol=https;AccountName=accountname;AccountKey=Pdlrxyz==;EndpointSuffix=core.windows.net</example>
     [UIHint(nameof(ConnectionMethod), "", ConnectionMethod.ConnectionString)]
     [PasswordPropertyText]
-    [DisplayFormat(DataFormatString = "Text")]
     public string ConnectionString { get; set; }
 
     /// <summary>
     /// Name of the Azure storage account.
     /// </summary>
-    /// <example>Storager</example>
+    /// <example>storage</example>
     [UIHint(nameof(ConnectionMethod), "", ConnectionMethod.OAuth2)]
     public string StorageAccountName { get; set; }
 
@@ -65,6 +63,5 @@ public class Destination
     /// Name of the blob folder. If left empty, file will be uploaded directly to container.
     /// </summary>
     /// <example>ExampleDir</example>
-    [DisplayFormat(DataFormatString = "Text")]
     public string DestinationFolderName { get; set; }
 }

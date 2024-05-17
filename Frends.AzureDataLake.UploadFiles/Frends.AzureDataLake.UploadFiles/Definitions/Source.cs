@@ -11,7 +11,6 @@ public class Source
     /// Upload all files from the given directory.
     /// </summary>
     /// <example>c:\temp</example>
-    [DisplayFormat(DataFormatString = "Text")]
     public string SourceDirectory { get; set; }
 
     /// <summary>
@@ -19,6 +18,5 @@ public class Source
     /// This parameter can contain a combination of valid literal path and wildcard (* and ?) characters, but it doesn't support regular expressions
     /// </summary>
     /// <example>*.*, Search*.*, *.xml, foobar.txt</example>
-    [DisplayFormat(DataFormatString = "Text")]
     public string SourceFilePattern { get; set; }
 }
