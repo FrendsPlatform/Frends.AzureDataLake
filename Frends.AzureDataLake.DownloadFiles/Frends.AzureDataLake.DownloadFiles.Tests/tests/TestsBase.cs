@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Azure.Storage.Files.DataLake;
 using dotenv.net;
+using Frends.AzureDataLake.DownloadFiles.Definitions;
 
 namespace Frends.AzureDataLake.DownloadFiles.Tests.tests;
 
@@ -30,6 +32,12 @@ public abstract class TestsBase
         "test"
     );
 
+    protected static readonly string file1a = "foobar1a.txt";
+    protected static readonly string file1b = "foobar1b.txt";
+    protected static readonly string file2 = "foobar2.txt";
+    protected static readonly string multiFilePatten = "foobar1*.txt";
+    protected static readonly string AzDataLakeUrlPrefix = "https://storage.dfs.core.windows.net/";
+
     [AssemblyInitialize]
     public static void AssemblyInit(TestContext context)
     {
@@ -44,12 +52,13 @@ public abstract class TestsBase
     }
 
     [TestInitialize]
-    public async void TestSetup()
+    public async Task TestSetup()
     {
         containerName = $"DownloadFilesTest{Guid.NewGuid()}";
         await CreateContainer();
-        AddFileToContainer("foobar1.txt");
-        AddFileToContainer("foobar2.txt");
+        AddFileToContainer(file1a);
+        AddFileToContainer(file1b);
+        AddFileToContainer(file2);
     }
 
     [TestCleanup]
@@ -74,4 +83,47 @@ public abstract class TestsBase
         var container = client.GetFileSystemClient(containerName);
         container.CreateFile(fileName);
     }
+
+    protected Result SingleFileResult =>
+        new()
+        {
+            IsSuccess = true,
+            DownladedFiles = new Dictionary<string, string>
+            {
+                {
+                    $"{AzDataLakeUrlPrefix}{containerName}/{file1a}",
+                    Path.Combine(testDirectory, file1a)
+                }
+            },
+            ErrorMessage = string.Empty
+        };
+
+    protected Result MultiFileResult =>
+        new()
+        {
+            IsSuccess = true,
+            DownladedFiles = new Dictionary<string, string>
+            {
+                {
+                    $"{AzDataLakeUrlPrefix}{containerName}/{file1a}",
+                    Path.Combine(testDirectory, file1a)
+                },
+                {
+                    $"{AzDataLakeUrlPrefix}{containerName}/{file1b}",
+                    Path.Combine(testDirectory, file1b)
+                }
+            },
+            ErrorMessage = string.Empty
+        };
+
+    protected Result FileAlreadyExistsResult =>
+        new()
+        {
+            IsSuccess = true,
+            DownladedFiles = new Dictionary<string, string>
+            {
+                { $"{AzDataLakeUrlPrefix}{containerName}/{file1a}", "File already exists" }
+            },
+            ErrorMessage = string.Empty
+        };
 }
