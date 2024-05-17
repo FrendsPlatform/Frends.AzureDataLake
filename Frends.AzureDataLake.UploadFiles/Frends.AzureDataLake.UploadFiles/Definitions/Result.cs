@@ -9,7 +9,8 @@ public class Result
 {
     /// <summary>
     /// Operation complete.
-    /// Operation is seens as completed if an ignorable error has occured and Options.ThrowErrorOnFailure is set to false.
+    /// Returns false if ThrowErrorOnFailure is disabled and error occurred.
+    /// Returns true otherwise.
     /// </summary>
     /// <example>true</example>
     public bool Success { get; private set; }
