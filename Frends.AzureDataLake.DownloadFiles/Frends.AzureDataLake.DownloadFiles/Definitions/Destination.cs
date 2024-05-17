@@ -13,14 +13,12 @@ public class Destination
     /// </summary>
     /// <example>c:\temp</example>
     [DisplayFormat(DataFormatString = "Text")]
-    public string Directory { get; set; }
+    public string Directory { get; init; }
 
     /// <summary>
-    /// Error: Throws exception if destination file exists.
-    /// Rename: Adds '(1)' at the end of file name. Incerements the number if (1) already exists.
-    /// Overwrite: Overwrites existing file.
+    /// How the existing file will be handled.
     /// </summary>
-    /// <example>Error</example>
-    [DefaultValue(FileExistsAction.Error)]
-    public FileExistsAction HandleExistingFile { get; set; }
+    /// <example>true</example>
+    [DefaultValue(false)]
+    public bool Overwrite { get; init; }
 }

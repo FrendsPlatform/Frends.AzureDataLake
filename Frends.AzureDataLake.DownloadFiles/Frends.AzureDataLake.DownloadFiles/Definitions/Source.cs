@@ -13,7 +13,7 @@ public class Source
     /// </summary>
     /// <example>ConnectionMethod.ConnectionString</example>
     [DefaultValue(ConnectionMethod.ConnectionString)]
-    public ConnectionMethod ConnectionMethod { get; set; }
+    public ConnectionMethod ConnectionMethod { get; init; }
 
     /// <summary>
     /// Connection string to Azure Data Lake.
@@ -22,28 +22,28 @@ public class Source
     [DisplayFormat(DataFormatString = "Text")]
     [PasswordPropertyText]
     [UIHint(nameof(ConnectionMethod), "", ConnectionMethod.ConnectionString)]
-    public string ConnectionString { get; set; }
+    public string ConnectionString { get; init; }
 
     /// <summary>
     /// Name of the Azure Data Lake account.
     /// </summary>
     /// <example>Storager</example>
     [UIHint(nameof(ConnectionMethod), "", ConnectionMethod.OAuth2)]
-    public string StorageAccountName { get; set; }
+    public string StorageAccountName { get; init; }
 
     /// <summary>
     /// Application (Client) ID of Azure AD Application.
     /// </summary>
     /// <example>Y6b1hf2a-80e2-xyz2-qwer3h-3a7c3a8as4b7f</example>
     [UIHint(nameof(ConnectionMethod), "", ConnectionMethod.OAuth2)]
-    public string ApplicationID { get; set; }
+    public string ApplicationID { get; init; }
 
     /// <summary>
     /// Tenant ID of Azure Tenant.
     /// </summary>
     /// <example>Y6b1hf2a-80e2-xyz2-qwer3h-3a7c3a8as4b7f</example>
     [UIHint(nameof(ConnectionMethod), "", ConnectionMethod.OAuth2)]
-    public string TenantID { get; set; }
+    public string TenantID { get; init; }
 
     /// <summary>
     /// Client Secret of Azure AD Application.
@@ -51,7 +51,7 @@ public class Source
     /// <example>Password!</example>
     [UIHint(nameof(ConnectionMethod), "", ConnectionMethod.OAuth2)]
     [PasswordPropertyText]
-    public string ClientSecret { get; set; }
+    public string ClientSecret { get; init; }
 
     /// <summary>
     /// Name of the Azure Data Lake container where the data will be uploaded.
@@ -61,7 +61,7 @@ public class Source
     /// <example>test-container</example>
     [DefaultValue("test-container")]
     [DisplayFormat(DataFormatString = "Text")]
-    public string ContainerName { get; set; }
+    public string ContainerName { get; init; }
 
     /// <summary>
     /// Path of file(s) you want to download from DataLake
@@ -70,5 +70,5 @@ public class Source
     /// <example>test-container</example>
     [DefaultValue("test-container")]
     [DisplayFormat(DataFormatString = "Text")]
-    public string FilePattern { get; set; }    
+    public string FilePattern { get; init; }
 }

@@ -6,11 +6,4 @@ public enum ConnectionMethod
     ConnectionString,
     OAuth2
 }
-
-public enum FileExistsAction
-{
-    Error,
-    Rename,
-    Overwrite
-}
 #pragma warning restore CS1591 // self explanatory
