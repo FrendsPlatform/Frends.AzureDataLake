@@ -151,7 +151,7 @@ public static class AzureDataLake
             if (new FileInfo(srcPath).Length > 0)
                 await fileClient.UploadAsync(srcPath, true, token);
 
-            paralelResults.TryAdd(srcPath, destinationPath);
+            paralelResults.TryAdd(srcPath, fileClient.Uri.AbsoluteUri);
         }
     }
 }
