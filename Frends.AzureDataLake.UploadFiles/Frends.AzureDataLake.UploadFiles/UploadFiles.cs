@@ -38,7 +38,7 @@ public static class AzureDataLake
             var paths = Directory.GetFiles(
                 input.Source.SourceDirectory,
                 input.Source.SourceFilePattern,
-                input.Options.UploadFilesRecursively
+                input.UploadFilesRecursively
                     ? SearchOption.AllDirectories
                     : SearchOption.TopDirectoryOnly
             );
@@ -134,7 +134,7 @@ public static class AzureDataLake
             ? relativePath
             : Path.Combine(input.Destination.DestinationFolderName, relativePath);
 
-        if (container.GetFileClient(destinationPath).Exists(token) && !input.Options.Overwrite)
+        if (container.GetFileClient(destinationPath).Exists(token) && !input.Overwrite)
         {
             paralelResults.TryAdd(srcPath, "File already exists");
             if (input.Options.ThrowErrorOnFailure)

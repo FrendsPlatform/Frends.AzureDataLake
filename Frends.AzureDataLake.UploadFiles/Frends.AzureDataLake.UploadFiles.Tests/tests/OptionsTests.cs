@@ -55,14 +55,13 @@ public class OptionsTests : TestsBase
                     SourceDirectory = testDirectory,
                     SourceFilePattern = "foobar1.txt"
                 },
-
                 Destination = new Destination
                 {
                     ConnectionString = connectionString,
                     ContainerName = containerName
                 },
-
-                Options = new Options { Overwrite = true },
+                Options = new Options(),
+                Overwrite = true
             },
             new CancellationToken()
         );
@@ -89,8 +88,8 @@ public class OptionsTests : TestsBase
                     ConnectionString = connectionString,
                     ContainerName = containerName
                 },
-
-                Options = new Options { Overwrite = false, ThrowErrorOnFailure = true },
+                Options = new Options { ThrowErrorOnFailure = true },
+                Overwrite = false
             },
             new CancellationToken()
         );
@@ -116,7 +115,8 @@ public class OptionsTests : TestsBase
                     ContainerName = containerName
                 },
 
-                Options = new Options { Overwrite = false, ThrowErrorOnFailure = false },
+                Options = new Options { ThrowErrorOnFailure = false },
+                Overwrite = false
             },
             new CancellationToken()
         );

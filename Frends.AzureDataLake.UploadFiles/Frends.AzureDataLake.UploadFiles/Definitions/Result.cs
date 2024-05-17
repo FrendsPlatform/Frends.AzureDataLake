@@ -15,10 +15,15 @@ public class Result
     public bool Success { get; private set; }
 
     /// <summary>
-    /// This object contains the source file path and the URL of the file.
+    /// This object contains the list of local source file paths and their respective URLs in Azure Data Lake.
     /// If an ignorable error occurs, such as when a file already exists and Options.ThrowErrorOnFailure is set to false, the URL will be replaced with the corresponding error message.age.
     /// </summary>
-    /// <example>{ { c:\temp\examplefile.txt, https://storage.dfs.core.windows.net/container/examplefile.txt }, { c:\temp\examplefile2.txt, File examplefile2 already exists. } }</example>
+    /// <example>
+    /// { 
+    ///     { c:\temp\examplefile.txt, https://storage.dfs.core.windows.net/container/examplefile.txt },
+    ///     { c:\temp\examplefile2.txt, File examplefile2 already exists. } 
+    /// }
+    /// </example>
     public Dictionary<string, string> Data { get; private set; }
 
     /// <summary>
