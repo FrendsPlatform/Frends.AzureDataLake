@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <Version>1.0.0</Version>
+    <Version>1.1.0</Version>
     <Authors>Frends</Authors>
     <Copyright>Frends</Copyright>
     <Company>Frends</Company>
@@ -14,6 +14,12 @@
     <PackageProjectUrl>https://frends.com/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/FrendsPlatform/Frends.AzureDataLake/tree/main/Frends.AzureDataLake.CreateContainer</RepositoryUrl>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="FrendsTaskMetadata.json" Pack="true" PackagePath="/">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Azure.Identity" Version="1.11.3" />
