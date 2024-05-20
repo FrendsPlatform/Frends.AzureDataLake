@@ -1,0 +1,7 @@
+{
+  "Tasks": [
+    {
+      "TaskMethod": "Frends.AzureDataLake.DeleteContainer.AzureDataLake.DeleteContainer"
+    }
+  ]
+}
