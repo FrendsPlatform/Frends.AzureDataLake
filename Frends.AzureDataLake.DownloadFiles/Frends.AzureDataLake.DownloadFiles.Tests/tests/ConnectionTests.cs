@@ -17,7 +17,7 @@ public class ConnectionTests : TestsBase
     {
         var wrongConnStr = $"xxx{connectionString}";
         await AzureDataLake.DownloadFiles(
-            new Source { ConnectionString = wrongConnStr },
+            new Source { ConnectionString = wrongConnStr, ContainerName = containerName },
             new Destination(),
             new Options(),
             CancellationToken.None
@@ -64,11 +64,40 @@ public class ConnectionTests : TestsBase
     public async Task ThrowIfContainerDoesNotExist()
     {
         await AzureDataLake.DownloadFiles(
-            new Source{
+            new Source
+            {
                 ConnectionString = connectionString,
                 ContainerName = "not-existing-container"
             },
             new Destination(),
+            new Options(),
+            CancellationToken.None
+        );
+    }
+
+    [TestMethod]
+    [ExpectedException(typeof(InvalidInputException))]
+    public async Task ThrowIfInvalidSourceParameters()
+    {
+        await AzureDataLake.DownloadFiles(
+            new Source
+            {
+                ConnectionString = connectionString,
+                ContainerName = "InvalidContainerName"
+            },
+            new Destination(),
+            new Options(),
+            CancellationToken.None
+        );
+    }
+
+    [TestMethod]
+    [ExpectedException(typeof(InvalidInputException))]
+    public async Task ThrowIfInvalidDestinationParameters()
+    {
+        await AzureDataLake.DownloadFiles(
+            new Source { ConnectionString = connectionString, ContainerName = containerName },
+            new Destination { Directory = "C:/NonExistingDir/ForSure/test" },
             new Options(),
             CancellationToken.None
         );

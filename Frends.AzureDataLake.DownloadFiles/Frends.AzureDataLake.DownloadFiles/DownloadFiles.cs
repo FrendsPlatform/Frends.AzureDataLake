@@ -1,5 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
+using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Azure.Identity;
@@ -30,9 +32,45 @@ public static class AzureDataLake
         CancellationToken token
     )
     {
+        ValidateDestinationParameters(destination);
+        ValidateSourceParameters(source);
+
         var container = await GetDataLakeContainer(source, token);
         await Task.CompletedTask;
         return new Result();
+    }
+
+    private static void ValidateDestinationParameters(Destination destination)
+    {
+        if (!Directory.Exists(destination.Directory))
+            throw new InvalidInputException("Provided destintation directory doesn't exists");
+    }
+
+    private static void ValidateSourceParameters(Source src)
+    {
+        if (
+            src.ConnectionMethod is ConnectionMethod.OAuth2
+            && (
+                src.ApplicationID is null
+                || src.ClientSecret is null
+                || src.TenantID is null
+                || src.StorageAccountName is null
+            )
+        )
+            throw new InvalidInputException(
+                "Input.StorageAccountName, Input.ClientSecret, Input.ApplicationID and Input.TenantID parameters can't be empty when Input.ConnectionMethod = OAuth."
+            );
+        if (
+            src.ConnectionMethod is ConnectionMethod.ConnectionString
+            && string.IsNullOrWhiteSpace(src.ConnectionString)
+        )
+            throw new InvalidInputException(
+                "ConnectionString parameter can't be empty when Input.ConnectionMethod = ConnectionString."
+            );
+        if (string.IsNullOrWhiteSpace(src.ContainerName))
+            throw new InvalidInputException("ContainerName parameter can't be empty.");
+        if (src.ContainerName.Any(char.IsUpper))
+            throw new InvalidInputException("ContainerName can't contain upper letters.");
     }
 
     private static async Task<DataLakeFileSystemClient> GetDataLakeContainer(
