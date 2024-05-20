@@ -13,5 +13,5 @@ public class Options
     /// </summary>
     /// <example>true</example>
     [DefaultValue(true)]
-    public bool ThrowErrorOnFailure { get; init; }
+    public bool ThrowErrorOnFailure { get; init; } = true;
 }

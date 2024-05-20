@@ -27,11 +27,11 @@ public class ErrorHandlingTests : TestsBase
         var result = await AzureDataLake.DownloadFiles(
             new Source(),
             new Destination(),
-            new Options(),
+            new Options{ThrowErrorOnFailure = false},
             CancellationToken.None
         );
         Assert.IsFalse(result.IsSuccess);
-        Assert.AreEqual(result.DownladedFiles, new Dictionary<string, string>());
+        CollectionAssert.AreEqual(result.DownladedFiles, new Dictionary<string, string>());
         Assert.AreNotEqual(result.ErrorMessage, string.Empty);
     }
 }

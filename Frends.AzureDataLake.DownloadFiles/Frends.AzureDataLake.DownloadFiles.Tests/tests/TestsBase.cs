@@ -54,6 +54,7 @@ public abstract class TestsBase
     [TestInitialize]
     public async Task TestSetup()
     {
+        Directory.CreateDirectory(testDirectory);
         containerName = $"download-files-test{Guid.NewGuid()}";
         await CreateContainer();
         AddFileToContainer(file1a);

@@ -18,7 +18,7 @@ public class ConnectionTests : TestsBase
         var wrongConnStr = $"xxx{connectionString}";
         await AzureDataLake.DownloadFiles(
             new Source { ConnectionString = wrongConnStr, ContainerName = containerName },
-            new Destination(),
+            new Destination { Directory = testDirectory },
             new Options(),
             CancellationToken.None
         );
@@ -33,7 +33,7 @@ public class ConnectionTests : TestsBase
 
         await AzureDataLake.DownloadFiles(
             new Source { ConnectionString = wrongConnStr, ContainerName = containerName },
-            new Destination(),
+            new Destination { Directory = testDirectory },
             new Options(),
             CancellationToken.None
         );
@@ -53,7 +53,7 @@ public class ConnectionTests : TestsBase
                 TenantID = tenantID,
                 ClientSecret = "wrongSecret"
             },
-            new Destination(),
+            new Destination { Directory = testDirectory },
             new Options(),
             CancellationToken.None
         );
@@ -69,7 +69,7 @@ public class ConnectionTests : TestsBase
                 ConnectionString = connectionString,
                 ContainerName = "not-existing-container"
             },
-            new Destination(),
+            new Destination { Directory = testDirectory },
             new Options(),
             CancellationToken.None
         );
@@ -85,7 +85,7 @@ public class ConnectionTests : TestsBase
                 ConnectionString = connectionString,
                 ContainerName = "InvalidContainerName"
             },
-            new Destination(),
+            new Destination { Directory = testDirectory },
             new Options(),
             CancellationToken.None
         );

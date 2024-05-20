@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -32,12 +33,22 @@ public static class AzureDataLake
         CancellationToken token
     )
     {
-        ValidateDestinationParameters(destination);
-        ValidateSourceParameters(source);
+        try
+        {
+            ValidateDestinationParameters(destination);
+            ValidateSourceParameters(source);
 
-        var container = await GetDataLakeContainer(source, token);
-        await Task.CompletedTask;
-        return new Result();
+            var container = await GetDataLakeContainer(source, token);
+            await Task.CompletedTask;
+            return new Result();
+        }
+        catch (Exception ex)
+        {
+            if (options.ThrowErrorOnFailure)
+                throw;
+            else
+                return new Result { ErrorMessage = ex.Message };
+        }
     }
 
     private static void ValidateDestinationParameters(Destination destination)
