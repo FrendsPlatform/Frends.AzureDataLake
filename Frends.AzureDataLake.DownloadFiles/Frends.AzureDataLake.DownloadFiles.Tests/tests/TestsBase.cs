@@ -54,7 +54,7 @@ public abstract class TestsBase
     [TestInitialize]
     public async Task TestSetup()
     {
-        containerName = $"DownloadFilesTest{Guid.NewGuid()}";
+        containerName = $"download-files-test{Guid.NewGuid()}";
         await CreateContainer();
         AddFileToContainer(file1a);
         AddFileToContainer(file1b);
@@ -64,10 +64,7 @@ public abstract class TestsBase
     [TestCleanup]
     public async Task Cleanup()
     {
-        // delete whole container after running tests
-        var client = new DataLakeServiceClient(connectionString);
-        var container = client.GetFileSystemClient(containerName);
-        await container.DeleteIfExistsAsync();
+        await DeleteContainer();
     }
 
     private async Task CreateContainer()
@@ -75,6 +72,13 @@ public abstract class TestsBase
         var client = new DataLakeServiceClient(connectionString);
         var container = client.GetFileSystemClient(containerName);
         await container.CreateAsync();
+    }
+
+    private async Task DeleteContainer()
+    {
+        var client = new DataLakeServiceClient(connectionString);
+        var container = client.GetFileSystemClient(containerName);
+        await container.DeleteIfExistsAsync();
     }
 
     protected void AddFileToContainer(string fileName)

@@ -1,7 +1,11 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
+using Azure.Identity;
+using Azure.Storage.Files.DataLake;
 using Frends.AzureDataLake.DownloadFiles.Definitions;
+using Frends.AzureDataLake.UploadFiles.Exceptions;
 
 namespace Frends.AzureDataLake.DownloadFiles;
 
@@ -26,7 +30,36 @@ public static class AzureDataLake
         CancellationToken token
     )
     {
+        var container = await GetDataLakeContainer(source, token);
         await Task.CompletedTask;
         return new Result();
+    }
+
+    private static async Task<DataLakeFileSystemClient> GetDataLakeContainer(
+        Source src,
+        CancellationToken token
+    )
+    {
+        DataLakeServiceClient client = src.ConnectionMethod switch
+        {
+            ConnectionMethod.ConnectionString => new DataLakeServiceClient(src.ConnectionString),
+            ConnectionMethod.OAuth2
+                => new DataLakeServiceClient(
+                    new Uri($"https://{src.StorageAccountName}.dfs.core.windows.net"),
+                    new ClientSecretCredential(
+                        src.TenantID,
+                        src.ApplicationID,
+                        src.ClientSecret,
+                        new ClientSecretCredentialOptions()
+                    )
+                ),
+            _ => throw new InvalidEnumArgumentException(),
+        };
+
+        var container = client.GetFileSystemClient(src.ContainerName);
+
+        if (!await container.ExistsAsync(token))
+            throw new ContainerNotFoundException(src.ContainerName);
+        return container;
     }
 }
