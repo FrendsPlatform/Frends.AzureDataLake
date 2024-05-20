@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using static Frends.AzureDataLake.DownloadFiles.Definitions.Constants;
 
 namespace Frends.AzureDataLake.DownloadFiles.Definitions;
 
@@ -13,7 +14,7 @@ public class Source
     /// </summary>
     /// <example>ConnectionMethod.ConnectionString</example>
     [DefaultValue(ConnectionMethod.ConnectionString)]
-    public ConnectionMethod ConnectionMethod { get; init; }
+    public ConnectionMethod ConnectionMethod { get; init; } = ConnectionMethod.ConnectionString;
 
     /// <summary>
     /// Connection string to Azure Data Lake.

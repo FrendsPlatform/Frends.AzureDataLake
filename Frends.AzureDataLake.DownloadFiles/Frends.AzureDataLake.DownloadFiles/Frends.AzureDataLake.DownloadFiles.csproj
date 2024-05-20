@@ -18,6 +18,7 @@
   <ItemGroup>
     <PackageReference Include="Azure.Identity" Version="1.11.3" />
     <PackageReference Include="Azure.Storage.Files.DataLake" Version="12.17.1" />
+    <PackageReference Include="Microsoft.Extensions.FileSystemGlobbing" Version="8.0.0" />
   </ItemGroup>
 
 </Project>

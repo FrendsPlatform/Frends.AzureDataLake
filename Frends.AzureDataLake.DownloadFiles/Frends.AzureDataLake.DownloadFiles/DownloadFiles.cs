@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -8,7 +9,9 @@ using System.Threading.Tasks;
 using Azure.Identity;
 using Azure.Storage.Files.DataLake;
 using Frends.AzureDataLake.DownloadFiles.Definitions;
-using Frends.AzureDataLake.UploadFiles.Exceptions;
+using Frends.AzureDataLake.DownloadFiles.Exceptions;
+using Microsoft.Extensions.FileSystemGlobbing;
+using static Frends.AzureDataLake.DownloadFiles.Definitions.Constants;
 
 namespace Frends.AzureDataLake.DownloadFiles;
 
@@ -39,8 +42,32 @@ public static class AzureDataLake
             ValidateSourceParameters(source);
 
             var container = await GetDataLakeContainer(source, token);
-            await Task.CompletedTask;
-            return new Result();
+            var paralelResults = new ConcurrentDictionary<string, string>();
+            var allSrcFiles = container
+                .GetPaths(recursive: true, cancellationToken: token)
+                .Where(x => (bool)!x.IsDirectory)
+                .Select(x => x.Name);
+            var matches = new Matcher().AddInclude($"**/{source.FilePattern}").Match(allSrcFiles);
+
+            await Parallel.ForEachAsync(
+                matches.Files,
+                async (match, token) =>
+                {
+                    var (srcFilePath, dstFilePath) = await DownloadFile(
+                        match.Path,
+                        destination,
+                        container,
+                        token
+                    );
+                    paralelResults.TryAdd(srcFilePath, dstFilePath);
+                }
+            );
+
+            return new Result
+            {
+                IsSuccess = true,
+                DownladedFiles = new Dictionary<string, string>(paralelResults)
+            };
         }
         catch (Exception ex)
         {
@@ -94,7 +121,7 @@ public static class AzureDataLake
             ConnectionMethod.ConnectionString => new DataLakeServiceClient(src.ConnectionString),
             ConnectionMethod.OAuth2
                 => new DataLakeServiceClient(
-                    new Uri($"https://{src.StorageAccountName}.dfs.core.windows.net"),
+                    new Uri($"https://{src.StorageAccountName}.blob.core.windows.net"),
                     new ClientSecretCredential(
                         src.TenantID,
                         src.ApplicationID,
@@ -110,5 +137,22 @@ public static class AzureDataLake
         if (!await container.ExistsAsync(token))
             throw new ContainerNotFoundException(src.ContainerName);
         return container;
+    }
+
+    private static async Task<(string srcFilePath, string dstFilePath)> DownloadFile(
+        string sourcePath,
+        Destination destination,
+        DataLakeFileSystemClient container,
+        CancellationToken token
+    )
+    {
+        var fileClient = container.GetFileClient(sourcePath);
+        var destinationPath = Path.Combine(destination.Directory, sourcePath);
+        if (!destination.Overwrite && File.Exists(destinationPath))
+            return (fileClient.Uri.AbsoluteUri, "File already exists");
+        Directory.CreateDirectory(Directory.GetParent(destinationPath).FullName);
+        using FileStream downloadStream = File.Create(destinationPath);
+        await fileClient.ReadToAsync(downloadStream, cancellationToken: token);
+        return (fileClient.Uri.AbsoluteUri, destinationPath);
     }
 }

@@ -27,16 +27,15 @@ public abstract class TestsBase
         "FRENDS_AZUREDATALAKE_STORAGEACCOUNT"
     );
     protected string containerName;
-    protected static readonly string testDirectory = Path.Combine(
-        Directory.GetCurrentDirectory(),
-        "test"
-    );
+    protected string testDirectory;
 
     protected static readonly string file1a = "foobar1a.txt";
     protected static readonly string file1b = "foobar1b.txt";
+    protected static readonly string file1c = "innerDir/foobar1c.txt";
     protected static readonly string file2 = "foobar2.txt";
-    protected static readonly string multiFilePatten = "foobar1*.txt";
-    protected static readonly string AzDataLakeUrlPrefix = "https://storage.dfs.core.windows.net/";
+
+    protected static readonly string multiFilePatten = "*bar1*";
+    protected string AzDataLakeUrlPrefix => $"https://{storageAccount}.blob.core.windows.net/";
 
     [AssemblyInitialize]
     public static void AssemblyInit(TestContext context)
@@ -54,11 +53,13 @@ public abstract class TestsBase
     [TestInitialize]
     public async Task TestSetup()
     {
+        testDirectory = Path.Combine(Directory.GetCurrentDirectory(), $"test-{Guid.NewGuid()}");
         Directory.CreateDirectory(testDirectory);
         containerName = $"download-files-test{Guid.NewGuid()}";
         await CreateContainer();
         AddFileToContainer(file1a);
         AddFileToContainer(file1b);
+        AddFileToContainer(file1c);
         AddFileToContainer(file2);
     }
 
@@ -66,6 +67,7 @@ public abstract class TestsBase
     public async Task Cleanup()
     {
         await DeleteContainer();
+        Directory.Delete(testDirectory, true);
     }
 
     private async Task CreateContainer()
@@ -116,7 +118,11 @@ public abstract class TestsBase
                 {
                     $"{AzDataLakeUrlPrefix}{containerName}/{file1b}",
                     Path.Combine(testDirectory, file1b)
-                }
+                },
+                {
+                    $"{AzDataLakeUrlPrefix}{containerName}/{file1c}",
+                    Path.Combine(testDirectory, file1c)
+                },
             },
             ErrorMessage = string.Empty
         };
@@ -127,7 +133,7 @@ public abstract class TestsBase
             IsSuccess = true,
             DownladedFiles = new Dictionary<string, string>
             {
-                { $"{AzDataLakeUrlPrefix}{containerName}/{file1a}", "File already exists" }
+                { $"{AzDataLakeUrlPrefix}{containerName}/{file2}", Constants.FileExistsMessage }
             },
             ErrorMessage = string.Empty
         };

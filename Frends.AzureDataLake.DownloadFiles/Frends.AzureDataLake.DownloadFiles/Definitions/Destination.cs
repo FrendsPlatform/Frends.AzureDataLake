@@ -20,5 +20,5 @@ public class Destination
     /// </summary>
     /// <example>true</example>
     [DefaultValue(false)]
-    public bool Overwrite { get; init; }
+    public bool Overwrite { get; init; } = false;
 }

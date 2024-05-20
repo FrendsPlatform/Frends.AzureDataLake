@@ -1,6 +1,6 @@
 using System;
 
-namespace Frends.AzureDataLake.UploadFiles.Exceptions;
+namespace Frends.AzureDataLake.DownloadFiles.Exceptions;
 
 /// <summary>
 /// Exception thrown input is invalid.

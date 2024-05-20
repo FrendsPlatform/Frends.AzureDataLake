@@ -4,7 +4,8 @@ using System.Threading.Tasks;
 using Azure;
 using Azure.Identity;
 using Frends.AzureDataLake.DownloadFiles.Definitions;
-using Frends.AzureDataLake.UploadFiles.Exceptions;
+using Frends.AzureDataLake.DownloadFiles.Exceptions;
+using static Frends.AzureDataLake.DownloadFiles.Definitions.Constants;
 
 namespace Frends.AzureDataLake.DownloadFiles.Tests.tests;
 
@@ -86,18 +87,6 @@ public class ConnectionTests : TestsBase
                 ContainerName = "InvalidContainerName"
             },
             new Destination { Directory = testDirectory },
-            new Options(),
-            CancellationToken.None
-        );
-    }
-
-    [TestMethod]
-    [ExpectedException(typeof(InvalidInputException))]
-    public async Task ThrowIfInvalidDestinationParameters()
-    {
-        await AzureDataLake.DownloadFiles(
-            new Source { ConnectionString = connectionString, ContainerName = containerName },
-            new Destination { Directory = "C:/NonExistingDir/ForSure/test" },
             new Options(),
             CancellationToken.None
         );
