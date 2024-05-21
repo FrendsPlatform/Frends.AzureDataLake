@@ -81,7 +81,7 @@ public class UnitTests
     }
 
     [TestMethod]
-    [ExpectedException(typeof(RequestFailedException))]
+    [ExpectedException(typeof(FormatException))]
     public async Task TestCreateDirectory_throws_ClientNotFound()
     {
         await AzureDataLake.CreateDirectory(

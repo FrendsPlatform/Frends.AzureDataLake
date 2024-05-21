@@ -23,16 +23,9 @@ public static class AzureDataLake
     /// <returns>Object { bool Success, string Uri }</returns>
     public static async Task<Result> CreateDirectory([PropertyTab] Input input, CancellationToken cancellationToken)
     {
-        try
-        {
             var directory = GetDataLakeDirectory(input);
             await directory.CreateIfNotExistsAsync(null, cancellationToken);
             return new Result(true, directory.Uri.ToString());
-        }
-        catch (Exception ex)
-        {
-            throw new Exception("Creating a new directory caused an exception.", ex);
-        }
     }
 
     internal static DataLakeDirectoryClient GetDataLakeDirectory(Input input)
