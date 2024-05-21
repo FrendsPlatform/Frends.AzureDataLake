@@ -1,4 +1,4 @@
-namespace Frends.AzureDataLake.DownloadFiles.Definitions;
+namespace Frends.AzureDataLake.DeleteFiles.Definitions;
 
 #pragma warning disable CS1591 // self explanatory
 public static class Constants

@@ -1,6 +1,6 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using static Frends.AzureDataLake.DownloadFiles.Definitions.Constants;
+using static Frends.AzureDataLake.DeleteFiles.Definitions.Constants;
 
 namespace Frends.AzureDataLake.DeleteFiles.Definitions;
 
