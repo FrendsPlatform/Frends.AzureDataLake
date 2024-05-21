@@ -70,12 +70,7 @@ public class UnitTests
         await directoryClient.CreateIfNotExistsAsync(null, CancellationToken.None);
 
         var deleted = await AzureDataLake.DeleteDirectory(
-            input,
-            new Options
-            {
-                ThrowErrorIfDirectoryDoesNotExist = true
-            },
-            CancellationToken.None
+            input, CancellationToken.None
         );
 
         Assert.IsTrue(deleted.DirectoryWasDeleted);
@@ -90,16 +85,11 @@ public class UnitTests
         var input = new Input
         {
             ConnectionString = _connectionString,
-            ContainerName = _containerName,
+            ContainerName = "Invalid value",
             DirectoryName = _directoryName
         };
 
-        var options = new Options
-        {
-            ThrowErrorIfDirectoryDoesNotExist = true
-        };
-
-        await AzureDataLake.DeleteDirectory(input, options, CancellationToken.None);
+        await AzureDataLake.DeleteDirectory(input, CancellationToken.None);
     }
 
     [TestMethod]
@@ -108,7 +98,6 @@ public class UnitTests
     {
         await AzureDataLake.DeleteDirectory(
             new Input { ConnectionString = _connectionString, ContainerName = null, DirectoryName = _directoryName },
-            new Options { ThrowErrorIfDirectoryDoesNotExist = false },
             CancellationToken.None
         );
     }
@@ -117,14 +106,14 @@ public class UnitTests
     [ExpectedException(typeof(FormatException))]
     public async Task TestDeleteDirectory_throws_ParameterNotValid()
     {
-        await AzureDataLake.DeleteDirectory(new Input { ConnectionString = "Not valid parameter", ContainerName = "Valid name", DirectoryName = "Valid name" }, new Options { ThrowErrorIfDirectoryDoesNotExist = false }, CancellationToken.None);
+        await AzureDataLake.DeleteDirectory(new Input { ConnectionString = "Not valid parameter", ContainerName = "Valid name", DirectoryName = "Valid name" }, CancellationToken.None);
     }
 
     [TestMethod]
-    [ExpectedException(typeof(RequestFailedException))]
+    [ExpectedException(typeof(FormatException))]
     public async Task TestDeleteDirectory_throws_ClientNotFound()
     {
-        await AzureDataLake.DeleteDirectory(new Input { ConnectionString = "DefaultEndpointsProtocol=https;AccountName=unitTestStorage;AccountKey=abcdefghijklmnopqrstuyxz123456789;EndpointSuffix=core.windows.net", ContainerName = _containerName, DirectoryName = _directoryName }, new Options { ThrowErrorIfDirectoryDoesNotExist = false }, CancellationToken.None);
+        await AzureDataLake.DeleteDirectory(new Input { ConnectionString = "DefaultEndpointsProtocol=https;AccountName=unitTestStorage;AccountKey=abcdefghijklmnopqrstuyxz123456789;EndpointSuffix=core.windows.net", ContainerName = _containerName, DirectoryName = _directoryName }, CancellationToken.None);
     }
 
     [TestMethod]
@@ -144,18 +133,13 @@ public class UnitTests
             ClientSecret = _clientSecret
         };
 
-        var options = new Options
-        {
-            ThrowErrorIfDirectoryDoesNotExist = false
-        };
-
         var container = new DataLakeServiceClient(_connectionString).GetFileSystemClient(input.ContainerName);
         await container.CreateIfNotExistsAsync(null, CancellationToken.None);
 
         var directoryClient = AzureDataLake.GetDataLakeDirectory(input);
         await directoryClient.CreateIfNotExistsAsync(null, CancellationToken.None);
 
-        var result = await AzureDataLake.DeleteDirectory(input, options, default);
+        var result = await AzureDataLake.DeleteDirectory(input, default);
         Assert.IsTrue(result.DirectoryWasDeleted);
         var directoryExists = await directoryClient.ExistsAsync(CancellationToken.None);
         Assert.IsFalse(directoryExists);
