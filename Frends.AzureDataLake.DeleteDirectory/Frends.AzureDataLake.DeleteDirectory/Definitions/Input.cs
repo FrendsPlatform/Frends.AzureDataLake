@@ -27,7 +27,7 @@ public class Input
     /// <summary>
     /// Name of the Azure Data Lake account.
     /// </summary>
-    /// <example>Storager</example>
+    /// <example>storager</example>
     [UIHint(nameof(ConnectionMethod), "", ConnectionMethod.OAuth2)]
     public string StorageAccountName { get; set; }
 
@@ -54,7 +54,7 @@ public class Input
     public string ClientSecret { get; set; }
 
     /// <summary>
-    /// Name of the Azure Data Lake container where the data will be uploaded.
+    /// Name of the Azure Data Lake container.
     /// Naming: lowercase
     /// Valid chars: alphanumeric and dash, but cannot start or end with dash.
     /// </summary>
@@ -64,7 +64,7 @@ public class Input
     public string ContainerName { get; set; }
 
     /// <summary>
-    /// Name of the Azure Data Lake directory specifies the path where the data will be uploaded.
+    /// Name of the Azure Data Lake directory.
     /// Valid chars: alphanumeric.
     /// </summary>
     /// <example>directory_name</example>

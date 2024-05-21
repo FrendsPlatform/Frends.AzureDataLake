@@ -5,10 +5,10 @@ namespace Frends.AzureDataLake.DeleteDirectory.Definitions
     public class Options
     {
         /// <summary>
-        /// Throw an error if directory to be deleted doesn't exists.
+        /// Throw an error if directory to be deleted doesn't exist.
         /// </summary>
         /// <example>false</example>
         [DefaultValue(false)]
-        public bool ThrowErrorIfDirectoryDoesNotExists { get; set; }
+        public bool ThrowErrorIfDirectoryDoesNotExist { get; set; }
     }
 }

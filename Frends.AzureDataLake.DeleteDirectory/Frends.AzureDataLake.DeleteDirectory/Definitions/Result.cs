@@ -6,7 +6,7 @@
 public class Result
 {
     /// <summary>
-    /// Returns true when directory has been deleted.
+    /// Returns true if directory has been deleted.
     /// </summary>
     /// <example>true</example>
     public bool DirectoryWasDeleted { get; private set; }

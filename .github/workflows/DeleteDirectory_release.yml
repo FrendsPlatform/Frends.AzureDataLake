@@ -1,4 +1,4 @@
-name: Frends.AzureDataLake.DeleteDirectory_release
+name: DeleteDirectory_release
 
 on:
   workflow_dispatch:

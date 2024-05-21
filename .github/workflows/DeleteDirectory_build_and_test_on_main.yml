@@ -1,4 +1,4 @@
-name: Frends.AzureDataLake.DeleteDirectory_build_main
+name: DeleteDirectory_build_main
 
 on:
   push:
