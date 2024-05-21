@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Azure.Storage.Files.DataLake;
 using dotenv.net;
+using Frends.AzureDataLake.DeleteFiles.Definitions;
 
 namespace Frends.AzureDataLake.DeleteFiles.Tests;
 
@@ -32,7 +34,7 @@ public abstract class TestsBase
     protected static readonly string file1c = "innerDir/foobar1c.txt";
     protected static readonly string file2 = "foobar2.txt";
 
-    protected static readonly string multiFilePatten = "*bar1*";
+    protected static readonly string multiFilePattern = "*bar1*";
     protected string AzDataLakeUrlPrefix => $"https://{storageAccount}.blob.core.windows.net/";
 
     [AssemblyInitialize]
@@ -88,4 +90,23 @@ public abstract class TestsBase
         var container = client.GetFileSystemClient(containerName);
         container.CreateFile(fileName);
     }
+
+    protected Result SingleFileDeleted =>
+        new()
+        {
+            IsSuccess = true,
+            DeletedFiles = new List<string> { $"{AzDataLakeUrlPrefix}{containerName}/{file1a}", },
+        };
+
+    protected Result MultiFileDeleted =>
+        new()
+        {
+            IsSuccess = true,
+            DeletedFiles = new List<string>
+            {
+                $"{AzDataLakeUrlPrefix}{containerName}/{file1a}",
+                $"{AzDataLakeUrlPrefix}{containerName}/{file1b}",
+                $"{AzDataLakeUrlPrefix}{containerName}/{file1c}"
+            },
+        };
 }
