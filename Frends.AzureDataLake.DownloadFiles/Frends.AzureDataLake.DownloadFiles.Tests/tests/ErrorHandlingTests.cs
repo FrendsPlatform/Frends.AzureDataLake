@@ -27,7 +27,7 @@ public class ErrorHandlingTests : TestsBase
         var result = await AzureDataLake.DownloadFiles(
             new Source(),
             new Destination(),
-            new Options{ThrowErrorOnFailure = false},
+            new Options { ThrowErrorOnFailure = false },
             CancellationToken.None
         );
         Assert.IsFalse(result.IsSuccess);
