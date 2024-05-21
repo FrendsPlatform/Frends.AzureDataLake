@@ -11,7 +11,7 @@
 	  <PackageTags>Frends</PackageTags>
 	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
 	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
-	  <Description>Description of the Task</Description>
+	  <Description>Frends Task for creating a directory in Azure Data Lake.</Description>
 	  <PackageProjectUrl>https://frends.com/</PackageProjectUrl>
 	  <RepositoryUrl>https://github.com/FrendsPlatform/Frends.CreateDirectory/tree/main/Frends.AzureDataLake.CreateDirectory</RepositoryUrl>
   </PropertyGroup>

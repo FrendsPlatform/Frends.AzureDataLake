@@ -19,7 +19,6 @@ public class Input
     /// Connection string to Azure Data Lake.
     /// </summary>
     /// <example>DefaultEndpointsProtocol=https;AccountName=accountname;AccountKey=Pdlrxyz==;EndpointSuffix=core.windows.net</example>
-    [DisplayFormat(DataFormatString = "Text")]
     [PasswordPropertyText]
     [UIHint(nameof(ConnectionMethod), "", ConnectionMethod.ConnectionString)]
     public string ConnectionString { get; set; }
@@ -60,7 +59,6 @@ public class Input
     /// </summary>
     /// <example>test-container</example>
     [DefaultValue("test-container")]
-    [DisplayFormat(DataFormatString = "Text")]
     public string ContainerName { get; set; }
 
     /// <summary>
@@ -69,6 +67,5 @@ public class Input
     /// </summary>
     /// <example>directory_name</example>
     [DefaultValue("directory_name")]
-    [DisplayFormat(DataFormatString = "Text")]
     public string DirectoryName { get; set; }
 }

@@ -5,6 +5,7 @@ using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using Azure;
 using Azure.Storage.Files.DataLake;
 using dotenv.net;
 using Frends.AzureDataLake.CreateDirectory.Definitions;
@@ -62,7 +63,7 @@ public class UnitTests
     public async Task TestCreateDirectory()
     {
         input = new Input { ConnectionString = _connectionString, ContainerName = _containerName, DirectoryName = _directoryName };
-        DataLakeFileSystemClient container = new DataLakeServiceClient(input.ConnectionString).GetFileSystemClient(input.ContainerName);
+        var container = new DataLakeServiceClient(input.ConnectionString).GetFileSystemClient(input.ContainerName);
         await container.CreateIfNotExistsAsync(null, new CancellationToken());
 
         var result = await AzureDataLake.CreateDirectory(input, new CancellationToken());
@@ -73,14 +74,14 @@ public class UnitTests
     }
 
     [TestMethod]
-    [ExpectedException(typeof(Exception))]
+    [ExpectedException(typeof(FormatException))]
     public async Task TestCreateDirectory_throws_ParameterNotValid()
     {
         await AzureDataLake.CreateDirectory(new Input { ConnectionString = "Not valid parameter", ContainerName = "Valid name", DirectoryName = "Valid name" }, new CancellationToken());
     }
 
     [TestMethod]
-    [ExpectedException(typeof(Exception))]
+    [ExpectedException(typeof(RequestFailedException))]
     public async Task TestCreateDirectory_throws_ClientNotFound()
     {
         await AzureDataLake.CreateDirectory(
@@ -110,7 +111,7 @@ public class UnitTests
             TenantID = _tenantID,
             ClientSecret = _clientSecret
         };
-        DataLakeFileSystemClient container = new DataLakeServiceClient(_connectionString).GetFileSystemClient(input.ContainerName);
+        var container = new DataLakeServiceClient(_connectionString).GetFileSystemClient(input.ContainerName);
         await container.CreateIfNotExistsAsync(null, new CancellationToken());
 
         var result = await AzureDataLake.CreateDirectory(input, default);
@@ -119,5 +120,8 @@ public class UnitTests
         Assert.IsTrue(result.Success);
 
         Assert.IsTrue(await directoryClient.ExistsAsync());
+
+        containerName = string.Empty;
+        directoryName = string.Empty;
     }
 }
