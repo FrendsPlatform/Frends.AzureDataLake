@@ -16,8 +16,7 @@ public class Result
     public bool IsSuccess { get; init; } = false;
 
     /// <summary>
-    /// This object contains the source file URL as a key and the path of the downloaded file as a value.
-    /// If overwrite is disabled, error message will be placed as a value
+    /// This object contains list of deleted filesą
     /// </summary>
     /// <example>
     /// {

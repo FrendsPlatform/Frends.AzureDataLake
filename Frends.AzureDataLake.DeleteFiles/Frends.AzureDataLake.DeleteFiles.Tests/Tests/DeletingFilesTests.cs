@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Frends.AzureDataLake.DeleteFiles.Definitions;
@@ -42,8 +44,13 @@ public class DeletingFilesTests : TestsBase
             CancellationToken.None
         );
 
+        result.DeletedFiles.Sort();
+
+        var expectedResult = MultiFileDeleted;
+        expectedResult.DeletedFiles.Sort();
+
         Assert.IsTrue(result.IsSuccess);
-        CollectionAssert.AreEqual(MultiFileDeleted.DeletedFiles, result.DeletedFiles);
+        CollectionAssert.AreEqual(expectedResult.DeletedFiles, result.DeletedFiles);
         Assert.That.FileDoesNotExistInContainer(connectionString, containerName, file1a);
         Assert.That.FileDoesNotExistInContainer(connectionString, containerName, file1b);
         Assert.That.FileDoesNotExistInContainer(connectionString, containerName, file1c);
@@ -65,8 +72,8 @@ public class DeletingFilesTests : TestsBase
         );
 
         Assert.IsTrue(result.IsSuccess);
-        CollectionAssert.AreEqual(MultiFileDeleted.DeletedFiles, result.DeletedFiles);
-        Assert.That.FileDoesNotExistInContainer(connectionString, containerName, file1a);
+        CollectionAssert.AreEqual(new List<string>(), result.DeletedFiles);
+        Assert.That.FileExistsInContainer(connectionString, containerName, file1a);
         Assert.That.FileExistsInContainer(connectionString, containerName, file2);
     }
 }
