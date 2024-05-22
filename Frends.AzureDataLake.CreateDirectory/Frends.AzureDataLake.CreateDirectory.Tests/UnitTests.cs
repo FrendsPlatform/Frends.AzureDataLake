@@ -120,8 +120,5 @@ public class UnitTests
         Assert.IsTrue(result.Success);
 
         Assert.IsTrue(await directoryClient.ExistsAsync());
-
-        containerName = string.Empty;
-        directoryName = string.Empty;
     }
 }
