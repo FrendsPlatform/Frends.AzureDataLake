@@ -40,21 +40,21 @@ public static class AzureDataLake
 
     internal static DataLakeDirectoryClient GetDataLakeDirectory(Input input)
     {
-            DataLakeServiceClient dataLakeServiceClient;
-            DataLakeFileSystemClient fileSystemClient;
+        DataLakeServiceClient dataLakeServiceClient;
+        DataLakeFileSystemClient fileSystemClient;
 
-            switch (input.ConnectionMethod)
-            {
-                case ConnectionMethod.ConnectionString:
-                    dataLakeServiceClient = new DataLakeServiceClient(input.ConnectionString);
-                    fileSystemClient = dataLakeServiceClient.GetFileSystemClient(input.ContainerName);
-                    return fileSystemClient.GetDirectoryClient(input.DirectoryName);
-                case ConnectionMethod.OAuth2:
-                    var credentials = new ClientSecretCredential(input.TenantID, input.ApplicationID, input.ClientSecret, new ClientSecretCredentialOptions());
-                    dataLakeServiceClient = new DataLakeServiceClient(new Uri($"https://{input.StorageAccountName}.dfs.core.windows.net"), credentials);
-                    fileSystemClient = dataLakeServiceClient.GetFileSystemClient(input.ContainerName);
-                    return fileSystemClient.GetDirectoryClient(input.DirectoryName);
-                default: throw new NotSupportedException();
-            }
+        switch (input.ConnectionMethod)
+        {
+            case ConnectionMethod.ConnectionString:
+                dataLakeServiceClient = new DataLakeServiceClient(input.ConnectionString);
+                fileSystemClient = dataLakeServiceClient.GetFileSystemClient(input.ContainerName);
+                return fileSystemClient.GetDirectoryClient(input.DirectoryName);
+            case ConnectionMethod.OAuth2:
+                var credentials = new ClientSecretCredential(input.TenantID, input.ApplicationID, input.ClientSecret, new ClientSecretCredentialOptions());
+                dataLakeServiceClient = new DataLakeServiceClient(new Uri($"https://{input.StorageAccountName}.dfs.core.windows.net"), credentials);
+                fileSystemClient = dataLakeServiceClient.GetFileSystemClient(input.ContainerName);
+                return fileSystemClient.GetDirectoryClient(input.DirectoryName);
+            default: throw new NotSupportedException();
+        }
     }
 }
