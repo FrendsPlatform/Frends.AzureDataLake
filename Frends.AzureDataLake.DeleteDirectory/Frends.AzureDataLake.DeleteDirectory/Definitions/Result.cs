@@ -5,6 +5,12 @@
 /// </summary>
 public class Result
 {
+    internal Result(bool directoryWasDeleted, string message)
+    {
+        DirectoryWasDeleted = directoryWasDeleted;
+        Message = message;
+    }
+
     /// <summary>
     /// Returns true if directory has been deleted.
     /// </summary>
@@ -16,10 +22,4 @@ public class Result
     /// </summary>
     /// <example>Directory deleted successfully.</example>
     public string Message { get; private set; }
-
-    internal Result(bool directoryWasDeleted, string message)
-    {
-        DirectoryWasDeleted = directoryWasDeleted;
-        Message = message;
-    }
 }

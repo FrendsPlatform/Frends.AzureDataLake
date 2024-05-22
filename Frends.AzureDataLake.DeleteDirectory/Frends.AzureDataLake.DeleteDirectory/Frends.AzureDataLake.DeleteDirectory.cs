@@ -1,13 +1,12 @@
-﻿using System;
+﻿namespace Frends.AzureDataLake.DeleteDirectory;
+
+using System;
 using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 using Azure.Identity;
 using Azure.Storage.Files.DataLake;
-using Frends.AzureDataLake.DeleteDirectory.Definitions;
-
-namespace Frends.AzureDataLake.DeleteDirectory;
+using Definitions;
 
 /// <summary>
 /// Main class of the Task.
