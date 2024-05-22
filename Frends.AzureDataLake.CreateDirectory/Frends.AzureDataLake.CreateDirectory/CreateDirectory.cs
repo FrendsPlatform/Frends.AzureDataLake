@@ -23,9 +23,9 @@ public static class AzureDataLake
     /// <returns>Object { bool Success, string Uri }</returns>
     public static async Task<Result> CreateDirectory([PropertyTab] Input input, CancellationToken cancellationToken)
     {
-            var directory = GetDataLakeDirectory(input);
-            await directory.CreateIfNotExistsAsync(null, cancellationToken);
-            return new Result(true, directory.Uri.ToString());
+        var directory = GetDataLakeDirectory(input);
+        await directory.CreateIfNotExistsAsync(null, cancellationToken);
+        return new Result(true, directory.Uri.ToString());
     }
 
     internal static DataLakeDirectoryClient GetDataLakeDirectory(Input input)
