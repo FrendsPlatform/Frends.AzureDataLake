@@ -70,7 +70,7 @@ public class UnitTests
                 ListingStructure = structure
             };
 
-            var result = await AzureDataLake.ListFilesInContainer(source, options, default);
+            var result = await AzureDataLake.ListFiles(source, options, default);
 
             if (structure is ListingStructure.Flat)
             {
@@ -110,7 +110,7 @@ public class UnitTests
                 ListingStructure = structure
             };
 
-            var result = await AzureDataLake.ListFilesInContainer(source, options, default);
+            var result = await AzureDataLake.ListFiles(source, options, default);
 
             Assert.IsTrue(result.FileList.Any(x => x.Name == "Temp/SubFolderFile"));
             Assert.IsTrue(result.FileList.Any(x => x.Name == "Temp/SubFolderFile2"));
@@ -138,7 +138,7 @@ public class UnitTests
             ListingStructure = ListingStructure.Hierarchical
         };
 
-        var ex = await Assert.ThrowsExceptionAsync<ArgumentNullException>(async () => await AzureDataLake.ListFilesInContainer(source, options, default));
+        var ex = await Assert.ThrowsExceptionAsync<ArgumentNullException>(async () => await AzureDataLake.ListFiles(source, options, default));
         Assert.AreEqual("Value cannot be null. (Parameter 'connectionString')", ex.Message);
     }
 
@@ -165,7 +165,7 @@ public class UnitTests
                 ListingStructure = structure
             };
 
-            var result = await AzureDataLake.ListFilesInContainer(source, options, default);
+            var result = await AzureDataLake.ListFiles(source, options, default);
 
             if (structure is ListingStructure.Flat)
             {
@@ -208,7 +208,7 @@ public class UnitTests
                 ListingStructure = structure
             };
 
-            var result = await AzureDataLake.ListFilesInContainer(source, options, default);
+            var result = await AzureDataLake.ListFiles(source, options, default);
 
             Assert.IsTrue(result.FileList.Any(x => x.Name == "Temp/SubFolderFile"));
             Assert.IsTrue(result.FileList.Any(x => x.Name == "Temp/SubFolderFile2"));

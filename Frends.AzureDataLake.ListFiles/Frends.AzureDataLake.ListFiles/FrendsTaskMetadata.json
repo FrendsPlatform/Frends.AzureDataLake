@@ -1,7 +1,7 @@
 ﻿{
 	"Tasks": [
 		{
-			"TaskMethod": "Frends.AzureDataLake.ListFiles.ListFiles.Frends.AzureDataLake.ListFiles"
+			"TaskMethod": "Frends.AzureDataLake.ListFiles.AzureDataLake.ListFiles"
 		}
 	]
 }

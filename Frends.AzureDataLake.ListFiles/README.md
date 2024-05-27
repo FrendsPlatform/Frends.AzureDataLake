@@ -1,5 +1,5 @@
 # Frends.AzureDataLake.ListFiles
-Task will list files within Azure Data Lake container.
+Task will list files in Azure Data Lake container.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![Build](https://github.com/FrendsPlatform/Frends.ListFiles/actions/workflows/Frends.AzureDataLake.ListFiles_build_and_test_on_main.yml/badge.svg)](https://github.com/FrendsPlatform/Frends.ListFiles/actions)

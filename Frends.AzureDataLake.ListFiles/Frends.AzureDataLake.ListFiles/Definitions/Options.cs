@@ -18,9 +18,9 @@ public class Options
     public ListingStructure ListingStructure { get; set; }
 
     /// <summary>
-    /// Specify a dictionary name to return files and dictionaries within the specified directory. 
-    /// In the case of providing the folder name, files in subfolders will not be listed (the hierarchical listing option will be applied).
+    /// Specify a dictionary name to return files and dictionaries within directory. 
     /// </summary>
     /// <example>test</example>
+    [UIHint(nameof(ListingStructure), "", ListingStructure.Hierarchical)]
     public string DictionaryName { get; set; }
 }
