@@ -1,7 +1,7 @@
 ﻿{
 	"Tasks": [
 		{
-			"TaskMethod": "Frends.AzureDataLake.CreateDirectory"
+			"TaskMethod": "Frends.AzureDataLake.CreateDirectory.AzureDataLake.CreateDirectory"
 		}
 	]
 }

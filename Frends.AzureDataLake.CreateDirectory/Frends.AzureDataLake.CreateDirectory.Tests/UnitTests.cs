@@ -120,5 +120,10 @@ public class UnitTests
         Assert.IsTrue(result.Success);
 
         Assert.IsTrue(await directoryClient.ExistsAsync());
+
+        if (await container.ExistsAsync())
+        {
+            await container.DeleteAsync();
+        }
     }
 }
