@@ -28,7 +28,7 @@ public class Source
     /// <summary>
     /// Name of the Azure Data Lake account.
     /// </summary>
-    /// <example>Storager</example>
+    /// <example>storageexample</example>
     [UIHint(nameof(ConnectionMethod), "", ConnectionMethod.OAuth2)]
     public string StorageAccountName { get; init; }
 
@@ -61,15 +61,13 @@ public class Source
     /// </summary>
     /// <example>test-container</example>
     [DefaultValue("test-container")]
-    [DisplayFormat(DataFormatString = "Text")]
     public string ContainerName { get; init; }
 
     /// <summary>
     /// Path of file(s) you want to download from DataLake
     /// This parameter can contain a combination of valid literal path and wildcard (* and ?) characters, but it doesn't support regular expressions
     /// </summary>
-    /// <example>test-container</example>
-    [DefaultValue("test-container")]
-    [DisplayFormat(DataFormatString = "Text")]
+    /// <example>*.txt</example>
+    [DefaultValue("*.txt")]
     public string FilePattern { get; init; }
 }

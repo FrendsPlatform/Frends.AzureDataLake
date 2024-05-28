@@ -10,9 +10,9 @@
     <PackageTags>Frends</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <Description>Frends Task for deleting a container from Azure Data Lake.</Description>
+    <Description>Frends Task for downloading files from Azure Data Lake.</Description>
     <PackageProjectUrl>https://frends.com/</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/FrendsPlatform/Frends.AzureDataLake/tree/main/Frends.AzureDataLake.CreateContainer</RepositoryUrl>
+    <RepositoryUrl>https://github.com/FrendsPlatform/Frends.AzureDataLake/tree/main/Frends.AzureDataLake.DownloadFiles</RepositoryUrl>
   </PropertyGroup>
   
   <ItemGroup>
