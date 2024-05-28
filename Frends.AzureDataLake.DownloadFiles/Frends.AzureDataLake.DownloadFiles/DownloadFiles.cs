@@ -74,7 +74,7 @@ public static class AzureDataLake
             if (options.ThrowErrorOnFailure)
                 throw;
             else
-                return new Result { IsSuccess = false ,ErrorMessage = ex.Message };
+                return new Result { IsSuccess = false, ErrorMessage = ex.Message };
         }
     }
 
