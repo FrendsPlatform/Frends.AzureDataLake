@@ -13,22 +13,22 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 [TestClass]
 public class UnitTests
 {
-    private readonly string _connectionString = Environment.GetEnvironmentVariable(
-        "FRENDS_AZUREDATALAKE_CONNSTRING"
-    );
-    private readonly string _appID = Environment.GetEnvironmentVariable(
-        "FRENDS_AZUREDATALAKE_APPID"
-    );
-    private readonly string _tenantID = Environment.GetEnvironmentVariable(
-        "FRENDS_AZUREDATALAKE_TENANTID"
-    );
-    private readonly string _clientSecret = Environment.GetEnvironmentVariable(
-        "FRENDS_AZUREDATALAKE_CLIENTSECRET"
-    );
-    private readonly string _storageAccount = Environment.GetEnvironmentVariable(
-        "FRENDS_AZUREDATALAKE_STORAGEACCOUNT"
-    );
-    private readonly string _containerName = $"test-container{DateTime.Now.ToString("mmssffffff", CultureInfo.InvariantCulture)}";
+    private readonly string connectionString = Environment.GetEnvironmentVariable(
+        "FRENDS_AZUREDATALAKE_CONNSTRING");
+
+    private readonly string appID = Environment.GetEnvironmentVariable(
+        "FRENDS_AZUREDATALAKE_APPID");
+
+    private readonly string tenantID = Environment.GetEnvironmentVariable(
+        "FRENDS_AZUREDATALAKE_TENANTID");
+
+    private readonly string clientSecret = Environment.GetEnvironmentVariable(
+        "FRENDS_AZUREDATALAKE_CLIENTSECRET");
+
+    private readonly string storageAccount = Environment.GetEnvironmentVariable(
+        "FRENDS_AZUREDATALAKE_STORAGEACCOUNT");
+
+    private readonly string containerName = $"test-container{DateTime.Now.ToString("mmssffffff", CultureInfo.InvariantCulture)}";
 
     [AssemblyInitialize]
     public static void AssemblyInit(TestContext context)
@@ -41,38 +41,38 @@ public class UnitTests
     [TestInitialize]
     public async Task Init()
     {
-        await Helper.CreateContainerAndTestFiles(false, _connectionString, _containerName);
+        await Helper.CreateContainerAndTestFiles(false, connectionString, containerName);
     }
 
     [TestCleanup]
     public async Task CleanUp()
     {
-        await Helper.CreateContainerAndTestFiles(true, _connectionString, _containerName);
+        await Helper.CreateContainerAndTestFiles(true, connectionString, containerName);
     }
 
     [TestMethod]
     public async Task LisFiles_ConnectionString_ListingStructures()
     {
-        var listing = new List<ListingStructure>() { ListingStructure.Flat, ListingStructure.Hierarchical };
+        var recursiveOptions = new List<bool>() { true, false };
 
         var source = new Source
         {
             ConnectionMethod = ConnectionMethod.ConnectionString,
-            ConnectionString = _connectionString,
-            ContainerName = _containerName
+            ConnectionString = connectionString,
+            ContainerName = containerName,
         };
 
-        foreach (var structure in listing)
+        foreach (var isRecursive in recursiveOptions)
         {
             var options = new Options
             {
                 DictionaryName = null,
-                ListingStructure = structure
+                Recursive = isRecursive,
             };
 
             var result = await AzureDataLake.ListFiles(source, options, default);
 
-            if (structure is ListingStructure.Flat)
+            if (isRecursive)
             {
                 Assert.IsTrue(result.FileList.Any(x => x.Name == "Temp/SubFolderFile"));
                 Assert.IsTrue(result.FileList.Any(x => x.Name == "Temp/SubFolderFile2"));
@@ -93,21 +93,21 @@ public class UnitTests
     [TestMethod]
     public async Task ListFiles_ConnectionString_Prefix()
     {
-        var listing = new List<ListingStructure>() { ListingStructure.Flat, ListingStructure.Hierarchical };
+        var recursiveOptions = new List<bool>() { true, false };
 
         var source = new Source
         {
             ConnectionMethod = ConnectionMethod.ConnectionString,
-            ConnectionString = _connectionString,
-            ContainerName = _containerName
+            ConnectionString = connectionString,
+            ContainerName = containerName,
         };
 
-        foreach (var structure in listing)
+        foreach (var isRecursive in recursiveOptions)
         {
             var options = new Options
             {
                 DictionaryName = "Temp",
-                ListingStructure = structure
+                Recursive = isRecursive,
             };
 
             var result = await AzureDataLake.ListFiles(source, options, default);
@@ -128,14 +128,14 @@ public class UnitTests
         var source = new Source
         {
             ConnectionMethod = ConnectionMethod.ConnectionString,
-            ConnectionString = "",
-            ContainerName = _containerName,
+            ConnectionString = string.Empty,
+            ContainerName = containerName,
         };
 
         var options = new Options
         {
             DictionaryName = "/tes",
-            ListingStructure = ListingStructure.Hierarchical
+            Recursive = false,
         };
 
         var ex = await Assert.ThrowsExceptionAsync<ArgumentNullException>(async () => await AzureDataLake.ListFiles(source, options, default));
@@ -145,29 +145,29 @@ public class UnitTests
     [TestMethod]
     public async Task ListFiles_OAuth_ListingStructures()
     {
-        var listing = new List<ListingStructure>() { ListingStructure.Flat, ListingStructure.Hierarchical };
+        var recursiveOptions = new List<bool>() { true, false };
 
         var source = new Source
         {
             ConnectionMethod = ConnectionMethod.OAuth2,
-            ApplicationID = _appID,
-            TenantID = _tenantID,
-            ClientSecret = _clientSecret,
-            StorageAccountName = _storageAccount,
-            ContainerName = _containerName,
+            ApplicationID = appID,
+            TenantID = tenantID,
+            ClientSecret = clientSecret,
+            StorageAccountName = storageAccount,
+            ContainerName = containerName,
         };
 
-        foreach (var structure in listing)
+        foreach (var isRecursive in recursiveOptions)
         {
             var options = new Options
             {
                 DictionaryName = null,
-                ListingStructure = structure
+                Recursive = isRecursive,
             };
 
             var result = await AzureDataLake.ListFiles(source, options, default);
 
-            if (structure is ListingStructure.Flat)
+            if (isRecursive)
             {
                 Assert.IsTrue(result.FileList.Any(x => x.Name == "Temp/SubFolderFile"));
                 Assert.IsTrue(result.FileList.Any(x => x.Name == "Temp/SubFolderFile2"));
@@ -188,24 +188,24 @@ public class UnitTests
     [TestMethod]
     public async Task ListFiles_OAuth_Prefix()
     {
-        var listing = new List<ListingStructure>() { ListingStructure.Flat, ListingStructure.Hierarchical };
+        var recursiveOptions = new List<bool>() { true, false };
 
         var source = new Source
         {
             ConnectionMethod = ConnectionMethod.OAuth2,
-            ApplicationID = _appID,
-            TenantID = _tenantID,
-            ClientSecret = _clientSecret,
-            StorageAccountName = _storageAccount,
-            ContainerName = _containerName,
+            ApplicationID = appID,
+            TenantID = tenantID,
+            ClientSecret = clientSecret,
+            StorageAccountName = storageAccount,
+            ContainerName = containerName,
         };
 
-        foreach (var structure in listing)
+        foreach (var isRecursive in recursiveOptions)
         {
             var options = new Options
             {
                 DictionaryName = "Temp",
-                ListingStructure = structure
+                Recursive = isRecursive,
             };
 
             var result = await AzureDataLake.ListFiles(source, options, default);

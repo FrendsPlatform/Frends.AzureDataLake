@@ -9,18 +9,17 @@ using System.ComponentModel.DataAnnotations;
 public class Options
 {
     /// <summary>
-    /// List Azure Data Lake files in a flat listing structure or hierarchically.
-    /// Hierarchical listing returns container's files and subdirectories names such as file.txt or directoryname/. 
-    /// Flat listing does the same as hierarchical listing but also returns files in those subdirectories such as directoryname/file.txt.
+    /// If true, list files and directories with files in those subdirectories such as directoryname/file.txt. 
+    /// If false, list only top-level files and directories.
     /// </summary>
-    /// <example>ListingStructure.Flat</example>
-    [DefaultValue(ListingStructure.Flat)]
-    public ListingStructure ListingStructure { get; set; }
+    /// <example>true</example>
+    [DefaultValue(true)]
+    public bool Recursive { get; set; }
 
     /// <summary>
     /// Specify a dictionary name to return files and dictionaries within directory. 
     /// </summary>
     /// <example>test</example>
-    [UIHint(nameof(ListingStructure), "", ListingStructure.Hierarchical)]
+    [UIHint(nameof(Recursive), "", false)]
     public string DictionaryName { get; set; }
 }

@@ -15,19 +15,3 @@ public enum ConnectionMethod
     /// </summary>
     OAuth2
 }
-
-/// <summary>
-/// Listing options.
-/// </summary>
-public enum ListingStructure
-{
-    /// <summary>
-    /// Flat listing structure.
-    /// </summary>
-    Flat,
-
-    /// <summary>
-    /// Hierarchical listing structure.
-    /// </summary>
-    Hierarchical
-}

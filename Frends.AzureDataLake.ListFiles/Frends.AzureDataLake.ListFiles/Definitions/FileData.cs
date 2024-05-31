@@ -2,14 +2,17 @@
 
 using System;
 
+/// <summary>
+/// Represents a file or directory in Azure Data Lake.
+/// </summary>
 public class FileData
 {
 
     /// <summary>
-    /// The type of the item (either "File" or "Directory").
+    /// Indicates whether the item is a directory. Returns true if the item is a directory, otherwise false
     /// </summary>
-    /// <example>File</example>
-    public string Type { get; set; }
+    /// <example>true</example>
+    public bool IsDirectory { get; set; }
 
     /// <summary>
     /// Azure Data Lake file name.

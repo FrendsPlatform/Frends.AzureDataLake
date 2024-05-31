@@ -54,7 +54,7 @@ public class Source
     public string ClientSecret { get; set; }
 
     /// <summary>
-    /// Name of the Azure Data Lake container where the data will be uploaded.
+    /// Name of the Azure Data Lake container.
     /// Naming: lowercase
     /// Valid chars: alphanumeric and dash, but cannot start or end with dash.
     /// </summary>
@@ -62,13 +62,4 @@ public class Source
     [DefaultValue("test-container")]
     [DisplayFormat(DataFormatString = "Text")]
     public string ContainerName { get; set; }
-
-    /// <summary>
-    /// Name of the Azure Data Lake directory specifies the path where the data will be uploaded.
-    /// Valid chars: alphanumeric.
-    /// </summary>
-    /// <example>directory_name</example>
-    [DefaultValue("directory_name")]
-    [DisplayFormat(DataFormatString = "Text")]
-    public string DirectoryName { get; set; }
 }

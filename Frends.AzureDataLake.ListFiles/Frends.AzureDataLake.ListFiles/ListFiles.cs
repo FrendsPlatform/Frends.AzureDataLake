@@ -30,45 +30,25 @@ public class AzureDataLake
 
     private static async Task<List<FileData>> ListFileHandler(Source source, Options options, CancellationToken cancellationToken)
     {
-        var fileSystemClient = await GetDataLakeContainer(source, cancellationToken);
+        var fileSystemClient = GetDataLakeContainer(source, cancellationToken);
         var fileListing = new List<FileData>();
 
         try
         {
-            if (options.ListingStructure == ListingStructure.Flat)
+            await foreach (var item in fileSystemClient.GetPathsAsync(
+                path: options.DictionaryName,
+                recursive: options.Recursive,  // Recursively list all files and directories
+                cancellationToken: cancellationToken))
             {
-                await foreach (var item in fileSystemClient.GetPathsAsync(
-                    path: options.DictionaryName,
-                    recursive: true,  // Recursively list all files and directories
-                    cancellationToken: cancellationToken))
-                {
-                    cancellationToken.ThrowIfCancellationRequested();
+                cancellationToken.ThrowIfCancellationRequested();
 
-                    fileListing.Add(new FileData
-                    {
-                        Type = (item.IsDirectory ?? false) ? "Directory" : "File",
-                        URL = $"{fileSystemClient.Uri}/{item.Name}",
-                        Name = item.Name,
-                    });
-                }
-            }
-            else
-            {
-                await foreach (var item in fileSystemClient.GetPathsAsync(
-                    path: options.DictionaryName,
-                    recursive: false,  // Only list top-level files and directories
-                    cancellationToken: cancellationToken))
+                fileListing.Add(new FileData
                 {
-                    cancellationToken.ThrowIfCancellationRequested();
-
-                    fileListing.Add(new FileData
-                    {
-                        Type = (item.IsDirectory ?? false) ? "Directory" : "File",
-                        URL = $"{fileSystemClient.Uri}/{item.Name}",
-                        Name = item.Name,
-                    });
-                }
-            }
+                    IsDirectory = item.IsDirectory ?? false,
+                    URL = $"{fileSystemClient.Uri}/{item.Name}",
+                    Name = item.Name,
+                });
+            }    
             return fileListing;
         }
         catch (Exception ex)
@@ -77,7 +57,7 @@ public class AzureDataLake
         }
     }
 
-    internal static async Task<DataLakeFileSystemClient> GetDataLakeContainer(
+    internal static DataLakeFileSystemClient GetDataLakeContainer(
             Source src,
             CancellationToken token)
     {
