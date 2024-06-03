@@ -48,7 +48,7 @@ public class AzureDataLake
                     URL = $"{fileSystemClient.Uri}/{item.Name}",
                     Name = item.Name,
                 });
-            }    
+            }
             return fileListing;
         }
         catch (Exception ex)
