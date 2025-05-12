@@ -2,7 +2,7 @@
 
 ## [1.3.0] - 2025-05-07
 ### Added
-- [Breaking] Added new Close parameter to control whether the uploaded file is finalized after upload.
+- Added new Close parameter to control whether the uploaded file is finalized after upload.
 - Use the default parameter value ('true') if you want the upload operation to work as before (automatically closing the stream).
 - Set to 'false' if you need to manage the stream lifecycle manually after upload.
 
