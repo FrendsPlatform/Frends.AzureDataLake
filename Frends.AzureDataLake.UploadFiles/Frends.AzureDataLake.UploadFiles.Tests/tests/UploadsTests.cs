@@ -1,6 +1,5 @@
 using System.Threading;
 using System.Threading.Tasks;
-using Azure.Storage.Files.DataLake;
 using Frends.AzureDataLake.UploadFiles.Definitions;
 using Frends.AzureDataLake.UploadFiles.Tests.asserts;
 
@@ -148,21 +147,4 @@ public class UploadsTests : TestsBase
         );
         Assert.IsTrue(result.Success);
     }
-
-    [TestMethod]
-    public async Task UploadFile_WithCloseTrue_ShouldCompleteSuccessfully()
-    {
-        await CreateContainer();
-        var input = new Input
-        {
-            Source = new Source { SourceDirectory = testDirectory, SourceFilePattern = "foobar4.txt" },
-            Destination = new Destination { ConnectionString = connectionString, ContainerName = containerName },
-            Close = true
-        };
-
-        var result = await AzureDataLake.UploadFiles(input, CancellationToken.None);
-
-        Assert.IsTrue(result.Success);
-    }
-
 }

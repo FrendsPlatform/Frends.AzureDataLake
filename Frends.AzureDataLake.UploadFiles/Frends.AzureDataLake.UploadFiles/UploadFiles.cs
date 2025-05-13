@@ -7,7 +7,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Azure.Identity;
 using Azure.Storage.Files.DataLake;
-using Azure.Storage.Files.DataLake.Models;
 using Frends.AzureDataLake.UploadFiles.Definitions;
 using Frends.AzureDataLake.UploadFiles.Exceptions;
 
@@ -150,14 +149,7 @@ public static class AzureDataLake
             );
 
             if (new FileInfo(srcPath).Length > 0)
-            {
-                DataLakeFileUploadOptions uploadOptions = new DataLakeFileUploadOptions
-                {
-                    Close = input.Close
-                };
-
-                await fileClient.UploadAsync(srcPath, uploadOptions, token);
-            }
+                await fileClient.UploadAsync(srcPath, true, token);
 
             paralelResults.TryAdd(srcPath, fileClient.Uri.AbsoluteUri);
         }
