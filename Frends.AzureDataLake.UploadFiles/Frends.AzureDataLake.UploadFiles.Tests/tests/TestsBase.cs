@@ -50,6 +50,7 @@ public class TestsBase
         File.Create(Path.Combine(testDirectory, "foobar2.txt"));
         Directory.CreateDirectory(Path.Combine(testDirectory, "nestedDir"));
         File.Create(Path.Combine(testDirectory, "nestedDir", "foobar3.txt"));
+        File.WriteAllText(Path.Combine(testDirectory, "foobar4.txt"), "test");
     }
 
     [AssemblyCleanup]

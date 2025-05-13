@@ -36,4 +36,12 @@ public class Input
     /// <example>true</example>
     [DefaultValue(true)]
     public bool UploadFilesRecursively { get; set; } = true;
+
+    /// <summary>
+    /// Specifies whether the uploaded file should be finalized (closed) after upload.
+    /// When true, it triggers a "final update" event in Azure Storage Events.
+    /// </summary>
+    /// <example>true</example>
+    [DefaultValue(true)]
+    public bool Close { get; set; } = true;
 }
