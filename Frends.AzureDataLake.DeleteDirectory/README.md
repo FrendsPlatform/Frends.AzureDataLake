@@ -1,5 +1,5 @@
 # Frends.AzureDataLake.DeleteDirectory
-Frends Task for deleting a directory in Azure Data Lake.
+Frends Task for deleting a directory in Azure Data Lake container.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![Build](https://github.com/FrendsPlatform/Frends.DeleteDirectory/actions/workflows/Frends.AzureDataLake.DeleteDirectory_build_and_test_on_main.yml/badge.svg)](https://github.com/FrendsPlatform/Frends.DeleteDirectory/actions)

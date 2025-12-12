@@ -14,7 +14,7 @@ using Definitions;
 public static class AzureDataLake
 {
     /// <summary>
-    /// Frends Task for deleteing a directory in Azure Data Lake container.
+    /// Frends Task for deleting a directory in Azure Data Lake container.
     /// [Documentation](https://tasks.frends.com/tasks/frends-tasks/Frends.AzureDataLake.DeleteDirectory)
     /// </summary>
     /// <param name="input">Input parameters.</param>
