@@ -13,7 +13,7 @@
 	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
 	  <Description>Frends Task for deleting a directory in Azure Data Lake container.</Description>
 	  <PackageProjectUrl>https://frends.com/</PackageProjectUrl>
-	  <RepositoryUrl>https://github.com/FrendsPlatform/Frends.Frends.AzureDataLake.DeleteDirectory/tree/main/Frends.AzureDataLake.DeleteDirectory</RepositoryUrl>
+	  <RepositoryUrl>https://github.com/FrendsPlatform/Frends.AzureDataLake/tree/main/Frends.AzureDataLake.DeleteDirectory</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
