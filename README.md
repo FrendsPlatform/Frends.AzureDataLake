@@ -4,7 +4,12 @@ Frends Tasks for Azure Data Lake operations.
 
 # Tasks
 
-- [Frends.AzureBlobStorage.CreateContainer](Frends.AzureBlobStorage.CreateContainer/README.md)
+- [Frends.AzureDataLake.CreateContainer](Frends.AzureDataLake.CreateContainer/README.md)
+- [Frends.AzureDataLake.DeleteContainer](Frends.AzureDataLake.DeleteContainer/README.md)
+- [Frends.AzureDataLake.DeleteDirectory](Frends.AzureDataLake.DeleteDirectory/README.md)
+- [Frends.AzureDataLake.DeleteFiles](Frends.AzureDataLake.DeleteFiles/README.md)
+- [Frends.AzureDataLake.DownloadFiles](Frends.AzureDataLake.DownloadFiles/README.md)
+- [Frends.AzureDataLake.UploadFiles](Frends.AzureDataLake.UploadFiles/README.md)
 
 # Contributing
 When contributing to this repository, please first discuss the change you wish to make via issue, email, or any other method with the owners of this repository before making a change.
