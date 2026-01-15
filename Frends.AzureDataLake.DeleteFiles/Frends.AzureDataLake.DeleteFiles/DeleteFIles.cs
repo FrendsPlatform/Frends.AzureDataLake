@@ -40,7 +40,7 @@ public static class AzureDataLake
             var container = await GetDataLakeContainer(input, token);
             var parallelResults = new ConcurrentBag<string>();
             var allContainerFiles = container
-                .GetPaths(recursive: true, cancellationToken: token)
+                .GetPaths("/", true, false, cancellationToken: token)
                 .Where(x => (bool)!x.IsDirectory)
                 .Select(x => x.Name);
             var matches = new Matcher()
