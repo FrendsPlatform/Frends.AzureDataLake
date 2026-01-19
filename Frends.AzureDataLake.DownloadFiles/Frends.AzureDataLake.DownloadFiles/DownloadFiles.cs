@@ -44,7 +44,7 @@ public static class AzureDataLake
             var container = await GetDataLakeContainer(source, token);
             var paralelResults = new ConcurrentDictionary<string, string>();
             var allSrcFiles = container
-                .GetPaths(recursive: true, cancellationToken: token)
+                .GetPaths("/", true, false, cancellationToken: token)
                 .Where(x => (bool)!x.IsDirectory)
                 .Select(x => x.Name);
             var matches = new Matcher().AddInclude($"**/{source.FilePattern}").Match(allSrcFiles);
@@ -136,6 +136,7 @@ public static class AzureDataLake
 
         if (!await container.ExistsAsync(token))
             throw new ContainerNotFoundException(src.ContainerName);
+
         return container;
     }
 
@@ -148,11 +149,13 @@ public static class AzureDataLake
     {
         var fileClient = container.GetFileClient(sourcePath);
         var destinationPath = Path.Combine(destination.Directory, sourcePath);
+
         if (!destination.Overwrite && File.Exists(destinationPath))
             return (fileClient.Uri.AbsoluteUri, "File already exists");
         Directory.CreateDirectory(Directory.GetParent(destinationPath).FullName);
         using FileStream downloadStream = File.Create(destinationPath);
         await fileClient.ReadToAsync(downloadStream, cancellationToken: token);
+
         return (fileClient.Uri.AbsoluteUri, destinationPath);
     }
 }
