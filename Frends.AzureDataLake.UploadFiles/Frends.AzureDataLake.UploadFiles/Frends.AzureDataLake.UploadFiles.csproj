@@ -10,7 +10,7 @@
         <PackageTags>Frends</PackageTags>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <Description>Frends Task for creating a container to Azure Data Lake.</Description>
+        <Description>Frends Task for uploading files to Azure Data Lake.</Description>
         <PackageProjectUrl>https://frends.com/</PackageProjectUrl>
         <RepositoryUrl>https://github.com/FrendsPlatform/Frends.AzureDataLake/tree/main/Frends.AzureDataLake.UploadFiles</RepositoryUrl>
     </PropertyGroup>
