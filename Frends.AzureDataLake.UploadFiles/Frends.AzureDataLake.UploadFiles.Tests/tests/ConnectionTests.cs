@@ -16,17 +16,9 @@ public class ConnectionTests : TestsBase
     public async Task ThrowIfContainerDoesNotExist()
     {
         await AzureDataLake.UploadFiles(
-            new Input
-            {
-                Source = new Source(),
-                Destination = new Destination
-                {
-                    ConnectionString = connectionString,
-                    ContainerName = containerName
-                },
-
-                Options = new Options(),
-            },
+            new Input { ContainerName = containerName },
+            new Connection { ConnectionString = connectionString },
+            new Options(),
             new CancellationToken()
         );
     }
@@ -38,17 +30,9 @@ public class ConnectionTests : TestsBase
         var wrongConnString =
             "DefaultEndpointsProtocol=https;AccountName=frendstemplates;AccountKey=000000000wrongKey00000000000000000000000000000000000000000000000000000000000000000000000;EndpointSuffix=core.windows.net";
         await AzureDataLake.UploadFiles(
-            new Input
-            {
-                Source = new Source(),
-                Destination = new Destination
-                {
-                    ConnectionString = wrongConnString,
-                    ContainerName = containerName
-                },
-
-                Options = new Options(),
-            },
+            new Input { ContainerName = containerName },
+            new Connection { ConnectionString = wrongConnString },
+            new Options(),
             new CancellationToken()
         );
     }
@@ -58,20 +42,16 @@ public class ConnectionTests : TestsBase
     public async Task ThrowIfWrongOauthCredentials()
     {
         await AzureDataLake.UploadFiles(
-            new Input
+            new Input { ContainerName = containerName },
+            new Connection
             {
-                Source = new Source(),
-                Destination = new Destination
-                {
-                    ConnectionMethod = ConnectionMethod.OAuth2,
-                    ContainerName = containerName,
-                    StorageAccountName = storageAccount,
-                    ApplicationID = appID,
-                    TenantID = tenantID,
-                    ClientSecret = "wrongSecret"
-                },
-                Options = new Options(),
+                AuthenticationMethod = AuthenticationMethod.OAuth2,
+                StorageAccountName = storageAccount,
+                ApplicationId = appID,
+                TenantId = tenantID,
+                ClientSecret = "wrongSecret"
             },
+            new Options(),
             new CancellationToken()
         );
     }
@@ -82,16 +62,9 @@ public class ConnectionTests : TestsBase
     {
         var wrongConnectionString = $"xxx{connectionString}";
         await AzureDataLake.UploadFiles(
-            new Input
-            {
-                Source = new Source(),
-                Destination = new Destination
-                {
-                    ConnectionString = wrongConnectionString,
-                    ContainerName = containerName
-                },
-                Options = new Options(),
-            },
+            new Input { ContainerName = containerName },
+            new Connection { ConnectionString = wrongConnectionString },
+            new Options(),
             new CancellationToken()
         );
     }
@@ -101,18 +74,9 @@ public class ConnectionTests : TestsBase
     public async Task ThrowIfParametersNotValid()
     {
         await AzureDataLake.UploadFiles(
-            new Input
-            {
-                Source = new Source(),
-
-                Destination = new Destination
-                {
-                    ConnectionString = connectionString,
-                    ContainerName = ""
-                },
-
-                Options = new Options(),
-            },
+            new Input { ContainerName = "" },
+            new Connection { ConnectionString = connectionString },
+            new Options(),
             new CancellationToken()
         );
     }

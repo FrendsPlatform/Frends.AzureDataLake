@@ -1,7 +1,7 @@
 namespace Frends.AzureDataLake.UploadFiles.Definitions;
 
 #pragma warning disable CS1591 // self explanatory
-public enum ConnectionMethod
+public enum AuthenticationMethod
 {
     ConnectionString,
     OAuth2

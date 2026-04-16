@@ -8,30 +8,41 @@ namespace Frends.AzureDataLake.UploadFiles.Definitions;
 public class Input
 {
     /// <summary>
-    /// Specify source files parameters
+    /// Upload all files from the given directory.
     /// </summary>
-    public Source Source { get; set; }
+    /// <example>c:\temp</example>
+    public string SourceDirectory { get; set; }
 
     /// <summary>
-    /// Specify destination Data Lake parameters
+    /// The search string used to match against the names of files in the path.
+    /// Supports wildcard characters (* and ?), but not regular expressions.
     /// </summary>
-    public Destination Destination { get; set; }
+    /// <example>*.*, Search*.*, *.xml, foobar.txt</example>
+    public string FilePattern { get; set; }
 
     /// <summary>
-    /// Specify options how we should handle data and errors
+    /// Name of the Azure Data Lake container.
+    /// Task will convert all letters to lowercase.
     /// </summary>
-    public Options Options { get; set; }
+    /// <example>examplecontainer</example>
+    public string ContainerName { get; set; }
 
     /// <summary>
-    /// How the existing file will be handled.
+    /// Name of the target folder in the container. If left empty, files will be uploaded directly to the container.
     /// </summary>
-    /// <example>true</example>
-    [DefaultValue(false)]
-    public bool Overwrite { get; set; } = false;
+    /// <example>ExampleDir</example>
+    public string TargetDirectory { get; set; }
+
+    /// <summary>
+    /// Specifies how an existing file in the destination should be handled.
+    /// </summary>
+    /// <example>HandleExistingFile.Error</example>
+    [DefaultValue(HandleExistingFile.Error)]
+    public HandleExistingFile ActionOnExistingFile { get; set; } = HandleExistingFile.Error;
 
     /// <summary>
     /// True: Upload all files matching pattern, even in nested directories.
-    /// False: Upload files matching pattern, which are only directly in Source Directory
+    /// False: Upload files matching pattern only directly in Source Directory.
     /// </summary>
     /// <example>true</example>
     [DefaultValue(true)]

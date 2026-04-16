@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Frends.AzureDataLake.UploadFiles.Definitions;
@@ -12,32 +11,41 @@ namespace Frends.AzureDataLake.UploadFiles.Tests.tests;
 public class OptionsTests : TestsBase
 {
     [TestMethod]
-    public async Task ReturnsMessageWhenErrorOccures()
+    public async Task ReturnsErrorWhenErrorOccurs()
     {
         var result = await AzureDataLake.UploadFiles(
-            new Input
-            {
-                Source = new Source(),
-                Destination = new Destination(),
-                Options = new Options { ThrowErrorOnFailure = false },
-            },
+            new Input(),
+            new Connection(),
+            new Options { ThrowErrorOnFailure = false },
             new CancellationToken()
         );
         Assert.IsFalse(result.Success);
-        Assert.IsNotNull(result.ErrorMessage);
+        Assert.IsNotNull(result.Error);
+        Assert.IsNotNull(result.Error.Message);
+    }
+
+    [TestMethod]
+    public async Task ReturnsCustomErrorMessageOnFailure()
+    {
+        var result = await AzureDataLake.UploadFiles(
+            new Input(),
+            new Connection(),
+            new Options { ThrowErrorOnFailure = false, ErrorMessageOnFailure = "Custom error" },
+            new CancellationToken()
+        );
+        Assert.IsFalse(result.Success);
+        Assert.AreEqual("Custom error", result.Error.Message);
+        Assert.IsNotNull(result.Error.AdditionalInfo);
     }
 
     [TestMethod]
     [ExpectedException(typeof(Exception), AllowDerivedTypes = true)]
-    public async Task ThrowIfErrorOccures()
+    public async Task ThrowIfErrorOccurs()
     {
         await AzureDataLake.UploadFiles(
-            new Input
-            {
-                Source = new Source(),
-                Destination = new Destination(),
-                Options = new Options { ThrowErrorOnFailure = true },
-            },
+            new Input(),
+            new Connection(),
+            new Options { ThrowErrorOnFailure = true },
             new CancellationToken()
         );
     }
@@ -50,19 +58,13 @@ public class OptionsTests : TestsBase
         var result = await AzureDataLake.UploadFiles(
             new Input
             {
-                Source = new Source
-                {
-                    SourceDirectory = testDirectory,
-                    SourceFilePattern = "foobar1.txt"
-                },
-                Destination = new Destination
-                {
-                    ConnectionString = connectionString,
-                    ContainerName = containerName
-                },
-                Options = new Options(),
-                Overwrite = true
+                SourceDirectory = testDirectory,
+                FilePattern = "foobar1.txt",
+                ContainerName = containerName,
+                ActionOnExistingFile = HandleExistingFile.Overwrite
             },
+            new Connection { ConnectionString = connectionString },
+            new Options(),
             new CancellationToken()
         );
         Assert.That.FileExistsInContainer(connectionString, containerName, "foobar1.txt");
@@ -78,50 +80,36 @@ public class OptionsTests : TestsBase
         await AzureDataLake.UploadFiles(
             new Input
             {
-                Source = new Source
-                {
-                    SourceDirectory = testDirectory,
-                    SourceFilePattern = "foobar1.txt"
-                },
-                Destination = new Destination
-                {
-                    ConnectionString = connectionString,
-                    ContainerName = containerName
-                },
-                Options = new Options { ThrowErrorOnFailure = true },
-                Overwrite = false
+                SourceDirectory = testDirectory,
+                FilePattern = "foobar1.txt",
+                ContainerName = containerName,
+                ActionOnExistingFile = HandleExistingFile.Error
             },
+            new Connection { ConnectionString = connectionString },
+            new Options { ThrowErrorOnFailure = true },
             new CancellationToken()
         );
     }
 
     [TestMethod]
-    public async Task ReturnMessageIfFileAlreadyExists()
+    public async Task SkipFileIfAlreadyExists_WhenThrowErrorOnFailureIsFalse()
     {
         await CreateContainer();
         AddFileToContainer("foobar1.txt");
         var result = await AzureDataLake.UploadFiles(
             new Input
             {
-                Source = new Source
-                {
-                    SourceDirectory = testDirectory,
-                    SourceFilePattern = "foobar1.txt"
-                },
-
-                Destination = new Destination
-                {
-                    ConnectionString = connectionString,
-                    ContainerName = containerName
-                },
-
-                Options = new Options { ThrowErrorOnFailure = false },
-                Overwrite = false
+                SourceDirectory = testDirectory,
+                FilePattern = "foobar1.txt",
+                ContainerName = containerName,
+                ActionOnExistingFile = HandleExistingFile.Error
             },
+            new Connection { ConnectionString = connectionString },
+            new Options { ThrowErrorOnFailure = false },
             new CancellationToken()
         );
         Assert.That.FileExistsInContainer(connectionString, containerName, "foobar1.txt");
         Assert.IsTrue(result.Success);
-        Assert.AreEqual("File already exists", result.Data.Values.First());
+        Assert.AreEqual(0, result.Files.Count);
     }
 }

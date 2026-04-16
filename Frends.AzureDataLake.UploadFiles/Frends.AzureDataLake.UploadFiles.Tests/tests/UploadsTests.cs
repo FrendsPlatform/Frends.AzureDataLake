@@ -16,20 +16,12 @@ public class UploadsTests : TestsBase
         var result = await AzureDataLake.UploadFiles(
             new Input
             {
-                Source = new Source
-                {
-                    SourceDirectory = testDirectory,
-                    SourceFilePattern = "foobar1.txt"
-                },
-
-                Destination = new Destination
-                {
-                    ConnectionString = connectionString,
-                    ContainerName = containerName
-                },
-
-                Options = new Options(),
+                SourceDirectory = testDirectory,
+                FilePattern = "foobar1.txt",
+                ContainerName = containerName
             },
+            new Connection { ConnectionString = connectionString },
+            new Options(),
             new CancellationToken()
         );
         Assert.That.FileExistsInContainer(connectionString, containerName, "foobar1.txt");
@@ -43,23 +35,19 @@ public class UploadsTests : TestsBase
         var result = await AzureDataLake.UploadFiles(
             new Input
             {
-                Source = new Source
-                {
-                    SourceDirectory = testDirectory,
-                    SourceFilePattern = "foobar1.txt"
-                },
-
-                Destination = new Destination
-                {
-                    ConnectionMethod = ConnectionMethod.OAuth2,
-                    ContainerName = containerName,
-                    StorageAccountName = storageAccount,
-                    ApplicationID = appID,
-                    TenantID = tenantID,
-                    ClientSecret = clientSecret
-                },
-                Options = new Options(),
+                SourceDirectory = testDirectory,
+                FilePattern = "foobar1.txt",
+                ContainerName = containerName
             },
+            new Connection
+            {
+                AuthenticationMethod = AuthenticationMethod.OAuth2,
+                StorageAccountName = storageAccount,
+                ApplicationId = appID,
+                TenantId = tenantID,
+                ClientSecret = clientSecret
+            },
+            new Options(),
             new CancellationToken()
         );
         Assert.That.FileExistsInContainer(connectionString, containerName, "foobar1.txt");
@@ -73,15 +61,13 @@ public class UploadsTests : TestsBase
         var result = await AzureDataLake.UploadFiles(
             new Input
             {
-                Source = new Source { SourceDirectory = testDirectory, SourceFilePattern = "*" },
-                Destination = new Destination
-                {
-                    ConnectionString = connectionString,
-                    ContainerName = containerName
-                },
-                Options = new Options(),
+                SourceDirectory = testDirectory,
+                FilePattern = "*",
+                ContainerName = containerName,
                 UploadFilesRecursively = true
             },
+            new Connection { ConnectionString = connectionString },
+            new Options(),
             new CancellationToken()
         );
         Assert.That.FileExistsInContainer(connectionString, containerName, "foobar1.txt");
@@ -97,15 +83,13 @@ public class UploadsTests : TestsBase
         var result = await AzureDataLake.UploadFiles(
             new Input
             {
-                Source = new Source { SourceDirectory = testDirectory, SourceFilePattern = "*" },
-                Destination = new Destination
-                {
-                    ConnectionString = connectionString,
-                    ContainerName = containerName
-                },
-                Options = new Options(),
+                SourceDirectory = testDirectory,
+                FilePattern = "*",
+                ContainerName = containerName,
                 UploadFilesRecursively = false
             },
+            new Connection { ConnectionString = connectionString },
+            new Options(),
             new CancellationToken()
         );
         Assert.That.FileExistsInContainer(connectionString, containerName, "foobar1.txt");
@@ -125,20 +109,13 @@ public class UploadsTests : TestsBase
         var result = await AzureDataLake.UploadFiles(
             new Input
             {
-                Source = new Source
-                {
-                    SourceDirectory = testDirectory,
-                    SourceFilePattern = "foobar1.txt"
-                },
-
-                Destination = new Destination
-                {
-                    ConnectionString = connectionString,
-                    ContainerName = containerName,
-                    DestinationFolderName = "SpecialFolder"
-                },
-                Options = new Options(),
+                SourceDirectory = testDirectory,
+                FilePattern = "foobar1.txt",
+                ContainerName = containerName,
+                TargetDirectory = "SpecialFolder"
             },
+            new Connection { ConnectionString = connectionString },
+            new Options(),
             new CancellationToken()
         );
         Assert.That.FileExistsInContainer(
@@ -153,16 +130,18 @@ public class UploadsTests : TestsBase
     public async Task UploadFile_WithCloseTrue_ShouldCompleteSuccessfully()
     {
         await CreateContainer();
-        var input = new Input
-        {
-            Source = new Source { SourceDirectory = testDirectory, SourceFilePattern = "foobar4.txt" },
-            Destination = new Destination { ConnectionString = connectionString, ContainerName = containerName },
-            Close = true
-        };
-
-        var result = await AzureDataLake.UploadFiles(input, CancellationToken.None);
-
+        var result = await AzureDataLake.UploadFiles(
+            new Input
+            {
+                SourceDirectory = testDirectory,
+                FilePattern = "foobar4.txt",
+                ContainerName = containerName,
+                Close = true
+            },
+            new Connection { ConnectionString = connectionString },
+            new Options(),
+            CancellationToken.None
+        );
         Assert.IsTrue(result.Success);
     }
-
 }
