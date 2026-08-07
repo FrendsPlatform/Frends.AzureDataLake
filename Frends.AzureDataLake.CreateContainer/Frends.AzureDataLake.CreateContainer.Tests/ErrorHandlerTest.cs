@@ -2,11 +2,11 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Frends.AzureDataLake.CreateContainer.Definitions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Frends.AzureDataLake.CreateContainer.Tests;
 
-[TestClass]
+[TestFixture]
 public class ErrorHandlerTest
 {
     private const string CustomErrorMessage = "CustomErrorMessage";
@@ -14,35 +14,34 @@ public class ErrorHandlerTest
     private static Input InvalidInput =>
         new() { ConnectionString = "Not valid parameter", ContainerName = "Valid name" };
 
-    [TestMethod]
-    [ExpectedException(typeof(Exception), AllowDerivedTypes = true)]
-    public async Task Should_Throw_Error_When_ThrowErrorOnFailure_Is_True()
+    [Test]
+    public void Should_Throw_Error_When_ThrowErrorOnFailure_Is_True()
     {
-        await AzureDataLake.CreateContainer(InvalidInput, new Options(), CancellationToken.None);
+        Assert.ThrowsAsync<Exception>(() =>
+            AzureDataLake.CreateContainer(InvalidInput, new Options(), CancellationToken.None));
     }
 
-    [TestMethod]
+    [Test]
     public async Task Should_Return_Failed_Result_When_ThrowErrorOnFailure_Is_False()
     {
         var options = new Options { ThrowErrorOnFailure = false };
         var result = await AzureDataLake.CreateContainer(InvalidInput, options, CancellationToken.None);
-        Assert.IsFalse(result.Success);
-        Assert.IsNotNull(result.Error);
-        Assert.IsFalse(string.IsNullOrEmpty(result.Error.Message));
+        Assert.That(result.Success, Is.False);
+        Assert.That(result.Error, Is.Not.Null);
+        Assert.That(result.Error.Message, Is.Not.Empty);
     }
 
-    [TestMethod]
-    public async Task Should_Use_Custom_ErrorMessageOnFailure()
+    [Test]
+    public void Should_Use_Custom_ErrorMessageOnFailure()
     {
         var options = new Options
         {
             ThrowErrorOnFailure = true,
             ErrorMessageOnFailure = CustomErrorMessage
         };
-        var ex = await Assert.ThrowsExceptionAsync<Exception>(
-            () => AzureDataLake.CreateContainer(InvalidInput, options, CancellationToken.None)
-        );
-        Assert.IsNotNull(ex);
-        StringAssert.Contains(ex.Message, CustomErrorMessage);
+        var ex = Assert.ThrowsAsync<Exception>(() =>
+            AzureDataLake.CreateContainer(InvalidInput, options, CancellationToken.None));
+        Assert.That(ex, Is.Not.Null);
+        Assert.That(ex.Message, Does.Contain(CustomErrorMessage));
     }
 }
