@@ -2,16 +2,20 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Frends.AzureDataLake.DeleteContainer.Definitions;
+using NUnit.Framework;
+using NAssert = NUnit.Framework.Assert;
 
 namespace Frends.AzureDataLake.DeleteContainer.Tests;
 
-[TestClass]
+[TestFixture]
 public class ErrorHandlerTests
 {
     private const string CustomErrorMessage = "CustomErrorMessage";
+    private const string FakeConnectionString =
+        "DefaultEndpointsProtocol=https;AccountName=fake;AccountKey=ZmFrZWtleQ==;EndpointSuffix=core.windows.net";
 
-    [TestMethod]
-    public async Task Should_Throw_Error_When_ThrowErrorOnFailure_Is_True()
+    [Test]
+    public void Should_Throw_Error_When_ThrowErrorOnFailure_Is_True()
     {
         var options = new Options
         {
@@ -19,17 +23,16 @@ public class ErrorHandlerTests
             ErrorMessageOnFailure = string.Empty,
         };
 
-        // Trigger a runtime error by using a malformed connection string
-        await Assert.ThrowsExceptionAsync<Exception>(async () =>
+        NAssert.ThrowsAsync<Exception>(async () =>
             await AzureDataLake.DeleteContainer(
-                new Input { ConnectionString = "DefaultEndpointsProtocol=https;AccountName=fake;AccountKey=ZmFrZWtleQ==;EndpointSuffix=core.windows.net", ContainerName = "test" },
+                new Input { ConnectionString = FakeConnectionString, ContainerName = "test" },
                 options,
                 CancellationToken.None
             )
         );
     }
 
-    [TestMethod]
+    [Test]
     public async Task Should_Return_Failed_Result_When_ThrowErrorOnFailure_Is_False()
     {
         var options = new Options
@@ -39,17 +42,17 @@ public class ErrorHandlerTests
         };
 
         var result = await AzureDataLake.DeleteContainer(
-            new Input { ConnectionString = "DefaultEndpointsProtocol=https;AccountName=fake;AccountKey=ZmFrZWtleQ==;EndpointSuffix=core.windows.net", ContainerName = "test" },
+            new Input { ConnectionString = FakeConnectionString, ContainerName = "test" },
             options,
             CancellationToken.None
         );
 
-        Assert.IsFalse(result.Success);
-        Assert.IsNotNull(result.Error);
+        NAssert.That(result.Success, Is.False);
+        NAssert.That(result.Error, Is.Not.Null);
     }
 
-    [TestMethod]
-    public async Task Should_Use_Custom_ErrorMessageOnFailure()
+    [Test]
+    public void Should_Use_Custom_ErrorMessageOnFailure()
     {
         var options = new Options
         {
@@ -57,14 +60,15 @@ public class ErrorHandlerTests
             ErrorMessageOnFailure = CustomErrorMessage,
         };
 
-        var ex = await Assert.ThrowsExceptionAsync<Exception>(async () =>
+        var ex = NAssert.ThrowsAsync<Exception>(async () =>
             await AzureDataLake.DeleteContainer(
-                new Input { ConnectionString = "DefaultEndpointsProtocol=https;AccountName=fake;AccountKey=ZmFrZWtleQ==;EndpointSuffix=core.windows.net", ContainerName = "test" },
+                new Input { ConnectionString = FakeConnectionString, ContainerName = "test" },
                 options,
                 CancellationToken.None
             )
         );
 
-        Assert.IsTrue(ex.Message.Contains(CustomErrorMessage));
+        NAssert.That(ex, Is.Not.Null);
+        NAssert.That(ex.Message, Does.Contain(CustomErrorMessage));
     }
 }
