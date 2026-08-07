@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.4.0] - 2026-08-07
+
+### Changed
+
+- Upgraded target framework from .NET 6 to .NET 8.
+- Added `ThrowErrorOnFailure` and `ErrorMessageOnFailure` options: you can now control whether the task throws an exception on failure or returns a result with error details.
+- The task result now includes `Success` and `Error` properties to reflect the outcome of the operation more clearly.
+
 ## [1.3.0] - 2026-01-15
 
 ### Changed

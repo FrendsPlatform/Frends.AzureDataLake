@@ -70,14 +70,15 @@ public class UnitTests
     }
 
     [TestMethod]
-    [ExpectedException(typeof(ContainerNotFoundException))]
     public async Task DeleteContainerWhenDoesNotExistWithExceptionOptionEnabled()
     {
         Assert.That.ContainerDoesNotExist(_connectionString, _containerName);
-        await AzureDataLake.DeleteContainer(
-            new Input { ConnectionString = _connectionString, ContainerName = _containerName },
-            new Options { ThrowErrorIfContainerDoesNotExist = true },
-            new CancellationToken()
+        await Assert.ThrowsExceptionAsync<Exception>(async () =>
+            await AzureDataLake.DeleteContainer(
+                new Input { ConnectionString = _connectionString, ContainerName = _containerName },
+                new Options { ThrowErrorIfContainerDoesNotExist = true },
+                new CancellationToken()
+            )
         );
     }
 
@@ -135,7 +136,7 @@ public class UnitTests
     }
 
     [TestMethod]
-    [ExpectedException(typeof(AuthenticationFailedException))]
+    [ExpectedException(typeof(Exception))]
     public async Task DeleteContainerThrowsAuthenticationFailedException()
     {
         await AzureDataLake.DeleteContainer(
@@ -154,7 +155,7 @@ public class UnitTests
     }
 
     [TestMethod]
-    [ExpectedException(typeof(FormatException))]
+    [ExpectedException(typeof(Exception))]
     public async Task DeleteContainerThrowsFormatException()
     {
         var wrongConnectionString = $"xxx{_connectionString}";
