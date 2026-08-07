@@ -62,9 +62,9 @@ public static class AzureDataLake
                 if (options.ThrowErrorIfContainerDoesNotExist)
                     throw new ContainerNotFoundException();
                 else
-                    return new Result(false, false, "Container not found.");
+                    return new Result { Success = false, ContainerWasDeleted = false, Message = "Container not found." };
             }
-            return new Result(true, result, "Container deleted successfully.");
+            return new Result { Success = true, ContainerWasDeleted = result, Message = "Container deleted successfully." };
         }
         catch (Exception ex)
         {
