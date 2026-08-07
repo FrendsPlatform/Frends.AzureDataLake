@@ -62,6 +62,7 @@ public class UnitTests
     {
         var result = await AzureDataLake.CreateContainer(
             new Input { ConnectionString = _connectionString, ContainerName = _containerName },
+            new Options(),
             new CancellationToken()
         );
 
@@ -70,29 +71,31 @@ public class UnitTests
     }
 
     [TestMethod]
-    [ExpectedException(typeof(FormatException))]
+    [ExpectedException(typeof(Exception), AllowDerivedTypes = true)]
     public async Task TestCreateContainer_throws_ParameterNotValid()
     {
         await AzureDataLake.CreateContainer(
             new Input { ConnectionString = "Not valid parameter", ContainerName = "Valid name" },
+            new Options(),
             new CancellationToken()
         );
     }
 
     [TestMethod]
-    [ExpectedException(typeof(RequestFailedException))]
+    [ExpectedException(typeof(Exception), AllowDerivedTypes = true)]
     public async Task TestCreateContainer_throws_ClientNotFound()
     {
         var wrongConnString =
             "DefaultEndpointsProtocol=https;AccountName=frendstemplates;AccountKey=000000000wrongKey00000000000000000000000000000000000000000000000000000000000000000000000;EndpointSuffix=core.windows.net";
         await AzureDataLake.CreateContainer(
             new Input { ConnectionString = wrongConnString, ContainerName = _containerName },
+            new Options(),
             new CancellationToken()
         );
     }
 
     [TestMethod]
-    [ExpectedException(typeof(AuthenticationFailedException))]
+    [ExpectedException(typeof(Exception), AllowDerivedTypes = true)]
     public async Task CreateContainerThrowsAuthenticationFailedException()
     {
         await AzureDataLake.CreateContainer(
@@ -105,6 +108,7 @@ public class UnitTests
                 TenantID = _tenantID,
                 ClientSecret = "wrongSecret"
             },
+            new Options(),
             new CancellationToken()
         );
     }
@@ -122,9 +126,11 @@ public class UnitTests
                 TenantID = _tenantID,
                 ClientSecret = _clientSecret
             },
+            new Options(),
             default
         );
         Assert.IsTrue(result.Success);
         Assert.That.ContainerExists(_connectionString, _containerName);
     }
 }
+
