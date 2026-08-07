@@ -68,6 +68,7 @@ public static class AzureDataLake
         }
         catch (Exception ex)
         {
+            if (ex is ContainerNotFoundException) throw;
             return ex.Handle(options);
         }
     }

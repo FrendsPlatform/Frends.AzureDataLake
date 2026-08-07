@@ -70,15 +70,14 @@ public class UnitTests
     }
 
     [TestMethod]
+    [ExpectedException(typeof(ContainerNotFoundException))]
     public async Task DeleteContainerWhenDoesNotExistWithExceptionOptionEnabled()
     {
         Assert.That.ContainerDoesNotExist(_connectionString, _containerName);
-        await Assert.ThrowsExceptionAsync<Exception>(async () =>
-            await AzureDataLake.DeleteContainer(
-                new Input { ConnectionString = _connectionString, ContainerName = _containerName },
-                new Options { ThrowErrorIfContainerDoesNotExist = true },
-                new CancellationToken()
-            )
+        await AzureDataLake.DeleteContainer(
+            new Input { ConnectionString = _connectionString, ContainerName = _containerName },
+            new Options { ThrowErrorIfContainerDoesNotExist = true },
+            new CancellationToken()
         );
     }
 
@@ -136,34 +135,38 @@ public class UnitTests
     }
 
     [TestMethod]
-    [ExpectedException(typeof(Exception))]
     public async Task DeleteContainerThrowsAuthenticationFailedException()
     {
-        await AzureDataLake.DeleteContainer(
-            new Input
-            {
-                ConnectionMethod = ConnectionMethod.OAuth2,
-                ContainerName = _containerName,
-                StorageAccountName = _storageAccount,
-                ApplicationID = _appID,
-                TenantID = _tenantID,
-                ClientSecret = "wrongSecret"
-            },
-            new Options(),
-            new CancellationToken()
+        var ex = await Assert.ThrowsExceptionAsync<Exception>(async () =>
+            await AzureDataLake.DeleteContainer(
+                new Input
+                {
+                    ConnectionMethod = ConnectionMethod.OAuth2,
+                    ContainerName = _containerName,
+                    StorageAccountName = _storageAccount,
+                    ApplicationID = _appID,
+                    TenantID = _tenantID,
+                    ClientSecret = "wrongSecret"
+                },
+                new Options(),
+                new CancellationToken()
+            )
         );
+        Assert.IsInstanceOfType(ex.InnerException, typeof(AuthenticationFailedException));
     }
 
     [TestMethod]
-    [ExpectedException(typeof(Exception))]
     public async Task DeleteContainerThrowsFormatException()
     {
         var wrongConnectionString = $"xxx{_connectionString}";
-        await AzureDataLake.DeleteContainer(
-            new Input { ConnectionString = wrongConnectionString, ContainerName = _containerName },
-            new Options(),
-            new CancellationToken()
+        var ex = await Assert.ThrowsExceptionAsync<Exception>(async () =>
+            await AzureDataLake.DeleteContainer(
+                new Input { ConnectionString = wrongConnectionString, ContainerName = _containerName },
+                new Options(),
+                new CancellationToken()
+            )
         );
+        Assert.IsInstanceOfType(ex.InnerException, typeof(FormatException));
     }
 
     [TestMethod]
