@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.4.0] - 2026-08-07
+
+### Added
+
+- Added an `Options` parameter with `ThrowErrorOnFailure` and `ErrorMessageOnFailure` settings to control error handling behavior. When `ThrowErrorOnFailure` is set to `false`, the task returns a result with `Success = false` and error details instead of throwing an exception.
+- The result now includes `Success` and `Error` properties for easier error checking.
+
+### Changed
+
+- Upgraded target framework from .NET 6 to .NET 8.
+
 ## [1.3.0] - 2026-01-15
 
 ### Changed
