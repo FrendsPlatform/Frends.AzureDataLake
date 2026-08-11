@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.0.0] - 2026-08-11
+
+### Changed
+
+- **Breaking change**: Removed `ThrowErrorIfContainerDoesNotExist` option. Container-not-found is now treated as a regular failure and handled by `ThrowErrorOnFailure` (throws an exception by default, or returns a failed `Result` when set to `false`).
+
 ## [1.4.0] - 2026-08-07
 
 ### Changed
