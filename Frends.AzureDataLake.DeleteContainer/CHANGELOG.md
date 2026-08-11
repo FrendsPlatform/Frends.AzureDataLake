@@ -5,11 +5,6 @@
 ### Changed
 
 - **Breaking change**: Removed `ThrowErrorIfContainerDoesNotExist` option. Container-not-found is now treated as a regular failure and handled by `ThrowErrorOnFailure` (throws an exception by default, or returns a failed `Result` when set to `false`).
-
-## [1.4.0] - 2026-08-07
-
-### Changed
-
 - Upgraded target framework from .NET 6 to .NET 8.
 - Added `ThrowErrorOnFailure` and `ErrorMessageOnFailure` options: you can now control whether the task throws an exception on failure or returns a result with error details.
 - The task result now includes `Success` and `Error` properties to reflect the outcome of the operation more clearly.
