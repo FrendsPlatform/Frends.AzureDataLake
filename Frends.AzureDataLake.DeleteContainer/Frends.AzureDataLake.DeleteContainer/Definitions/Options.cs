@@ -9,13 +9,6 @@ namespace Frends.AzureDataLake.DeleteContainer.Definitions;
 public class Options
 {
     /// <summary>
-    /// Throw an error if container to be deleted doesn't exists.
-    /// </summary>
-    /// <example>false</example>
-    [DefaultValue(false)]
-    public bool ThrowErrorIfContainerDoesNotExist { get; set; }
-
-    /// <summary>
     /// Throw an exception if the task encounters an error.
     /// When false, the task returns a Result with Success = false and Error details instead.
     /// </summary>
