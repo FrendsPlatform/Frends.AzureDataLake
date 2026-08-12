@@ -16,14 +16,6 @@ public class Result
     public bool Success { get; init; } = false;
 
     /// <summary>
-    /// Operation complete.
-    /// Operation is seen as completed if all desired files were deleted.
-    /// </summary>
-    /// <example>true</example>
-    [Obsolete("Use Success instead.")]
-    public bool IsSuccess => Success;
-
-    /// <summary>
     /// This object contains list of deleted files.
     /// </summary>
     /// <example>
@@ -37,6 +29,7 @@ public class Result
     /// <summary>
     /// Error information when Success is false and ThrowErrorOnFailure is false.
     /// </summary>
+    /// 
     public Error Error { get; init; }
 
     /// <summary>
