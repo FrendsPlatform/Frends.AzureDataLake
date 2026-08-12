@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Frends.AzureDataLake.DeleteFiles.Definitions;
@@ -31,12 +30,5 @@ public class Result
     /// </summary>
     /// 
     public Error Error { get; init; }
-
-    /// <summary>
-    /// This object contains the error message if task fails.
-    /// </summary>
-    /// <example>Container ex does not exist</example>
-    [Obsolete("Use Error.Message instead.")]
-    public string ErrorMessage => Error?.Message ?? string.Empty;
 }
 
