@@ -2,7 +2,7 @@
 
 ## [2.0.0] - 2026-08-12
 ### Changed
-- [Breaking Change] The task now targets .NET 8.
+- The task now targets .NET 8.
 - [Breaking Change] The `IsSuccess` property has been renamed to `Success` in the result object.
 - [Breaking Change] The `ErrorMessage` string property has been removed from the result object. When the task fails and `ThrowErrorOnFailure` is false, error details are now returned in the `Error` object (use `Error.Message` for the error message).
 - Added a new `ErrorMessageOnFailure` option: you can now provide a custom error message that will be used when the task fails, instead of the default technical error message.
