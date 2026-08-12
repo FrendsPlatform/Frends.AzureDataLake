@@ -28,7 +28,7 @@ public class Result
     /// <summary>
     /// Error information when Success is false and ThrowErrorOnFailure is false.
     /// </summary>
-    /// 
+    /// <example>object { string Message, Exception AdditionalInfo }</example>
     public Error Error { get; init; }
 }
 
