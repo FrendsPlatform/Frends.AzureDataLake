@@ -24,8 +24,8 @@ public class ErrorHandlingTests : TestsBase
             new Options { ThrowErrorOnFailure = false },
             CancellationToken.None
         );
-        Assert.IsFalse(result.IsSuccess);
+        Assert.IsFalse(result.Success);
         CollectionAssert.AreEqual(result.DeletedFiles, new List<string>());
-        Assert.AreNotEqual(result.ErrorMessage, string.Empty);
+        Assert.AreNotEqual(result.Error?.Message, string.Empty);
     }
 }
