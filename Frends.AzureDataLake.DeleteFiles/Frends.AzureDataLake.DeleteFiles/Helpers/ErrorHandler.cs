@@ -21,7 +21,7 @@ internal static class ErrorHandler
     private static void ThrowBaseException(Exception exception, string customMessage = null)
     {
         if (string.IsNullOrEmpty(customMessage))
-            System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(exception).Throw();
+            throw new Exception(exception.Message, exception);
 
         throw new Exception(customMessage, exception);
     }
