@@ -1,10 +1,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Azure;
-using Azure.Identity;
 using Frends.AzureDataLake.DeleteFiles.Definitions;
-using Frends.AzureDataLake.DeleteFiles.Exceptions;
 using static Frends.AzureDataLake.DeleteFiles.Definitions.Constants;
 
 namespace Frends.AzureDataLake.DeleteFiles.Tests.Tests;
@@ -25,7 +22,7 @@ public class ConnectionTests : TestsBase
     }
 
     [TestMethod]
-    [ExpectedException(typeof(RequestFailedException))]
+    [ExpectedException(typeof(Exception))]
     public async Task ThrowIfConnectionStringKeyIsInvalid()
     {
         var wrongConnStr =
@@ -39,7 +36,7 @@ public class ConnectionTests : TestsBase
     }
 
     [TestMethod]
-    [ExpectedException(typeof(AuthenticationFailedException))]
+    [ExpectedException(typeof(Exception))]
     public async Task ThrowIfOauthParametersAreInvalid()
     {
         await AzureDataLake.DeleteFiles(
@@ -58,7 +55,7 @@ public class ConnectionTests : TestsBase
     }
 
     [TestMethod]
-    [ExpectedException(typeof(ContainerNotFoundException))]
+    [ExpectedException(typeof(Exception))]
     public async Task ThrowIfContainerDoesNotExist()
     {
         await AzureDataLake.DeleteFiles(
@@ -73,7 +70,7 @@ public class ConnectionTests : TestsBase
     }
 
     [TestMethod]
-    [ExpectedException(typeof(InvalidInputException))]
+    [ExpectedException(typeof(Exception))]
     public async Task ThrowIfInvalidSourceParameters()
     {
         await AzureDataLake.DeleteFiles(
