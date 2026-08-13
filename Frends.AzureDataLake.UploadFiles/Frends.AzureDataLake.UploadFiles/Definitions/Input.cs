@@ -10,17 +10,14 @@ public class Input
     /// <summary>
     /// Specify source files parameters
     /// </summary>
+    /// <example></example>
     public Source Source { get; set; }
 
     /// <summary>
     /// Specify destination Data Lake parameters
     /// </summary>
+    /// <example></example>
     public Destination Destination { get; set; }
-
-    /// <summary>
-    /// Specify options how we should handle data and errors
-    /// </summary>
-    public Options Options { get; set; }
 
     /// <summary>
     /// How the existing file will be handled.

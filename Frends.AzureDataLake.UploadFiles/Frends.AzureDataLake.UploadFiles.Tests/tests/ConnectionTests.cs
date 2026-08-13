@@ -24,9 +24,9 @@ public class ConnectionTests : TestsBase
                     ConnectionString = connectionString,
                     ContainerName = containerName
                 },
-
-                Options = new Options(),
             },
+            new Options(),
+
             new CancellationToken()
         );
     }
@@ -46,9 +46,9 @@ public class ConnectionTests : TestsBase
                     ConnectionString = wrongConnString,
                     ContainerName = containerName
                 },
-
-                Options = new Options(),
             },
+            new Options(),
+
             new CancellationToken()
         );
     }
@@ -70,8 +70,9 @@ public class ConnectionTests : TestsBase
                     TenantID = tenantID,
                     ClientSecret = "wrongSecret"
                 },
-                Options = new Options(),
             },
+            new Options(),
+
             new CancellationToken()
         );
     }
@@ -90,8 +91,9 @@ public class ConnectionTests : TestsBase
                     ConnectionString = wrongConnectionString,
                     ContainerName = containerName
                 },
-                Options = new Options(),
             },
+            new Options(),
+
             new CancellationToken()
         );
     }
@@ -110,9 +112,9 @@ public class ConnectionTests : TestsBase
                     ConnectionString = connectionString,
                     ContainerName = ""
                 },
-
-                Options = new Options(),
             },
+            new Options(),
+
             new CancellationToken()
         );
     }

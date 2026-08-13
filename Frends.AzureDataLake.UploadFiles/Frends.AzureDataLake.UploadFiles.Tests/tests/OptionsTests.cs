@@ -19,8 +19,8 @@ public class OptionsTests : TestsBase
             {
                 Source = new Source(),
                 Destination = new Destination(),
-                Options = new Options { ThrowErrorOnFailure = false },
             },
+            new Options { ThrowErrorOnFailure = false },
             new CancellationToken()
         );
         Assert.IsFalse(result.Success);
@@ -36,8 +36,8 @@ public class OptionsTests : TestsBase
             {
                 Source = new Source(),
                 Destination = new Destination(),
-                Options = new Options { ThrowErrorOnFailure = true },
             },
+            new Options { ThrowErrorOnFailure = true },
             new CancellationToken()
         );
     }
@@ -60,9 +60,9 @@ public class OptionsTests : TestsBase
                     ConnectionString = connectionString,
                     ContainerName = containerName
                 },
-                Options = new Options(),
                 Overwrite = true
             },
+            new Options(),
             new CancellationToken()
         );
         Assert.That.FileExistsInContainer(connectionString, containerName, "foobar1.txt");
@@ -88,9 +88,9 @@ public class OptionsTests : TestsBase
                     ConnectionString = connectionString,
                     ContainerName = containerName
                 },
-                Options = new Options { ThrowErrorOnFailure = true },
                 Overwrite = false
             },
+            new Options { ThrowErrorOnFailure = true },
             new CancellationToken()
         );
     }
@@ -115,9 +115,9 @@ public class OptionsTests : TestsBase
                     ContainerName = containerName
                 },
 
-                Options = new Options { ThrowErrorOnFailure = false },
                 Overwrite = false
             },
+            new Options { ThrowErrorOnFailure = false },
             new CancellationToken()
         );
         Assert.That.FileExistsInContainer(connectionString, containerName, "foobar1.txt");

@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.5.0] - 2026-08-13
+
+### Changed
+
+- Upgraded target framework to .NET 8.
+- Options is now a separate task parameter (previously it was nested inside Input). You will need to provide it as a distinct input when configuring the task.
+- Added `ErrorMessageOnFailure` option: you can now specify a custom error message that will be used when the task fails.
+- When the task fails and `ThrowErrorOnFailure` is disabled, the result now includes an `Error` object with detailed error information in addition to the existing `ErrorMessage` string.
+
 ## [1.4.0] - 2026-01-15
 
 ### Changed
