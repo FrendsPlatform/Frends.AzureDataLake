@@ -18,8 +18,11 @@ public class ConnectionTests : TestsBase
     {
         var wrongConnStr = $"xxx{connectionString}";
         await AzureDataLake.DownloadFiles(
-            new Source { ConnectionString = wrongConnStr, ContainerName = containerName },
-            new Destination { Directory = testDirectory },
+            new Input
+            {
+                Source = new Source { ConnectionString = wrongConnStr, ContainerName = containerName },
+                Destination = new Destination { Directory = testDirectory }
+            },
             new Options(),
             CancellationToken.None
         );
@@ -33,8 +36,11 @@ public class ConnectionTests : TestsBase
             "DefaultEndpointsProtocol=https;AccountName=frendstemplates;AccountKey=000000000wrongKey00000000000000000000000000000000000000000000000000000000000000000000000;EndpointSuffix=core.windows.net";
 
         await AzureDataLake.DownloadFiles(
-            new Source { ConnectionString = wrongConnStr, ContainerName = containerName },
-            new Destination { Directory = testDirectory },
+            new Input
+            {
+                Source = new Source { ConnectionString = wrongConnStr, ContainerName = containerName },
+                Destination = new Destination { Directory = testDirectory }
+            },
             new Options(),
             CancellationToken.None
         );
@@ -45,16 +51,19 @@ public class ConnectionTests : TestsBase
     public async Task ThrowIfOauthParametersAreInvalid()
     {
         await AzureDataLake.DownloadFiles(
-            new Source
+            new Input
             {
-                ConnectionMethod = ConnectionMethod.OAuth2,
-                ContainerName = containerName,
-                StorageAccountName = storageAccount,
-                ApplicationID = appID,
-                TenantID = tenantID,
-                ClientSecret = "wrongSecret"
+                Source = new Source
+                {
+                    ConnectionMethod = ConnectionMethod.OAuth2,
+                    ContainerName = containerName,
+                    StorageAccountName = storageAccount,
+                    ApplicationID = appID,
+                    TenantID = tenantID,
+                    ClientSecret = "wrongSecret"
+                },
+                Destination = new Destination { Directory = testDirectory }
             },
-            new Destination { Directory = testDirectory },
             new Options(),
             CancellationToken.None
         );
@@ -65,12 +74,15 @@ public class ConnectionTests : TestsBase
     public async Task ThrowIfContainerDoesNotExist()
     {
         await AzureDataLake.DownloadFiles(
-            new Source
+            new Input
             {
-                ConnectionString = connectionString,
-                ContainerName = "not-existing-container"
+                Source = new Source
+                {
+                    ConnectionString = connectionString,
+                    ContainerName = "not-existing-container"
+                },
+                Destination = new Destination { Directory = testDirectory }
             },
-            new Destination { Directory = testDirectory },
             new Options(),
             CancellationToken.None
         );
@@ -81,12 +93,15 @@ public class ConnectionTests : TestsBase
     public async Task ThrowIfInvalidSourceParameters()
     {
         await AzureDataLake.DownloadFiles(
-            new Source
+            new Input
             {
-                ConnectionString = connectionString,
-                ContainerName = "InvalidContainerName"
+                Source = new Source
+                {
+                    ConnectionString = connectionString,
+                    ContainerName = "InvalidContainerName"
+                },
+                Destination = new Destination { Directory = testDirectory }
             },
-            new Destination { Directory = testDirectory },
             new Options(),
             CancellationToken.None
         );

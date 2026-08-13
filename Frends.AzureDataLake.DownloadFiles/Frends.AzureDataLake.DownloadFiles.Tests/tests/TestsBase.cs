@@ -94,21 +94,20 @@ public abstract class TestsBase
     protected Result SingleFileResult =>
         new()
         {
-            IsSuccess = true,
+            Success = true,
             DownladedFiles = new Dictionary<string, string>
             {
                 {
                     $"{AzDataLakeUrlPrefix}{containerName}/{file1a}",
                     Path.Combine(testDirectory, file1a)
                 }
-            },
-            ErrorMessage = string.Empty
+            }
         };
 
     protected Result MultiFileResult =>
         new()
         {
-            IsSuccess = true,
+            Success = true,
             DownladedFiles = new Dictionary<string, string>
             {
                 {
@@ -123,18 +122,16 @@ public abstract class TestsBase
                     $"{AzDataLakeUrlPrefix}{containerName}/{file1c}",
                     Path.Combine(testDirectory, file1c)
                 },
-            },
-            ErrorMessage = string.Empty
+            }
         };
 
     protected Result FileAlreadyExistsResult =>
         new()
         {
-            IsSuccess = true,
+            Success = true,
             DownladedFiles = new Dictionary<string, string>
             {
                 { $"{AzDataLakeUrlPrefix}{containerName}/{file2}", Constants.FileExistsMessage }
-            },
-            ErrorMessage = string.Empty
+            }
         };
 }
