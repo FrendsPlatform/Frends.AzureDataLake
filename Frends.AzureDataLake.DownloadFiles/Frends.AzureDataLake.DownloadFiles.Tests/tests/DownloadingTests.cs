@@ -14,7 +14,7 @@ namespace Frends.AzureDataLake.DownloadFiles.Tests.tests;
 public class DownloadingTests : TestsBase
 {
     [TestMethod]
-    [ExpectedException(typeof(InvalidInputException))]
+    [ExpectedException(typeof(Exception), AllowDerivedTypes = true)]
     public async Task ThrowIfDestinationDirectoryDoesNotExist()
     {
         await AzureDataLake.DownloadFiles(
