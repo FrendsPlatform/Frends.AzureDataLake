@@ -20,7 +20,7 @@ public class Options
     /// Custom error message to use when ThrowErrorOnFailure is true or when returning an error result.
     /// If empty, the original exception message is used.
     /// </summary>
-    /// 
+    /// <example>Custom error message</example> 
     [DisplayFormat(DataFormatString = "Text")]
     [DefaultValue("")]
     public string ErrorMessageOnFailure { get; set; } = string.Empty;
