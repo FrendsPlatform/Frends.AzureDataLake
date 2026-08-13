@@ -16,5 +16,6 @@ public class Error
     /// <summary>
     /// The exception that caused the failure.
     /// </summary>
+    /// <example>object { Exception AdditionalInfo }</example>
     public Exception AdditionalInfo { get; init; }
 }
