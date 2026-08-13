@@ -16,8 +16,8 @@ public class ConnectionTests : TestsBase
     {
         var wrongConnStr = $"xxx{connectionString}";
         await AzureDataLake.DownloadFiles(
-            new Input { ConnectionString = wrongConnStr, ContainerName = containerName },
-            new Connection { Directory = testDirectory },
+            new Input { ContainerName = containerName, Directory = testDirectory },
+            new Connection { ConnectionString = wrongConnStr },
             new Options(),
             CancellationToken.None
         );
@@ -31,8 +31,8 @@ public class ConnectionTests : TestsBase
             "DefaultEndpointsProtocol=https;AccountName=frendstemplates;AccountKey=000000000wrongKey00000000000000000000000000000000000000000000000000000000000000000000000;EndpointSuffix=core.windows.net";
 
         await AzureDataLake.DownloadFiles(
-            new Input { ConnectionString = wrongConnStr, ContainerName = containerName },
-            new Connection { Directory = testDirectory },
+            new Input { ContainerName = containerName, Directory = testDirectory },
+            new Connection { ConnectionString = wrongConnStr },
             new Options(),
             CancellationToken.None
         );
@@ -45,14 +45,17 @@ public class ConnectionTests : TestsBase
         await AzureDataLake.DownloadFiles(
             new Input
             {
-                ConnectionMethod = ConnectionMethod.OAuth2,
                 ContainerName = containerName,
+                Directory = testDirectory
+            },
+            new Connection
+            {
+                ConnectionMethod = ConnectionMethod.OAuth2,
                 StorageAccountName = storageAccount,
                 ApplicationID = appID,
                 TenantID = tenantID,
                 ClientSecret = "wrongSecret"
             },
-            new Connection { Directory = testDirectory },
             new Options(),
             CancellationToken.None
         );
@@ -65,10 +68,10 @@ public class ConnectionTests : TestsBase
         await AzureDataLake.DownloadFiles(
             new Input
             {
-                ConnectionString = connectionString,
-                ContainerName = "not-existing-container"
+                ContainerName = "not-existing-container",
+                Directory = testDirectory
             },
-            new Connection { Directory = testDirectory },
+            new Connection { ConnectionString = connectionString },
             new Options(),
             CancellationToken.None
         );
@@ -81,10 +84,10 @@ public class ConnectionTests : TestsBase
         await AzureDataLake.DownloadFiles(
             new Input
             {
-                ConnectionString = connectionString,
-                ContainerName = "InvalidContainerName"
+                ContainerName = "InvalidContainerName",
+                Directory = testDirectory
             },
-            new Connection { Directory = testDirectory },
+            new Connection { ConnectionString = connectionString },
             new Options(),
             CancellationToken.None
         );

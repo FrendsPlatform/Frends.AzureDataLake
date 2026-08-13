@@ -1,24 +1,56 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using static Frends.AzureDataLake.DownloadFiles.Definitions.Constants;
 
 namespace Frends.AzureDataLake.DownloadFiles.Definitions;
 
 /// <summary>
-/// Destination location parameters.
+/// Connection parameters for Azure Data Lake.
 /// </summary>
 public class Connection
 {
     /// <summary>
-    /// Destination directory.
+    /// Which connection method should be used for connecting to Azure Data Lake.
     /// </summary>
-    /// <example>c:\temp</example>
-    [DisplayFormat(DataFormatString = "Text")]
-    public string Directory { get; init; }
+    /// <example>ConnectionMethod.ConnectionString</example>
+    [DefaultValue(ConnectionMethod.ConnectionString)]
+    public ConnectionMethod ConnectionMethod { get; init; } = ConnectionMethod.ConnectionString;
 
     /// <summary>
-    /// How the existing file will be handled.
+    /// Connection string to Azure Data Lake.
     /// </summary>
-    /// <example>true</example>
-    [DefaultValue(false)]
-    public bool Overwrite { get; init; } = false;
+    /// <example>DefaultEndpointsProtocol=https;AccountName=accountname;AccountKey=Pdlrxyz==;EndpointSuffix=core.windows.net</example>
+    [DisplayFormat(DataFormatString = "Text")]
+    [PasswordPropertyText]
+    [UIHint(nameof(ConnectionMethod), "", ConnectionMethod.ConnectionString)]
+    public string ConnectionString { get; init; }
+
+    /// <summary>
+    /// Name of the Azure Data Lake account.
+    /// </summary>
+    /// <example>storageexample</example>
+    [UIHint(nameof(ConnectionMethod), "", ConnectionMethod.OAuth2)]
+    public string StorageAccountName { get; init; }
+
+    /// <summary>
+    /// Application (Client) ID of Azure AD Application.
+    /// </summary>
+    /// <example>Y6b1hf2a-80e2-xyz2-qwer3h-3a7c3a8as4b7f</example>
+    [UIHint(nameof(ConnectionMethod), "", ConnectionMethod.OAuth2)]
+    public string ApplicationID { get; init; }
+
+    /// <summary>
+    /// Tenant ID of Azure Tenant.
+    /// </summary>
+    /// <example>Y6b1hf2a-80e2-xyz2-qwer3h-3a7c3a8as4b7f</example>
+    [UIHint(nameof(ConnectionMethod), "", ConnectionMethod.OAuth2)]
+    public string TenantID { get; init; }
+
+    /// <summary>
+    /// Client Secret of Azure AD Application.
+    /// </summary>
+    /// <example>Password!</example>
+    [UIHint(nameof(ConnectionMethod), "", ConnectionMethod.OAuth2)]
+    [PasswordPropertyText]
+    public string ClientSecret { get; init; }
 }

@@ -42,7 +42,10 @@ public static class AzureDataLake
             ValidateConnectionParameters(connection);
             ValidateInputParameters(input);
 
-            var container = await GetDataLakeContainer(input, cancellationToken);
+            if (!Directory.Exists(input.Directory))
+                throw new InvalidInputException("Provided destination directory doesn't exist");
+
+            var container = await GetDataLakeContainer(connection, input.ContainerName, cancellationToken);
             var paralelResults = new ConcurrentDictionary<string, string>();
             var allSrcFiles = container
                 .GetPaths("/", true, false, cancellationToken: cancellationToken)
@@ -56,7 +59,7 @@ public static class AzureDataLake
                 {
                     var (srcFilePath, dstFilePath) = await DownloadFile(
                         match.Path,
-                        connection,
+                        input,
                         container,
                         token
                     );
@@ -78,31 +81,29 @@ public static class AzureDataLake
 
     private static void ValidateConnectionParameters(Connection connection)
     {
-        if (!Directory.Exists(connection.Directory))
-            throw new InvalidInputException("Provided destintation directory doesn't exists");
+        if (
+            connection.ConnectionMethod is ConnectionMethod.OAuth2
+            && (
+                connection.ApplicationID is null
+                || connection.ClientSecret is null
+                || connection.TenantID is null
+                || connection.StorageAccountName is null
+            )
+        )
+            throw new InvalidInputException(
+                "Connection.StorageAccountName, Connection.ClientSecret, Connection.ApplicationID and Connection.TenantID parameters can't be empty when Connection.ConnectionMethod = OAuth."
+            );
+        if (
+            connection.ConnectionMethod is ConnectionMethod.ConnectionString
+            && string.IsNullOrWhiteSpace(connection.ConnectionString)
+        )
+            throw new InvalidInputException(
+                "ConnectionString parameter can't be empty when Connection.ConnectionMethod = ConnectionString."
+            );
     }
 
     private static void ValidateInputParameters(Input input)
     {
-        if (
-            input.ConnectionMethod is ConnectionMethod.OAuth2
-            && (
-                input.ApplicationID is null
-                || input.ClientSecret is null
-                || input.TenantID is null
-                || input.StorageAccountName is null
-            )
-        )
-            throw new InvalidInputException(
-                "Input.StorageAccountName, Input.ClientSecret, Input.ApplicationID and Input.TenantID parameters can't be empty when Input.ConnectionMethod = OAuth."
-            );
-        if (
-            input.ConnectionMethod is ConnectionMethod.ConnectionString
-            && string.IsNullOrWhiteSpace(input.ConnectionString)
-        )
-            throw new InvalidInputException(
-                "ConnectionString parameter can't be empty when Input.ConnectionMethod = ConnectionString."
-            );
         if (string.IsNullOrWhiteSpace(input.ContainerName))
             throw new InvalidInputException("ContainerName parameter can't be empty.");
         if (input.ContainerName.Any(char.IsUpper))
@@ -110,45 +111,46 @@ public static class AzureDataLake
     }
 
     private static async Task<DataLakeFileSystemClient> GetDataLakeContainer(
-        Input input,
+        Connection connection,
+        string containerName,
         CancellationToken token
     )
     {
-        DataLakeServiceClient client = input.ConnectionMethod switch
+        DataLakeServiceClient client = connection.ConnectionMethod switch
         {
-            ConnectionMethod.ConnectionString => new DataLakeServiceClient(input.ConnectionString),
+            ConnectionMethod.ConnectionString => new DataLakeServiceClient(connection.ConnectionString),
             ConnectionMethod.OAuth2
                 => new DataLakeServiceClient(
-                    new Uri($"https://{input.StorageAccountName}.blob.core.windows.net"),
+                    new Uri($"https://{connection.StorageAccountName}.blob.core.windows.net"),
                     new ClientSecretCredential(
-                        input.TenantID,
-                        input.ApplicationID,
-                        input.ClientSecret,
+                        connection.TenantID,
+                        connection.ApplicationID,
+                        connection.ClientSecret,
                         new ClientSecretCredentialOptions()
                     )
                 ),
             _ => throw new InvalidEnumArgumentException(),
         };
 
-        var container = client.GetFileSystemClient(input.ContainerName);
+        var container = client.GetFileSystemClient(containerName);
 
         if (!await container.ExistsAsync(token))
-            throw new ContainerNotFoundException(input.ContainerName);
+            throw new ContainerNotFoundException(containerName);
 
         return container;
     }
 
     private static async Task<(string srcFilePath, string dstFilePath)> DownloadFile(
         string sourcePath,
-        Connection connection,
+        Input input,
         DataLakeFileSystemClient container,
         CancellationToken token
     )
     {
         var fileClient = container.GetFileClient(sourcePath);
-        var destinationPath = Path.Combine(connection.Directory, sourcePath);
+        var destinationPath = Path.Combine(input.Directory, sourcePath);
 
-        if (!connection.Overwrite && File.Exists(destinationPath))
+        if (!input.Overwrite && File.Exists(destinationPath))
             return (fileClient.Uri.AbsoluteUri, "File already exists");
         Directory.CreateDirectory(Directory.GetParent(destinationPath).FullName);
         using FileStream downloadStream = File.Create(destinationPath);
