@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Frends.AzureDataLake.DownloadFiles.Definitions;
@@ -16,7 +15,8 @@ public class ErrorHandlerTest : TestsBase
     public async Task Should_Throw_Error_When_ThrowErrorOnFailure_Is_True()
     {
         await AzureDataLake.DownloadFiles(
-            new Input { Source = new Source(), Destination = new Destination() },
+            new Input(),
+            new Connection(),
             new Options { ThrowErrorOnFailure = true },
             CancellationToken.None
         );
@@ -26,7 +26,8 @@ public class ErrorHandlerTest : TestsBase
     public async Task Should_Return_Failed_Result_When_ThrowErrorOnFailure_Is_False()
     {
         var result = await AzureDataLake.DownloadFiles(
-            new Input { Source = new Source(), Destination = new Destination() },
+            new Input(),
+            new Connection(),
             new Options { ThrowErrorOnFailure = false },
             CancellationToken.None
         );
@@ -39,7 +40,8 @@ public class ErrorHandlerTest : TestsBase
     {
         var ex = await Assert.ThrowsExceptionAsync<Exception>(async () =>
             await AzureDataLake.DownloadFiles(
-                new Input { Source = new Source(), Destination = new Destination() },
+                new Input(),
+                new Connection(),
                 new Options { ThrowErrorOnFailure = true, ErrorMessageOnFailure = CustomErrorMessage },
                 CancellationToken.None
             )

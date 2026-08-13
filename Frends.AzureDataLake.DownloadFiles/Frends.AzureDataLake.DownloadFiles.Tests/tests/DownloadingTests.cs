@@ -18,11 +18,8 @@ public class DownloadingTests : TestsBase
     public async Task ThrowIfDestinationDirectoryDoesNotExist()
     {
         await AzureDataLake.DownloadFiles(
-            new Input
-            {
-                Source = new Source { ConnectionString = connectionString, ContainerName = containerName },
-                Destination = new Destination { Directory = "C:/NonExistingDir/ForSure/test" }
-            },
+            new Input { ConnectionString = connectionString, ContainerName = containerName },
+            new Connection { Directory = "C:/NonExistingDir/ForSure/test" },
             new Options(),
             CancellationToken.None
         );
@@ -34,14 +31,11 @@ public class DownloadingTests : TestsBase
         var result = await AzureDataLake.DownloadFiles(
             new Input
             {
-                Source = new Source
-                {
-                    ConnectionString = connectionString,
-                    ContainerName = containerName,
-                    FilePattern = file1a
-                },
-                Destination = new Destination { Directory = testDirectory }
+                ConnectionString = connectionString,
+                ContainerName = containerName,
+                FilePattern = file1a
             },
+            new Connection { Directory = testDirectory },
             new Options(),
             CancellationToken.None
         );
@@ -56,18 +50,15 @@ public class DownloadingTests : TestsBase
         var result = await AzureDataLake.DownloadFiles(
             new Input
             {
-                Source = new Source
-                {
-                    ConnectionMethod = ConnectionMethod.OAuth2,
-                    ContainerName = containerName,
-                    StorageAccountName = storageAccount,
-                    ApplicationID = appID,
-                    TenantID = tenantID,
-                    ClientSecret = clientSecret,
-                    FilePattern = file1a
-                },
-                Destination = new Destination { Directory = testDirectory }
+                ConnectionMethod = ConnectionMethod.OAuth2,
+                ContainerName = containerName,
+                StorageAccountName = storageAccount,
+                ApplicationID = appID,
+                TenantID = tenantID,
+                ClientSecret = clientSecret,
+                FilePattern = file1a
             },
+            new Connection { Directory = testDirectory },
             new Options(),
             CancellationToken.None
         );
@@ -82,14 +73,11 @@ public class DownloadingTests : TestsBase
         var result = await AzureDataLake.DownloadFiles(
             new Input
             {
-                Source = new Source
-                {
-                    ConnectionString = connectionString,
-                    ContainerName = containerName,
-                    FilePattern = "nonExisting.txt"
-                },
-                Destination = new Destination { Directory = testDirectory }
+                ConnectionString = connectionString,
+                ContainerName = containerName,
+                FilePattern = "nonExisting.txt"
             },
+            new Connection { Directory = testDirectory },
             new Options(),
             CancellationToken.None
         );
@@ -103,14 +91,11 @@ public class DownloadingTests : TestsBase
         var result = await AzureDataLake.DownloadFiles(
             new Input
             {
-                Source = new Source
-                {
-                    ConnectionString = connectionString,
-                    ContainerName = containerName,
-                    FilePattern = multiFilePatten
-                },
-                Destination = new Destination { Directory = testDirectory }
+                ConnectionString = connectionString,
+                ContainerName = containerName,
+                FilePattern = multiFilePatten
             },
+            new Connection { Directory = testDirectory },
             new Options(),
             CancellationToken.None
         );
@@ -144,14 +129,11 @@ public class DownloadingTests : TestsBase
         var result = await AzureDataLake.DownloadFiles(
             new Input
             {
-                Source = new Source
-                {
-                    ConnectionString = connectionString,
-                    ContainerName = containerName,
-                    FilePattern = file1a
-                },
-                Destination = new Destination { Directory = testDirectory, Overwrite = true }
+                ConnectionString = connectionString,
+                ContainerName = containerName,
+                FilePattern = file1a
             },
+            new Connection { Directory = testDirectory, Overwrite = true },
             new Options(),
             CancellationToken.None
         );
@@ -174,14 +156,11 @@ public class DownloadingTests : TestsBase
         var result = await AzureDataLake.DownloadFiles(
             new Input
             {
-                Source = new Source
-                {
-                    ConnectionString = connectionString,
-                    ContainerName = containerName,
-                    FilePattern = file2
-                },
-                Destination = new Destination { Directory = testDirectory, Overwrite = false }
+                ConnectionString = connectionString,
+                ContainerName = containerName,
+                FilePattern = file2
             },
+            new Connection { Directory = testDirectory, Overwrite = false },
             new Options(),
             CancellationToken.None
         );
