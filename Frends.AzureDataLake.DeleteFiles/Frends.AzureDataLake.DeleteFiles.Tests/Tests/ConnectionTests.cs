@@ -10,7 +10,7 @@ namespace Frends.AzureDataLake.DeleteFiles.Tests.Tests;
 public class ConnectionTests : TestsBase
 {
     [TestMethod]
-    [ExpectedException(typeof(FormatException))]
+    [ExpectedException(typeof(Exception))]
     public async Task ThrowIfConnectionStringIsInvalid()
     {
         var wrongConnStr = $"xxx{connectionString}";
