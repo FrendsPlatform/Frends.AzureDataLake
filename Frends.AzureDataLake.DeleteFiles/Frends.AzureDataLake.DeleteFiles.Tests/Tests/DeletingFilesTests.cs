@@ -24,7 +24,7 @@ public class DeletingFilesTests : TestsBase
             CancellationToken.None
         );
 
-        Assert.IsTrue(result.IsSuccess);
+        Assert.IsTrue(result.Success);
         CollectionAssert.AreEqual(SingleFileDeleted.DeletedFiles, result.DeletedFiles);
         Assert.That.FileDoesNotExistInContainer(connectionString, containerName, file1a);
         Assert.That.FileExistsInContainer(connectionString, containerName, file1b);
@@ -49,7 +49,7 @@ public class DeletingFilesTests : TestsBase
         var expectedResult = MultiFileDeleted;
         expectedResult.DeletedFiles.Sort();
 
-        Assert.IsTrue(result.IsSuccess);
+        Assert.IsTrue(result.Success);
         CollectionAssert.AreEqual(expectedResult.DeletedFiles, result.DeletedFiles);
         Assert.That.FileDoesNotExistInContainer(connectionString, containerName, file1a);
         Assert.That.FileDoesNotExistInContainer(connectionString, containerName, file1b);
@@ -71,7 +71,7 @@ public class DeletingFilesTests : TestsBase
             CancellationToken.None
         );
 
-        Assert.IsTrue(result.IsSuccess);
+        Assert.IsTrue(result.Success);
         CollectionAssert.AreEqual(new List<string>(), result.DeletedFiles);
         Assert.That.FileExistsInContainer(connectionString, containerName, file1a);
         Assert.That.FileExistsInContainer(connectionString, containerName, file2);

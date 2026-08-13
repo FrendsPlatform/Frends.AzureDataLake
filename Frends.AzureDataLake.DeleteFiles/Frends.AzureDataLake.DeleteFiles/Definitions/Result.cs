@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Frends.AzureDataLake.DeleteFiles.Definitions;
@@ -9,14 +8,14 @@ namespace Frends.AzureDataLake.DeleteFiles.Definitions;
 public class Result
 {
     /// <summary>
-    /// Operation complete.
-    /// Operation is seens as completed if all desired files were deleted.
+    /// Operation completed successfully.
+    /// Operation is seen as completed if all desired files were deleted.
     /// </summary>
     /// <example>true</example>
-    public bool IsSuccess { get; init; } = false;
+    public bool Success { get; init; } = false;
 
     /// <summary>
-    /// This object contains list of deleted filesą
+    /// This object contains list of deleted files.
     /// </summary>
     /// <example>
     /// {
@@ -27,8 +26,9 @@ public class Result
     public List<string> DeletedFiles { get; init; } = new List<string>();
 
     /// <summary>
-    /// This object contains the error message if task fails.
+    /// Error information when Success is false and ThrowErrorOnFailure is false.
     /// </summary>
-    /// <example>Container ex does not exist</example>
-    public string ErrorMessage { get; init; } = string.Empty;
+    /// <example>object { string Message, Exception AdditionalInfo }</example>
+    public Error Error { get; init; }
 }
+

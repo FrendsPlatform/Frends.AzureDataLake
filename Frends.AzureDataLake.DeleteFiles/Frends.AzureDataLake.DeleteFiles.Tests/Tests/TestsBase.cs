@@ -94,14 +94,14 @@ public abstract class TestsBase
     protected Result SingleFileDeleted =>
         new()
         {
-            IsSuccess = true,
+            Success = true,
             DeletedFiles = new List<string> { $"{AzDataLakeUrlPrefix}{containerName}/{file1a}", },
         };
 
     protected Result MultiFileDeleted =>
         new()
         {
-            IsSuccess = true,
+            Success = true,
             DeletedFiles = new List<string>
             {
                 $"{AzDataLakeUrlPrefix}{containerName}/{file1a}",
