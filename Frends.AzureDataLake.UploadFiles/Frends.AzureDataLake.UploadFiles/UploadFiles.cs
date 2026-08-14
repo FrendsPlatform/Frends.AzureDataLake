@@ -140,7 +140,7 @@ public static class AzureDataLake
         if (container.GetFileClient(destinationPath).Exists(token) && !input.Overwrite)
         {
             paralelResults.TryAdd(srcPath, "File already exists");
-            if (options.ThrowErrorOnFailure)
+            if (options.FailOnFileExists)
                 throw new FileAlreadyExistsException(destinationPath);
         }
         else

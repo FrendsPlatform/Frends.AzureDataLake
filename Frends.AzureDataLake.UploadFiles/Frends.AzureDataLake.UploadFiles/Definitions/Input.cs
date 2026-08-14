@@ -10,13 +10,13 @@ public class Input
     /// <summary>
     /// Specify source files parameters
     /// </summary>
-    /// <example></example>
+    /// <example>{ SourceDirectory = "c:\temp", SourceFilePattern = "*.csv" }</example>
     public Source Source { get; set; }
 
     /// <summary>
     /// Specify destination Data Lake parameters
     /// </summary>
-    /// <example></example>
+    /// <example>{ ConnectionMethod = ConnectionMethod.ConnectionString, ContainerName = "examplecontainer", DestinationFolderName = "uploads" }</example>
     public Destination Destination { get; set; }
 
     /// <summary>

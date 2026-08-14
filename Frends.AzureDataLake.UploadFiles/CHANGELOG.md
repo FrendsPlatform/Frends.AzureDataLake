@@ -1,13 +1,14 @@
 # Changelog
 
-## [1.5.0] - 2026-08-13
+## [2.0.0] - 2026-08-13
 
 ### Changed
 
-- Upgraded target framework to .NET 8.
-- Options is now a separate task parameter (previously it was nested inside Input). You will need to provide it as a distinct input when configuring the task.
+- [Breaking Change] Options is now a separate task parameter (previously it was nested inside Input). You will need to provide it as a distinct input when configuring the task.
+- [Breaking Change] When the task fails and `ThrowErrorOnFailure` is disabled, the result now includes an `Error` object with detailed error information in addition to the existing `ErrorMessage` string.
+- [Breaking Change] Replaced `ThrowErrorOnFailure` behavior for file conflicts: the option previously controlled whether a file-already-exists situation threw an exception or was silently skipped. This is now a separate `FailOnFileExists` option. `ThrowErrorOnFailure` now solely controls whether task failures throw an exception or return a Result with `Success=false`.
 - Added `ErrorMessageOnFailure` option: you can now specify a custom error message that will be used when the task fails.
-- When the task fails and `ThrowErrorOnFailure` is disabled, the result now includes an `Error` object with detailed error information in addition to the existing `ErrorMessage` string.
+- Upgraded target framework to .NET 8.
 
 ## [1.4.0] - 2026-01-15
 

@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Frends.AzureDataLake.UploadFiles.Definitions;
-using Frends.AzureDataLake.UploadFiles.Exceptions;
 using Frends.AzureDataLake.UploadFiles.Tests.asserts;
 
 namespace Frends.AzureDataLake.UploadFiles.Tests.tests;
@@ -28,7 +27,7 @@ public class OptionsTests : TestsBase
     }
 
     [TestMethod]
-    [ExpectedException(typeof(Exception), AllowDerivedTypes = true)]
+    [ExpectedException(typeof(Exception))]
     public async Task ThrowIfErrorOccures()
     {
         await AzureDataLake.UploadFiles(
@@ -70,7 +69,7 @@ public class OptionsTests : TestsBase
     }
 
     [TestMethod]
-    [ExpectedException(typeof(FileAlreadyExistsException))]
+    [ExpectedException(typeof(Exception))]
     public async Task ThrowIfFileAlreadyExists()
     {
         await CreateContainer();

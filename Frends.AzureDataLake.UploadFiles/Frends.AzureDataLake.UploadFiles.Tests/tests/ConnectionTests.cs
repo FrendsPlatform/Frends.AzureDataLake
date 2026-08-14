@@ -12,7 +12,7 @@ namespace Frends.AzureDataLake.UploadFiles.Tests.tests;
 public class ConnectionTests : TestsBase
 {
     [TestMethod]
-    [ExpectedException(typeof(ContainerNotFoundException))]
+    [ExpectedException(typeof(Exception))]
     public async Task ThrowIfContainerDoesNotExist()
     {
         await AzureDataLake.UploadFiles(
@@ -32,7 +32,7 @@ public class ConnectionTests : TestsBase
     }
 
     [TestMethod]
-    [ExpectedException(typeof(RequestFailedException))]
+    [ExpectedException(typeof(Exception))]
     public async Task ThrowIfWrongConnectionStringCredentials()
     {
         var wrongConnString =
@@ -54,7 +54,7 @@ public class ConnectionTests : TestsBase
     }
 
     [TestMethod]
-    [ExpectedException(typeof(AuthenticationFailedException))]
+    [ExpectedException(typeof(Exception))]
     public async Task ThrowIfWrongOauthCredentials()
     {
         await AzureDataLake.UploadFiles(
@@ -78,7 +78,7 @@ public class ConnectionTests : TestsBase
     }
 
     [TestMethod]
-    [ExpectedException(typeof(FormatException))]
+    [ExpectedException(typeof(Exception))]
     public async Task ThrowIfWrongConnectionString()
     {
         var wrongConnectionString = $"xxx{connectionString}";
@@ -99,7 +99,7 @@ public class ConnectionTests : TestsBase
     }
 
     [TestMethod]
-    [ExpectedException(typeof(InvalidInputException))]
+    [ExpectedException(typeof(Exception))]
     public async Task ThrowIfParametersNotValid()
     {
         await AzureDataLake.UploadFiles(
