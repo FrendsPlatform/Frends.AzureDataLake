@@ -5,21 +5,26 @@
 /// </summary>
 public class Result
 {
-    internal Result(bool directoryWasDeleted, string message)
-    {
-        DirectoryWasDeleted = directoryWasDeleted;
-        Message = message;
-    }
+    /// <summary>
+    /// Indicates whether the operation succeeded.
+    /// </summary>
+    /// <example>true</example>
+    public bool Success { get; set; }
 
     /// <summary>
     /// Returns true if directory has been deleted.
     /// </summary>
     /// <example>true</example>
-    public bool DirectoryWasDeleted { get; private set; }
+    public bool DirectoryWasDeleted { get; set; }
 
     /// <summary>
     /// Description about action's result.
     /// </summary>
     /// <example>Directory deleted successfully.</example>
-    public string Message { get; private set; }
+    public string Message { get; set; }
+
+    /// <summary>
+    /// Error information if the operation failed and ThrowErrorOnFailure is false.
+    /// </summary>
+    public Error Error { get; set; }
 }
