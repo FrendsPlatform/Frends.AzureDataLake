@@ -27,9 +27,9 @@ public class UploadsTests : TestsBase
                     ConnectionString = connectionString,
                     ContainerName = containerName
                 },
-
-                Options = new Options(),
             },
+            new Options(),
+
             new CancellationToken()
         );
         Assert.That.FileExistsInContainer(connectionString, containerName, "foobar1.txt");
@@ -58,8 +58,9 @@ public class UploadsTests : TestsBase
                     TenantID = tenantID,
                     ClientSecret = clientSecret
                 },
-                Options = new Options(),
             },
+            new Options(),
+
             new CancellationToken()
         );
         Assert.That.FileExistsInContainer(connectionString, containerName, "foobar1.txt");
@@ -79,9 +80,10 @@ public class UploadsTests : TestsBase
                     ConnectionString = connectionString,
                     ContainerName = containerName
                 },
-                Options = new Options(),
                 UploadFilesRecursively = true
             },
+            new Options(),
+
             new CancellationToken()
         );
         Assert.That.FileExistsInContainer(connectionString, containerName, "foobar1.txt");
@@ -103,9 +105,10 @@ public class UploadsTests : TestsBase
                     ConnectionString = connectionString,
                     ContainerName = containerName
                 },
-                Options = new Options(),
                 UploadFilesRecursively = false
             },
+            new Options(),
+
             new CancellationToken()
         );
         Assert.That.FileExistsInContainer(connectionString, containerName, "foobar1.txt");
@@ -137,8 +140,9 @@ public class UploadsTests : TestsBase
                     ContainerName = containerName,
                     DestinationFolderName = "SpecialFolder"
                 },
-                Options = new Options(),
             },
+            new Options(),
+
             new CancellationToken()
         );
         Assert.That.FileExistsInContainer(
@@ -160,7 +164,7 @@ public class UploadsTests : TestsBase
             Close = true
         };
 
-        var result = await AzureDataLake.UploadFiles(input, CancellationToken.None);
+        var result = await AzureDataLake.UploadFiles(input, new Options(), CancellationToken.None);
 
         Assert.IsTrue(result.Success);
     }

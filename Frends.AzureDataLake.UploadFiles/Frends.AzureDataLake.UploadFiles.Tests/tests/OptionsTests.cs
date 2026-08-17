@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Frends.AzureDataLake.UploadFiles.Definitions;
-using Frends.AzureDataLake.UploadFiles.Exceptions;
 using Frends.AzureDataLake.UploadFiles.Tests.asserts;
 
 namespace Frends.AzureDataLake.UploadFiles.Tests.tests;
@@ -19,8 +18,8 @@ public class OptionsTests : TestsBase
             {
                 Source = new Source(),
                 Destination = new Destination(),
-                Options = new Options { ThrowErrorOnFailure = false },
             },
+            new Options { ThrowErrorOnFailure = false },
             new CancellationToken()
         );
         Assert.IsFalse(result.Success);
@@ -28,7 +27,7 @@ public class OptionsTests : TestsBase
     }
 
     [TestMethod]
-    [ExpectedException(typeof(Exception), AllowDerivedTypes = true)]
+    [ExpectedException(typeof(Exception))]
     public async Task ThrowIfErrorOccures()
     {
         await AzureDataLake.UploadFiles(
@@ -36,8 +35,8 @@ public class OptionsTests : TestsBase
             {
                 Source = new Source(),
                 Destination = new Destination(),
-                Options = new Options { ThrowErrorOnFailure = true },
             },
+            new Options { ThrowErrorOnFailure = true },
             new CancellationToken()
         );
     }
@@ -60,9 +59,9 @@ public class OptionsTests : TestsBase
                     ConnectionString = connectionString,
                     ContainerName = containerName
                 },
-                Options = new Options(),
                 Overwrite = true
             },
+            new Options(),
             new CancellationToken()
         );
         Assert.That.FileExistsInContainer(connectionString, containerName, "foobar1.txt");
@@ -70,7 +69,7 @@ public class OptionsTests : TestsBase
     }
 
     [TestMethod]
-    [ExpectedException(typeof(FileAlreadyExistsException))]
+    [ExpectedException(typeof(Exception))]
     public async Task ThrowIfFileAlreadyExists()
     {
         await CreateContainer();
@@ -88,9 +87,9 @@ public class OptionsTests : TestsBase
                     ConnectionString = connectionString,
                     ContainerName = containerName
                 },
-                Options = new Options { ThrowErrorOnFailure = true },
                 Overwrite = false
             },
+            new Options { ThrowErrorOnFailure = true },
             new CancellationToken()
         );
     }
@@ -115,9 +114,9 @@ public class OptionsTests : TestsBase
                     ContainerName = containerName
                 },
 
-                Options = new Options { ThrowErrorOnFailure = false },
                 Overwrite = false
             },
+            new Options { ThrowErrorOnFailure = false, FailOnFileExists = false },
             new CancellationToken()
         );
         Assert.That.FileExistsInContainer(connectionString, containerName, "foobar1.txt");

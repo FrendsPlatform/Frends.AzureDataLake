@@ -12,7 +12,7 @@ namespace Frends.AzureDataLake.UploadFiles.Tests.tests;
 public class ConnectionTests : TestsBase
 {
     [TestMethod]
-    [ExpectedException(typeof(ContainerNotFoundException))]
+    [ExpectedException(typeof(Exception))]
     public async Task ThrowIfContainerDoesNotExist()
     {
         await AzureDataLake.UploadFiles(
@@ -24,15 +24,15 @@ public class ConnectionTests : TestsBase
                     ConnectionString = connectionString,
                     ContainerName = containerName
                 },
-
-                Options = new Options(),
             },
+            new Options(),
+
             new CancellationToken()
         );
     }
 
     [TestMethod]
-    [ExpectedException(typeof(RequestFailedException))]
+    [ExpectedException(typeof(Exception))]
     public async Task ThrowIfWrongConnectionStringCredentials()
     {
         var wrongConnString =
@@ -46,15 +46,15 @@ public class ConnectionTests : TestsBase
                     ConnectionString = wrongConnString,
                     ContainerName = containerName
                 },
-
-                Options = new Options(),
             },
+            new Options(),
+
             new CancellationToken()
         );
     }
 
     [TestMethod]
-    [ExpectedException(typeof(AuthenticationFailedException))]
+    [ExpectedException(typeof(Exception))]
     public async Task ThrowIfWrongOauthCredentials()
     {
         await AzureDataLake.UploadFiles(
@@ -70,14 +70,15 @@ public class ConnectionTests : TestsBase
                     TenantID = tenantID,
                     ClientSecret = "wrongSecret"
                 },
-                Options = new Options(),
             },
+            new Options(),
+
             new CancellationToken()
         );
     }
 
     [TestMethod]
-    [ExpectedException(typeof(FormatException))]
+    [ExpectedException(typeof(Exception))]
     public async Task ThrowIfWrongConnectionString()
     {
         var wrongConnectionString = $"xxx{connectionString}";
@@ -90,14 +91,15 @@ public class ConnectionTests : TestsBase
                     ConnectionString = wrongConnectionString,
                     ContainerName = containerName
                 },
-                Options = new Options(),
             },
+            new Options(),
+
             new CancellationToken()
         );
     }
 
     [TestMethod]
-    [ExpectedException(typeof(InvalidInputException))]
+    [ExpectedException(typeof(Exception))]
     public async Task ThrowIfParametersNotValid()
     {
         await AzureDataLake.UploadFiles(
@@ -110,9 +112,9 @@ public class ConnectionTests : TestsBase
                     ConnectionString = connectionString,
                     ContainerName = ""
                 },
-
-                Options = new Options(),
             },
+            new Options(),
+
             new CancellationToken()
         );
     }

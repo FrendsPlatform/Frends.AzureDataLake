@@ -28,15 +28,22 @@ public class Result
     public Dictionary<string, string> Data { get; private set; }
 
     /// <summary>
+    /// Error information when Success is false and ThrowErrorOnFailure is false.
+    /// </summary>
+    /// <example>object { string Message, Exception AdditionalInfo }</example>
+    public Error Error { get; private set; }
+
+    /// <summary>
     /// This object contains the error message if task fail.
     /// </summary>
     /// <example>Container ex does not exist</example>
     public string ErrorMessage { get; private set; }
 
-    internal Result(bool success, Dictionary<string, string> data, string errorMessage = "")
+    internal Result(bool success, Dictionary<string, string> data, string errorMessage = "", Error error = null)
     {
         Success = success;
         Data = data;
         ErrorMessage = errorMessage;
+        Error = error;
     }
 }
