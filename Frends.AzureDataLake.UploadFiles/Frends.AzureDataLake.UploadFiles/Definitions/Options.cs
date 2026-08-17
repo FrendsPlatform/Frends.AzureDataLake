@@ -15,6 +15,7 @@ public class Options
     /// False: If file already exists, it will be skipped and added 
     /// to the Result dictionary instead of stopping the Task.
     /// </summary>
+    /// <example>true</example>
     [DefaultValue(true)]
     public bool FailOnFileExists { get; set; } = true;
 
@@ -30,7 +31,7 @@ public class Options
     /// Custom error message to use when ThrowErrorOnFailure is true or when returning an error result.
     /// If empty, the original exception message is used.
     /// </summary>
-    /// <example></example>
+    /// <example>Custom error message</example>
     [DisplayFormat(DataFormatString = "Text")]
     [DefaultValue("")]
     public string ErrorMessageOnFailure { get; set; } = string.Empty;
