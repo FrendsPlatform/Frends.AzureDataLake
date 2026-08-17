@@ -11,7 +11,7 @@ public class ErrorHandlerTest : TestsBase
     private const string CustomErrorMessage = "CustomErrorMessage";
 
     [TestMethod]
-    [ExpectedException(typeof(Exception), AllowDerivedTypes = true)]
+    [ExpectedException(typeof(Exception))]
     public async Task Should_Throw_Error_When_ThrowErrorOnFailure_Is_True()
     {
         await AzureDataLake.DownloadFiles(

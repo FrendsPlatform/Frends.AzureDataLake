@@ -11,7 +11,7 @@ namespace Frends.AzureDataLake.DownloadFiles.Tests.tests;
 public class ConnectionTests : TestsBase
 {
     [TestMethod]
-    [ExpectedException(typeof(Exception), AllowDerivedTypes = true)]
+    [ExpectedException(typeof(Exception))]
     public async Task ThrowIfConnectionStringIsInvalid()
     {
         var wrongConnStr = $"xxx{connectionString}";
@@ -24,7 +24,7 @@ public class ConnectionTests : TestsBase
     }
 
     [TestMethod]
-    [ExpectedException(typeof(Exception), AllowDerivedTypes = true)]
+    [ExpectedException(typeof(Exception))]
     public async Task ThrowIfConnectionStringKeyIsInvalid()
     {
         var wrongConnStr =
@@ -39,7 +39,7 @@ public class ConnectionTests : TestsBase
     }
 
     [TestMethod]
-    [ExpectedException(typeof(Exception), AllowDerivedTypes = true)]
+    [ExpectedException(typeof(Exception))]
     public async Task ThrowIfOauthParametersAreInvalid()
     {
         await AzureDataLake.DownloadFiles(
@@ -62,7 +62,7 @@ public class ConnectionTests : TestsBase
     }
 
     [TestMethod]
-    [ExpectedException(typeof(Exception), AllowDerivedTypes = true)]
+    [ExpectedException(typeof(Exception))]
     public async Task ThrowIfContainerDoesNotExist()
     {
         await AzureDataLake.DownloadFiles(
@@ -78,7 +78,7 @@ public class ConnectionTests : TestsBase
     }
 
     [TestMethod]
-    [ExpectedException(typeof(Exception), AllowDerivedTypes = true)]
+    [ExpectedException(typeof(Exception))]
     public async Task ThrowIfInvalidSourceParameters()
     {
         await AzureDataLake.DownloadFiles(
