@@ -116,7 +116,7 @@ public class OptionsTests : TestsBase
 
                 Overwrite = false
             },
-            new Options { ThrowErrorOnFailure = false },
+            new Options { ThrowErrorOnFailure = false, FailOnFileExists = false }
             new CancellationToken()
         );
         Assert.That.FileExistsInContainer(connectionString, containerName, "foobar1.txt");
