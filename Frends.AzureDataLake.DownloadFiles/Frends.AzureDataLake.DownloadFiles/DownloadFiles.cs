@@ -51,7 +51,7 @@ public static class AzureDataLake
                 .GetPaths("/", true, false, cancellationToken: cancellationToken)
                 .Where(x => (bool)!x.IsDirectory)
                 .Select(x => x.Name);
-            var matches = new Matcher().AddInclude($"**/{input.FilePattern}").Match(allSrcFiles);
+            var matches = new Matcher().AddInclude($"**/{input.SourceFilePattern}").Match(allSrcFiles);
 
             await Parallel.ForEachAsync(
                 matches.Files,

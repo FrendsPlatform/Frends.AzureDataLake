@@ -18,12 +18,12 @@ public class Input
     public string ContainerName { get; init; }
 
     /// <summary>
-    /// Path of file(s) you want to download from DataLake.
+    /// Full path pattern of file(s) you want to download from source DataLake.
     /// This parameter can contain a combination of valid literal path and wildcard (* and ?) characters, but it doesn't support regular expressions.
     /// </summary>
     /// <example>*.txt</example>
     [DefaultValue("*.txt")]
-    public string FilePattern { get; init; }
+    public string SourceFilePattern { get; init; }
 
     /// <summary>
     /// Destination directory on the local file system.

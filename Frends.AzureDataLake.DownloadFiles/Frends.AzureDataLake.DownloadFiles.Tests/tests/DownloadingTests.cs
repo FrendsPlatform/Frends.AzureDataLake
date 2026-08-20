@@ -37,7 +37,7 @@ public class DownloadingTests : TestsBase
             new Input
             {
                 ContainerName = containerName,
-                FilePattern = file1a,
+                SourceFilePattern = file1a,
                 DestinationDirectory = testDirectory
             },
             new Connection { ConnectionString = connectionString },
@@ -56,7 +56,7 @@ public class DownloadingTests : TestsBase
             new Input
             {
                 ContainerName = containerName,
-                FilePattern = file1a,
+                SourceFilePattern = file1a,
                 DestinationDirectory = testDirectory
             },
             new Connection
@@ -82,7 +82,7 @@ public class DownloadingTests : TestsBase
             new Input
             {
                 ContainerName = containerName,
-                FilePattern = "nonExisting.txt",
+                SourceFilePattern = "nonExisting.txt",
                 DestinationDirectory = testDirectory
             },
             new Connection { ConnectionString = connectionString },
@@ -100,7 +100,7 @@ public class DownloadingTests : TestsBase
             new Input
             {
                 ContainerName = containerName,
-                FilePattern = multiFilePatten,
+                SourceFilePattern = multiFilePatten,
                 DestinationDirectory = testDirectory
             },
             new Connection { ConnectionString = connectionString },
@@ -138,7 +138,7 @@ public class DownloadingTests : TestsBase
             new Input
             {
                 ContainerName = containerName,
-                FilePattern = file1a,
+                SourceFilePattern = file1a,
                 DestinationDirectory = testDirectory,
                 Overwrite = true
             },
@@ -166,7 +166,7 @@ public class DownloadingTests : TestsBase
             new Input
             {
                 ContainerName = containerName,
-                FilePattern = file2,
+                SourceFilePattern = file2,
                 DestinationDirectory = testDirectory,
                 Overwrite = false
             },
