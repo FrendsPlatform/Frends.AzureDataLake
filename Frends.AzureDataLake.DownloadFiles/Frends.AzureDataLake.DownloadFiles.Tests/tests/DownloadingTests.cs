@@ -100,7 +100,7 @@ public class DownloadingTests : TestsBase
             new Input
             {
                 ContainerName = containerName,
-                SourceFilePattern = multiFilePatten,
+                SourceFilePattern = multiFilePattern,
                 DestinationDirectory = testDirectory
             },
             new Connection { ConnectionString = connectionString },

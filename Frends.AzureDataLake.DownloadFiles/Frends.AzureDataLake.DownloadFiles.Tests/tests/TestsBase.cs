@@ -34,7 +34,7 @@ public abstract class TestsBase
     protected static readonly string file1c = "innerDir/foobar1c.txt";
     protected static readonly string file2 = "foobar2.txt";
 
-    protected static readonly string multiFilePatten = "*bar1*";
+    protected static readonly string multiFilePattern = "*bar1*";
     protected string AzDataLakeUrlPrefix => $"https://{storageAccount}.blob.core.windows.net/";
 
     [AssemblyInitialize]
