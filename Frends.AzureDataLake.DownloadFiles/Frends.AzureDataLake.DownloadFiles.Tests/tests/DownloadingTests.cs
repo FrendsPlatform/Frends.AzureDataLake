@@ -19,7 +19,11 @@ public class DownloadingTests : TestsBase
     public async Task ThrowIfDestinationDirectoryDoesNotExist()
     {
         await AzureDataLake.DownloadFiles(
-            new Input { ContainerName = containerName, Directory = "C:/NonExistingDir/ForSure/test" },
+            new Input
+            {
+                ContainerName = containerName,
+                DestinationDirectory = "C:/NonExistingDir/ForSure/test"
+            },
             new Connection { ConnectionString = connectionString },
             new Options(),
             CancellationToken.None
@@ -34,7 +38,7 @@ public class DownloadingTests : TestsBase
             {
                 ContainerName = containerName,
                 FilePattern = file1a,
-                Directory = testDirectory
+                DestinationDirectory = testDirectory
             },
             new Connection { ConnectionString = connectionString },
             new Options(),
@@ -53,7 +57,7 @@ public class DownloadingTests : TestsBase
             {
                 ContainerName = containerName,
                 FilePattern = file1a,
-                Directory = testDirectory
+                DestinationDirectory = testDirectory
             },
             new Connection
             {
@@ -79,7 +83,7 @@ public class DownloadingTests : TestsBase
             {
                 ContainerName = containerName,
                 FilePattern = "nonExisting.txt",
-                Directory = testDirectory
+                DestinationDirectory = testDirectory
             },
             new Connection { ConnectionString = connectionString },
             new Options(),
@@ -97,7 +101,7 @@ public class DownloadingTests : TestsBase
             {
                 ContainerName = containerName,
                 FilePattern = multiFilePatten,
-                Directory = testDirectory
+                DestinationDirectory = testDirectory
             },
             new Connection { ConnectionString = connectionString },
             new Options(),
@@ -135,7 +139,7 @@ public class DownloadingTests : TestsBase
             {
                 ContainerName = containerName,
                 FilePattern = file1a,
-                Directory = testDirectory,
+                DestinationDirectory = testDirectory,
                 Overwrite = true
             },
             new Connection { ConnectionString = connectionString },
@@ -163,7 +167,7 @@ public class DownloadingTests : TestsBase
             {
                 ContainerName = containerName,
                 FilePattern = file2,
-                Directory = testDirectory,
+                DestinationDirectory = testDirectory,
                 Overwrite = false
             },
             new Connection { ConnectionString = connectionString },

@@ -42,7 +42,7 @@ public static class AzureDataLake
             ValidateConnectionParameters(connection);
             ValidateInputParameters(input);
 
-            if (!Directory.Exists(input.Directory))
+            if (!Directory.Exists(input.DestinationDirectory))
                 throw new InvalidInputException("Provided destination directory doesn't exist");
 
             var container = await GetDataLakeContainer(connection, input.ContainerName, cancellationToken);
@@ -148,7 +148,7 @@ public static class AzureDataLake
     )
     {
         var fileClient = container.GetFileClient(sourcePath);
-        var destinationPath = Path.Combine(input.Directory, sourcePath);
+        var destinationPath = Path.Combine(input.DestinationDirectory, sourcePath);
 
         if (!input.Overwrite && File.Exists(destinationPath))
             return (fileClient.Uri.AbsoluteUri, "File already exists");

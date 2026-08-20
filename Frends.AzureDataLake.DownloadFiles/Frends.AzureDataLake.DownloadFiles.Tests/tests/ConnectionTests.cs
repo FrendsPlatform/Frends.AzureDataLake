@@ -16,7 +16,7 @@ public class ConnectionTests : TestsBase
     {
         var wrongConnStr = $"xxx{connectionString}";
         await AzureDataLake.DownloadFiles(
-            new Input { ContainerName = containerName, Directory = testDirectory },
+            new Input { ContainerName = containerName, DestinationDirectory = testDirectory },
             new Connection { ConnectionString = wrongConnStr },
             new Options(),
             CancellationToken.None
@@ -31,7 +31,7 @@ public class ConnectionTests : TestsBase
             "DefaultEndpointsProtocol=https;AccountName=frendstemplates;AccountKey=000000000wrongKey00000000000000000000000000000000000000000000000000000000000000000000000;EndpointSuffix=core.windows.net";
 
         await AzureDataLake.DownloadFiles(
-            new Input { ContainerName = containerName, Directory = testDirectory },
+            new Input { ContainerName = containerName, DestinationDirectory = testDirectory },
             new Connection { ConnectionString = wrongConnStr },
             new Options(),
             CancellationToken.None
@@ -46,7 +46,7 @@ public class ConnectionTests : TestsBase
             new Input
             {
                 ContainerName = containerName,
-                Directory = testDirectory
+                DestinationDirectory = testDirectory
             },
             new Connection
             {
@@ -69,7 +69,7 @@ public class ConnectionTests : TestsBase
             new Input
             {
                 ContainerName = "not-existing-container",
-                Directory = testDirectory
+                DestinationDirectory = testDirectory
             },
             new Connection { ConnectionString = connectionString },
             new Options(),
@@ -85,7 +85,7 @@ public class ConnectionTests : TestsBase
             new Input
             {
                 ContainerName = "InvalidContainerName",
-                Directory = testDirectory
+                DestinationDirectory = testDirectory
             },
             new Connection { ConnectionString = connectionString },
             new Options(),
