@@ -5,9 +5,9 @@ using static Frends.AzureDataLake.DownloadFiles.Definitions.Constants;
 namespace Frends.AzureDataLake.DownloadFiles.Definitions;
 
 /// <summary>
-/// Source Data Lake parameters.
+/// Connection parameters for Azure Data Lake.
 /// </summary>
-public class Source
+public class Connection
 {
     /// <summary>
     /// Which connection method should be used for connecting to Azure Data Lake.
@@ -53,21 +53,4 @@ public class Source
     [UIHint(nameof(ConnectionMethod), "", ConnectionMethod.OAuth2)]
     [PasswordPropertyText]
     public string ClientSecret { get; init; }
-
-    /// <summary>
-    /// Name of the Azure Data Lake container where the data will be uploaded.
-    /// Naming: lowercase
-    /// Valid chars: alphanumeric and dash, but cannot start or end with dash.
-    /// </summary>
-    /// <example>test-container</example>
-    [DefaultValue("test-container")]
-    public string ContainerName { get; init; }
-
-    /// <summary>
-    /// Path of file(s) you want to download from DataLake
-    /// This parameter can contain a combination of valid literal path and wildcard (* and ?) characters, but it doesn't support regular expressions
-    /// </summary>
-    /// <example>*.txt</example>
-    [DefaultValue("*.txt")]
-    public string FilePattern { get; init; }
 }

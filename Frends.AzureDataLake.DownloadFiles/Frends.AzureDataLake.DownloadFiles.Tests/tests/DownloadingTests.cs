@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -14,12 +15,16 @@ namespace Frends.AzureDataLake.DownloadFiles.Tests.tests;
 public class DownloadingTests : TestsBase
 {
     [TestMethod]
-    [ExpectedException(typeof(InvalidInputException))]
+    [ExpectedException(typeof(Exception))]
     public async Task ThrowIfDestinationDirectoryDoesNotExist()
     {
         await AzureDataLake.DownloadFiles(
-            new Source { ConnectionString = connectionString, ContainerName = containerName },
-            new Destination { Directory = "C:/NonExistingDir/ForSure/test" },
+            new Input
+            {
+                ContainerName = containerName,
+                DestinationDirectory = "C:/NonExistingDir/ForSure/test"
+            },
+            new Connection { ConnectionString = connectionString },
             new Options(),
             CancellationToken.None
         );
@@ -29,17 +34,17 @@ public class DownloadingTests : TestsBase
     public async Task DownloadSingleFileWithConnectionString()
     {
         var result = await AzureDataLake.DownloadFiles(
-            new Source
+            new Input
             {
-                ConnectionString = connectionString,
                 ContainerName = containerName,
-                FilePattern = file1a
+                SourceFilePattern = file1a,
+                DestinationDirectory = testDirectory
             },
-            new Destination { Directory = testDirectory },
+            new Connection { ConnectionString = connectionString },
             new Options(),
             CancellationToken.None
         );
-        Assert.IsTrue(result.IsSuccess);
+        Assert.IsTrue(result.Success);
         CollectionAssert.AreEqual(result.DownladedFiles, SingleFileResult.DownladedFiles);
         Assert.That.FileExists(Path.Combine(testDirectory, file1a));
     }
@@ -48,21 +53,24 @@ public class DownloadingTests : TestsBase
     public async Task DownloadSingleFileWithOAuth2()
     {
         var result = await AzureDataLake.DownloadFiles(
-            new Source
+            new Input
+            {
+                ContainerName = containerName,
+                SourceFilePattern = file1a,
+                DestinationDirectory = testDirectory
+            },
+            new Connection
             {
                 ConnectionMethod = ConnectionMethod.OAuth2,
-                ContainerName = containerName,
                 StorageAccountName = storageAccount,
                 ApplicationID = appID,
                 TenantID = tenantID,
-                ClientSecret = clientSecret,
-                FilePattern = file1a
+                ClientSecret = clientSecret
             },
-            new Destination { Directory = testDirectory },
             new Options(),
             CancellationToken.None
         );
-        Assert.IsTrue(result.IsSuccess);
+        Assert.IsTrue(result.Success);
         CollectionAssert.AreEqual(result.DownladedFiles, SingleFileResult.DownladedFiles);
         Assert.That.FileExists(Path.Combine(testDirectory, file1a));
     }
@@ -71,17 +79,17 @@ public class DownloadingTests : TestsBase
     public async Task DownloadNothingIfPatternFileNotFound()
     {
         var result = await AzureDataLake.DownloadFiles(
-            new Source
+            new Input
             {
-                ConnectionString = connectionString,
                 ContainerName = containerName,
-                FilePattern = "nonExisting.txt"
+                SourceFilePattern = "nonExisting.txt",
+                DestinationDirectory = testDirectory
             },
-            new Destination { Directory = testDirectory },
+            new Connection { ConnectionString = connectionString },
             new Options(),
             CancellationToken.None
         );
-        Assert.IsTrue(result.IsSuccess);
+        Assert.IsTrue(result.Success);
         CollectionAssert.AreEqual(result.DownladedFiles, new Dictionary<string, string>());
     }
 
@@ -89,17 +97,17 @@ public class DownloadingTests : TestsBase
     public async Task DownloadMultipleFiles()
     {
         var result = await AzureDataLake.DownloadFiles(
-            new Source
+            new Input
             {
-                ConnectionString = connectionString,
                 ContainerName = containerName,
-                FilePattern = multiFilePatten
+                SourceFilePattern = multiFilePattern,
+                DestinationDirectory = testDirectory
             },
-            new Destination { Directory = testDirectory },
+            new Connection { ConnectionString = connectionString },
             new Options(),
             CancellationToken.None
         );
-        Assert.IsTrue(result.IsSuccess);
+        Assert.IsTrue(result.Success);
 
         var orderedResultFiles = result
             .DownladedFiles.OrderBy(x => x.Key)
@@ -127,18 +135,19 @@ public class DownloadingTests : TestsBase
 
         //act
         var result = await AzureDataLake.DownloadFiles(
-            new Source
+            new Input
             {
-                ConnectionString = connectionString,
                 ContainerName = containerName,
-                FilePattern = file1a
+                SourceFilePattern = file1a,
+                DestinationDirectory = testDirectory,
+                Overwrite = true
             },
-            new Destination { Directory = testDirectory, Overwrite = true },
+            new Connection { ConnectionString = connectionString },
             new Options(),
             CancellationToken.None
         );
         //assert
-        Assert.IsTrue(result.IsSuccess);
+        Assert.IsTrue(result.Success);
         CollectionAssert.AreEqual(result.DownladedFiles, SingleFileResult.DownladedFiles);
         Assert.That.FileContainsText(Path.Combine(testDirectory, file1a), string.Empty);
     }
@@ -154,17 +163,18 @@ public class DownloadingTests : TestsBase
         }
 
         var result = await AzureDataLake.DownloadFiles(
-            new Source
+            new Input
             {
-                ConnectionString = connectionString,
                 ContainerName = containerName,
-                FilePattern = file2
+                SourceFilePattern = file2,
+                DestinationDirectory = testDirectory,
+                Overwrite = false
             },
-            new Destination { Directory = testDirectory, Overwrite = false },
+            new Connection { ConnectionString = connectionString },
             new Options(),
             CancellationToken.None
         );
-        Assert.IsTrue(result.IsSuccess);
+        Assert.IsTrue(result.Success);
         CollectionAssert.AreEqual(result.DownladedFiles, FileAlreadyExistsResult.DownladedFiles);
         Assert.That.FileContainsText(Path.Combine(testDirectory, file2), startContent);
     }

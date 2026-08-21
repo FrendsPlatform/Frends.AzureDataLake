@@ -1,8 +1,6 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Azure;
-using Azure.Identity;
 using Frends.AzureDataLake.DownloadFiles.Definitions;
 using Frends.AzureDataLake.DownloadFiles.Exceptions;
 using static Frends.AzureDataLake.DownloadFiles.Definitions.Constants;
@@ -13,80 +11,83 @@ namespace Frends.AzureDataLake.DownloadFiles.Tests.tests;
 public class ConnectionTests : TestsBase
 {
     [TestMethod]
-    [ExpectedException(typeof(FormatException))]
+    [ExpectedException(typeof(Exception))]
     public async Task ThrowIfConnectionStringIsInvalid()
     {
         var wrongConnStr = $"xxx{connectionString}";
         await AzureDataLake.DownloadFiles(
-            new Source { ConnectionString = wrongConnStr, ContainerName = containerName },
-            new Destination { Directory = testDirectory },
+            new Input { ContainerName = containerName, DestinationDirectory = testDirectory },
+            new Connection { ConnectionString = wrongConnStr },
             new Options(),
             CancellationToken.None
         );
     }
 
     [TestMethod]
-    [ExpectedException(typeof(RequestFailedException))]
+    [ExpectedException(typeof(Exception))]
     public async Task ThrowIfConnectionStringKeyIsInvalid()
     {
         var wrongConnStr =
             "DefaultEndpointsProtocol=https;AccountName=frendstemplates;AccountKey=000000000wrongKey00000000000000000000000000000000000000000000000000000000000000000000000;EndpointSuffix=core.windows.net";
 
         await AzureDataLake.DownloadFiles(
-            new Source { ConnectionString = wrongConnStr, ContainerName = containerName },
-            new Destination { Directory = testDirectory },
+            new Input { ContainerName = containerName, DestinationDirectory = testDirectory },
+            new Connection { ConnectionString = wrongConnStr },
             new Options(),
             CancellationToken.None
         );
     }
 
     [TestMethod]
-    [ExpectedException(typeof(AuthenticationFailedException))]
+    [ExpectedException(typeof(Exception))]
     public async Task ThrowIfOauthParametersAreInvalid()
     {
         await AzureDataLake.DownloadFiles(
-            new Source
+            new Input
+            {
+                ContainerName = containerName,
+                DestinationDirectory = testDirectory
+            },
+            new Connection
             {
                 ConnectionMethod = ConnectionMethod.OAuth2,
-                ContainerName = containerName,
                 StorageAccountName = storageAccount,
                 ApplicationID = appID,
                 TenantID = tenantID,
                 ClientSecret = "wrongSecret"
             },
-            new Destination { Directory = testDirectory },
             new Options(),
             CancellationToken.None
         );
     }
 
     [TestMethod]
-    [ExpectedException(typeof(ContainerNotFoundException))]
+    [ExpectedException(typeof(Exception))]
     public async Task ThrowIfContainerDoesNotExist()
     {
         await AzureDataLake.DownloadFiles(
-            new Source
+            new Input
             {
-                ConnectionString = connectionString,
-                ContainerName = "not-existing-container"
+                ContainerName = "not-existing-container",
+                DestinationDirectory = testDirectory
             },
-            new Destination { Directory = testDirectory },
+            new Connection { ConnectionString = connectionString },
             new Options(),
             CancellationToken.None
         );
     }
 
     [TestMethod]
-    [ExpectedException(typeof(InvalidInputException))]
+    [ExpectedException(typeof(Exception))]
     public async Task ThrowIfInvalidSourceParameters()
     {
         await AzureDataLake.DownloadFiles(
-            new Source
+            new Input
             {
-                ConnectionString = connectionString,
-                ContainerName = "InvalidContainerName"
+                ContainerName = "InvalidContainerName",
+                DestinationDirectory = testDirectory
             },
-            new Destination { Directory = testDirectory },
+            new Connection { ConnectionString = connectionString },
             new Options(),
             CancellationToken.None
         );
