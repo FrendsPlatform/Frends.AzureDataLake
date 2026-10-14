@@ -20,5 +20,6 @@ public class Result
     /// <summary>
     /// Error information when Success is false and ThrowErrorOnFailure is false.
     /// </summary>
+    /// <example>Container creation failed.</example>
     public Error Error { get; init; }
 }
