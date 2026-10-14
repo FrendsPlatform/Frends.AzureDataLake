@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.1.0] - 2026-10-14
+
+### Fixed
+
+- Added missing example values to the documentation of the error and result details.
+
 ## [2.0.0] - 2026-08-11
 
 ### Changed
