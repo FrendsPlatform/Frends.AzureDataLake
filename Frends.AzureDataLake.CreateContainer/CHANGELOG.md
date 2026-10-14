@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.5.0] - 2026-10-14
+### Changed
+- Added missing example values to the documentation of the result `Error` properties.
+
 ## [1.4.0] - 2026-08-07
 ### Added
 - Added `Options` parameter with `ThrowErrorOnFailure` (default: true) and `ErrorMessageOnFailure` settings, giving you control over whether errors are thrown as exceptions or returned as part of the result.
