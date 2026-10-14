@@ -16,5 +16,6 @@ public class Error
     /// <summary>
     /// The exception that caused the error.
     /// </summary>
+    /// <example>System.InvalidOperationException: The specified resource does not exist.</example>
     public Exception AdditionalInfo { get; set; }
 }

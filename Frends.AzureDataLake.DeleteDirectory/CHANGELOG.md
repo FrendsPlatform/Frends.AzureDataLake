@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.5.0] - 2026-10-14
+
+### Changed
+
+- Improved documentation of the `Error` and `Result` return values by adding example values.
+
 ## [1.4.0] - 2026-08-07
 
 ### Added
