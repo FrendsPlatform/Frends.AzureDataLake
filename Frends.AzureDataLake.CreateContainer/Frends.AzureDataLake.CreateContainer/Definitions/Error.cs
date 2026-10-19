@@ -16,5 +16,6 @@ public class Error
     /// <summary>
     /// The exception that caused the failure.
     /// </summary>
+    /// <example>System.Exception: Container creation failed.</example>
     public Exception AdditionalInfo { get; init; }
 }
