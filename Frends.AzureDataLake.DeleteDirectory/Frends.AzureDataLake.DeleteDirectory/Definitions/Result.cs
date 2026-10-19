@@ -26,5 +26,6 @@ public class Result
     /// <summary>
     /// Error information if the operation failed and ThrowErrorOnFailure is false.
     /// </summary>
+    /// <example>null</example>
     public Error Error { get; set; }
 }
